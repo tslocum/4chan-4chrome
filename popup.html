@@ -5,6 +5,7 @@
 body {
   margin: 0px;
   background-color: Menu;
+  overflow: hidden;
 }
 .menuitem {
   height: 16px;
@@ -23,13 +24,64 @@ body {
   margin: 4px 2px;
   border-top: 1px solid grey;
 }
+#boards {
+	min-width: 55em;
+	margin: 0px;
+}
 </style>
 <script>
+var visiturl;
 function expandAll() {
 	chrome.extension.sendRequest({reqtype: "get-tabid"}, function(response) {
 		chrome.tabs.sendRequest(response, {reqtype: "expandall"});
 		window.close();
 	});
+}
+function openNavigation() {
+	var client = new XMLHttpRequest();
+	client.open("GET", "http://www.4chan.org/", true);
+	client.send();
+	client.onreadystatechange = function() {
+		if (client.readyState == 4) {
+			var m = client.responseText.match(/\<link(.*)\>/ig);
+			if (m != null) {
+				document.body.innerHTML = client.responseText;
+				
+				var bd = document.getElementById("bd");
+				if (bd) {
+					document.body.innerHTML = bd.innerHTML;
+					var items = document.getElementsByTagName("div");
+					for (var i=0; i < items.length; i++) {
+						items[i].style.display = "none";
+					}
+					var boards = document.getElementById("boards");
+					bd.style.display = "block";
+					boards.style.display = "block";
+					var items = boards.getElementsByTagName("div");
+					for (var i=0; i < items.length; i++) {
+						items[i].style.display = "block";
+					}
+					
+					for (var i=0; i < m.length; i++) {
+						document.body.innerHTML += m[i];
+					}
+					
+					
+					var items = document.getElementsByTagName('a');
+					for(var i=0; i < items.length; i++) {
+						items[i].setAttribute("onclick", "javascript:return false;");
+						items[i].addEventListener("click", function() {
+							visiturl = this.href;
+							chrome.extension.sendRequest({reqtype: "get-tabid"}, function(response) {
+								chrome.tabs.sendRequest(response, {reqtype: "visiturl", url: visiturl});
+								window.close();
+							});
+						});
+					}
+				}
+			}
+		}
+	};
 }
 function openOptions() {
 	chrome.tabs.create({url: "options.html"});
@@ -47,6 +99,7 @@ chrome.extension.sendRequest({reqtype: "get-expandimages"}, function(response) {
 </head>
 <body>
 <div class="menuitem" onclick="javascript:expandAll();return false;">Expand All Thumbnails</div>
+<div class="menuitem" onclick="javascript:openNavigation();return false;">4chan Navigation</div>
 <div class="separator"></div>
 <div class="menuitem" onclick="javascript:openOptions();return false;">4chan 4chrome Options</div>
 </body>

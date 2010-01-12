@@ -13,6 +13,8 @@
 			document.getElementById("preview").checked = localStorage.getItem("preview") != "true";
 			document.getElementById("fetchreplies").checked = localStorage.getItem("fetchreplies") != "true";
 			document.getElementById("autonoko").checked = localStorage.getItem("autonoko") != "true";
+			document.getElementById("sage").checked = localStorage.getItem("sage") != "true";
+			document.getElementById("report").checked = localStorage.getItem("report") == "true";
 			document.getElementById("showicon").checked = localStorage.getItem("showicon") != "true";
 			
 			document.getElementById("name").value = (localStorage.getItem("defaultname") != null) ? localStorage.getItem("defaultname") : "";
@@ -41,6 +43,12 @@
 			};
 			document.getElementById("autonoko").onchange = function(event) { 
 				localStorage.setItem("autonoko", !this.checked); 
+			};
+			document.getElementById("sage").onchange = function(event) { 
+				localStorage.setItem("sage", !this.checked); 
+			};
+			document.getElementById("report").onchange = function(event) { 
+				localStorage.setItem("report", this.checked); 
 			};
 			document.getElementById("showicon").onchange = function(event) { 
 				localStorage.setItem("showicon", !this.checked); 
@@ -269,6 +277,22 @@
 		<td class="reply entry">
 			<span class="replytitle">Fetch New Replies</span><br>
 			<span class="replytext">Note: Only available when the full thread is viewed (e.g. clicking Reply)</span>
+		</td></tr></table>
+	</label>
+	<label for="report">
+		<table><tr><td nowrap class="doubledash">&gt;&gt;</td>
+		<td class="reply"><input type="checkbox" id="report"></td>
+		<td class="reply entry">
+			<span class="replytitle">Quick Report Post</span><br>
+			<span class="replytext">Add a report button to every post</span>
+		</td></tr></table>
+	</label>
+	<label for="sage">
+		<table><tr><td nowrap class="doubledash">&gt;&gt;</td>
+		<td class="reply"><input type="checkbox" id="sage"></td>
+		<td class="reply entry">
+			<span class="replytitle">Hightlight Sage Posts</span><br>
+			<span class="replytext">Marks sage posts differently</span>
 		</td></tr></table>
 	</label>
 	<label for="autonoko">

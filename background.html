@@ -17,6 +17,10 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 		sendResponse(!(localStorage.getItem("fetchreplies") == "true"));
 	} else if (request.reqtype == "get-autonoko") {
 		sendResponse(!(localStorage.getItem("autonoko") == "true"));
+	} else if (request.reqtype == "get-sage") {
+		sendResponse(!(localStorage.getItem("sage") == "true"));
+	} else if (request.reqtype == "get-report") {
+		sendResponse(localStorage.getItem("report") == "true");
 	} else if (request.reqtype == "get-tabid") {
 		chrome.tabs.getSelected(null, function(tab) {
 			sendResponse(tab.id);

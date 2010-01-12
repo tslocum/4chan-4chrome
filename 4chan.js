@@ -170,10 +170,9 @@ function replaceRefLinksWithQuickReply(searchElement, resto_override) {
 			if (enable_report && postid && items[i].getAttribute("processed") == null) {
 				var report = document.createElement("a");
 				var m2 = document.location.href.match(/.*\.4chan\.org\/([0-9a-zA-Z]+)\/.*/i);
-				report.href = "http://sys.4chan.org/" + m2[1] + "/imgboard.php?mode=report&no=" + postid;
+				report.href = "javascript:reppop('http://sys.4chan.org/" + m2[1] + "/imgboard.php?mode=report&no=" + postid + "');return false;";
 				report.style.textDecoration = "none";
 				report.innerHTML = ' <img border="0" src="data:image/png;base64,' + base64_report + '" title="Report Post">';
-				report.setAttribute("target", "_blank");
 				insertAfter(report, items[i]);
 				items[i].setAttribute("processed", "true");
 			}
@@ -239,6 +238,7 @@ function setPostAttributes(element, setExpand) {
 		if (m != null) {
 			if (items[j].innerHTML == "No.") {
 				element.setAttribute("postID", m[1]);
+				element.className = "4c4c_reply";
 			} else if (enable_preview && items[j].getAttribute("refID") == null) {
 				var m2 = items[j].innerHTML.match(/^\&gt\;\&gt\;[0-9]+/i);
 				if (m2 != null) {
@@ -253,7 +253,11 @@ function setPostAttributes(element, setExpand) {
 							preview.style.padding = "0";
 							preview.style.position = "absolute";
 							
-							var items2 = document.getElementsByTagName("table");
+							if (window.location.href.search("4chanarchive.org") != -1) {
+								var items2 = document.getElementsByTagName("table");
+							} else {
+								var items2 = document.getElementsByClassName("4c4c_reply");
+							}
 							for (var i=0; i < items2.length; i++) {
 								var postid = items2[i].getAttribute("postID");
 								if (postid && postid == this.getAttribute("refID")) {
@@ -305,7 +309,7 @@ function processExpandTablesFinish(replies, replies_temp, threadID, spacer, omit
 	var delform = replies_temp.getElementsByTagName("form")[1];
 	replies_temp.style.display = "none";
 	
-	var items2 = document.getElementsByTagName("table");
+	var items2 = document.getElementsByClassName("4c4c_reply");
 	for (var i=0; i < items2.length; i++) {
 		if (items2[i].getAttribute("threadID") == threadID) {
 			items2[i].style.display = "none";
@@ -379,6 +383,40 @@ function autoFillPostBox(element) {
 	}
 }
 
+function processLatestRepliesLoop(replies, lastmodified) {
+	var reply = false;
+	if (replies && replies.length > 0) {
+		reply = replies.shift();
+		
+		if (reply.getAttribute("special") != null || (reply.getAttribute("postID") > lastreply.getAttribute("postID"))) {
+			replaceRefLinksWithQuickReply(reply);
+			insertAfter(reply, lastreply);
+			lastreply = reply;
+		}
+	}
+	if (replies && replies.length > 0) {
+		setTimeout(processLatestRepliesLoop, 1, replies, lastmodified);
+	} else {
+		last_modified = lastmodified;
+	}
+}
+
+function processFetchedReplies(replies, lastmodified) {
+	if (!lastreply) {
+		var items2 = document.forms[1].getElementsByClassName("4c4c_reply");
+		for (var j=0; j < items2.length; j++) {
+			if (items2[j].getAttribute("postID") != null && items2[j].getAttribute("op") == null) {
+				lastreply = items2[j];
+			}
+		}
+	}
+	if (!lastreply) {
+		lastreply = document.forms[1].getElementsByTagName("blockquote")[0];
+	}
+	
+	processLatestRepliesLoop(replies, lastmodified);
+}
+
 function fetchLatestPosts() {
 	var threadID = false;
 	var m = window.location.href.match(/.*\/res\/([0-9]+).*/i);
@@ -393,17 +431,19 @@ function fetchLatestPosts() {
 		client.threadID = threadID;
 		client.onreadystatechange = function() {
 			if (client.readyState == 4) {
-				if (client.getResponseHeader("Last-Modified") != last_modified) {
+				if (last_modified && (client.status == 404 || client.getResponseHeader("Last-Modified") != last_modified)) {
 					var client2 = new XMLHttpRequest();
 					client2.open("GET", client.threadID, true);
 					client2.send();
 					client2.threadID = client.threadID;
 					client2.onreadystatechange = function() {
 						var replies = [];
+						replies.length = 0;
 						if (client2.status == 404) {
 							if (document.forms[1].getAttribute("has404d") == "false") {
 								document.forms[1].setAttribute("has404d", "true");
 								var reply_404 = document.createElement("span");
+								reply_404.setAttribute("special", "true");
 								reply_404.innerHTML = "This thread has 404'd";
 								reply_404.style.color = "red";
 								reply_404.style.fontSize = "2.0em";
@@ -417,10 +457,12 @@ function fetchLatestPosts() {
 								setPostAttributes(items[i]);
 								if (items[i].getAttribute("postID") != null) {
 									var found = false;
-									var items2 = document.forms[1].getElementsByTagName("table");
+									var items2 = document.forms[1].getElementsByClassName("4c4c_reply");
 									for (var j=0; j < items2.length; j++) {
-										if (items[i].getAttribute("postID") == items2[j].getAttribute("postID")) {
-											found = true;
+										if (items2[j].getAttribute("postID") != null) {
+											if (items[i].getAttribute("postID") == items2[j].getAttribute("postID")) {
+												found = true;
+											}
 										}
 									}
 									if (!found) {
@@ -428,26 +470,10 @@ function fetchLatestPosts() {
 									}
 								}
 							}
-							last_modified = client2.getResponseHeader("Last-Modified");
 						}
 						if (replies.length > 0) {
-							var lastreply = false;
-							for (var i=0; i < replies.length; i++) {
-								if (!lastreply) {
-									var items2 = document.forms[1].getElementsByTagName("table");
-									for (var j=0; j < items2.length; j++) {
-										if (items2[j].getAttribute("postID") != null && items2[j].getAttribute("op") == null) {
-											lastreply = items2[j];
-										}
-									}
-								}
-								if (!lastreply) {
-									lastreply = document.forms[1].getElementsByTagName("blockquote")[0];
-								}
-								init4chan4chrome(replies[i]);
-								insertAfter(replies[i], lastreply);
-								lastreply = replies[i];
-							}
+							last_modified = false;
+							processFetchedReplies(replies, client2.getResponseHeader("Last-Modified"));
 						}
 					}
 				};
@@ -460,6 +486,8 @@ function fetchLatestPosts() {
 	}
 }
 
+var postarea;
+var lastreply = false;
 var last_modified = document.lastModified;
 var created_op_preview = false;
 var enable_quickreply = null;
@@ -587,6 +615,24 @@ function init4chan4chrome(element) {
 			var delform = document.body;
 		}
 		if (processPage && delform) {
+			if (enable_autonoko) {
+				var m = window.location.href.match(/(^.*)\/res\/[0-9]+.*/i);
+				if (m == null) {
+					var m = window.location.href.match(/(^.*)\//i);
+				}
+				if (m != null) {
+					document.forms[0].action += "#return=" + encodeURI(m[1]);
+				}
+			}
+			
+			var items = document.getElementsByTagName('div');
+			for(var i=0; i < items.length; i++) {
+				if (items[i].className == "postarea") {
+					postarea = items[i].innerHTML;
+					autoFillPostBox(document);
+				}
+			}
+		
 			var nodes = delform.childNodes;
 			
 			lastnode = null;
@@ -611,6 +657,7 @@ function init4chan4chrome(element) {
 					node.setAttribute("threadID", threadID);
 					replaceRefLinksWithQuickReply(node, threadID);
 					setPostAttributes(node);
+					lastreply = node;
 				}
 				
 				if (node.className && node.className.toLowerCase() == "omittedposts" && enable_expand) {
@@ -705,20 +752,8 @@ function init4chan4chrome(element) {
 				}
 				enable_fetchreplies = false;
 			}
-		}
-		replaceRefLinksWithQuickReply(element, null);
-	} else if (enable_autonoko) {
-		var m = window.location.href.match(/.*\/imgboard\.php\#return\=(.*)/i);
-		if (m != null) {
-			if (document.body.innerHTML.search("Updating ") > -1 && document.body.innerHTML.search("Updating ") < 100) {
-				var m2 = document.body.innerHTML.match(/\.*<\!-- thread\:([0-9]+),no\:([0-9]+) --\>.*/i);
-				if (m2 != null) {
-					if (m2[1] == 0) {
-						m2[1] = m2[2];
-					}
-					window.location = decodeURI(m[1]) + "/res/" + m2[1] + "#" + m2[2];
-				}
-			}
+			
+			replaceRefLinksWithQuickReply(element, null);
 		}
 	}
 }
@@ -755,20 +790,18 @@ function selectmouse(e) {
 document.onmousedown=selectmouse;
 document.onmouseup=new Function("isdrag=false");
 
-if (document.forms.length > 0 && window.location.href.search("return") == -1) {
-	var m = window.location.href.match(/(^.*)\/res\/[0-9]+.*/i);
-	if (m == null) {
-		var m = window.location.href.match(/(^.*)\//i);
-	}
+if (document.forms.length == 0) {
+	var m = window.location.href.match(/http\:\/\/.*\.4chan\.org\/.*\#return\=(.*)/i);
 	if (m != null) {
-		document.forms[0].action += "#return=" + encodeURI(m[1]);
-	}
-}
-var items = document.getElementsByTagName('div');
-for(var i=0; i < items.length; i++) {
-	if (items[i].className == "postarea") {
-		var postarea = items[i].innerHTML;
-		autoFillPostBox(document);
+		if (document.body.innerHTML.search("Updating ") > -1 && document.body.innerHTML.search("Updating ") < 100) {
+			var m2 = document.body.innerHTML.match(/\.*<\!-- thread\:([0-9]+),no\:([0-9]+) --\>.*/i);
+			if (m2 != null) {
+				if (m2[1] == 0) {
+					m2[1] = m2[2];
+				}
+				window.location = decodeURI(m[1]) + "/res/" + m2[1] + "#" + m2[2];
+			}
+		}
 	}
 }
 

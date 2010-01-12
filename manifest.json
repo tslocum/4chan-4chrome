@@ -1,0 +1,14 @@
+{
+  "name": "4chan 4chrome",
+  "version": "1.0",
+  "description": "Adds a little extra functionality when browsing 4chan.",
+  "icons": {
+    "128": "4chan_icon.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://*.4chan.org/*"],
+      "js": ["4chan.js"]
+    }
+  ]
+}

@@ -733,6 +733,7 @@ function init4chan4chrome(element) {
 						if (hr_split.length > 0) {
 							table.innerHTML = hr_split.pop();
 						}
+						table.className = "4c4c_reply";
 						table.setAttribute("postID", m[1]);
 						table.setAttribute("op", "true");
 						table.style.display = "none";

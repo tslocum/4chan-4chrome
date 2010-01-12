@@ -1,6 +1,6 @@
 {
   "name": "4chan 4chrome",
-  "version": "9001.4",
+  "version": "9001.5",
   "description": "Adds a little extra functionality when browsing 4chan.",
   "icons": {
     "128": "4chan_icon.png"
@@ -10,7 +10,8 @@
   "content_scripts": [
     {
       "matches": ["http://*.4chan.org/*"],
-      "js": ["4chan.js"]
+      "js": ["4chan.js"],
+	  "run_at": "document_end"
     }
   ]
 }

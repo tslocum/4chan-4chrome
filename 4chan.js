@@ -161,7 +161,7 @@ function setPostAttributes(element, setExpand) {
 		if (m != null) {
 			if (items[j].innerHTML == "No.") {
 				element.setAttribute("postID", m[1]);
-			} else if (enable_preview) {
+			} else if (enable_preview && items[j].getAttribute("refID") == null) {
 				var m2 = items[j].innerHTML.match(/^\&gt\;\&gt\;[0-9]+/i);
 				if (m2 != null) {
 					items[j].setAttribute("refID", m[1]);
@@ -290,18 +290,87 @@ function autoFillPostBox(element) {
 		var items3 = element.getElementsByTagName("textarea");
 		for (var j=0; j < items3.length; j++) {
 			if (items3[j].name == "com") {
-				if (default_comment != "") {
-					items3[j].value += default_comment;
+				if (items3[j].value == "" && default_comment != "") {
+					items3[j].value = default_comment;
 				}
 			}
 		}
 	}
 }
 
+function fetchLatestPosts() {
+	var has404d = false;
+	var threadID = false;
+	var m = window.location.href.match(/.*\/res\/([0-9]+).*/i);
+	if (m != null) {
+		threadID = m[1];
+	}
+	
+	if (threadID) {
+		var client = new XMLHttpRequest();
+		client.open("GET", threadID, true);
+		client.send();
+		client.threadID = threadID;
+		client.onreadystatechange = function() {
+			if (client.readyState == 4) {
+				if (client.status == 200) {
+					var replies = [];
+					var replies_temp = document.createElement("span");
+					replies_temp.innerHTML = client.responseText;
+					var items = replies_temp.getElementsByTagName("table");
+					for (var i=0; i < items.length; i++) {
+						setPostAttributes(items[i]);
+						if (items[i].getAttribute("postID") != null) {
+							var found = false;
+							var items2 = document.forms[1].getElementsByTagName("table");
+							for (var j=0; j < items2.length; j++) {
+								if (items[i].getAttribute("postID") == items2[j].getAttribute("postID")) {
+									found = true;
+								}
+							}
+							
+							if (!found) {
+								replies.push(items[i]);
+							}
+						}
+					}
+					if (replies.length > 0) {
+						var lastreply = false;
+						for (var i=0; i < replies.length; i++) {
+							if (!lastreply) {
+								var items2 = document.forms[1].getElementsByTagName("table");
+								for (var j=0; j < items2.length; j++) {
+									if (items2[j].getAttribute("postID") != null && items2[j].getAttribute("op") == null) {
+										lastreply = items2[j];
+									}
+								}
+							}
+							if (!lastreply) {
+								lastreply = document.forms[1].getElementsByTagName("blockquote")[0];
+							}
+							insertAfter(replies[i], lastreply);
+							lastreply = replies[i];
+						}
+						setTimeout('init4chan4chrome()', 10);
+					}
+				} else if (client.status == 404) {
+					has404d = true;
+				}
+			}
+		};
+		
+		if (!has404d) {
+			setTimeout('fetchLatestPosts()', 5000);
+		}
+	}
+}
+
+var created_op_preview = false;
 var enable_quickreply = null;
 var enable_expand = null;
 var enable_expandimages = null;
 var enable_preview = null;
+var enable_fetchreplies = null;
 var default_name = null;
 var default_email = null;
 var default_subject = null;
@@ -318,6 +387,9 @@ chrome.extension.sendRequest({reqtype: "get-expandimages"}, function(response) {
 });
 chrome.extension.sendRequest({reqtype: "get-preview"}, function(response) {
 	enable_preview = response;
+});
+chrome.extension.sendRequest({reqtype: "get-fetchreplies"}, function(response) {
+	enable_fetchreplies = response;
 });
 chrome.extension.sendRequest({reqtype: "get-default-name"}, function(response) {
 	default_name = response;
@@ -358,7 +430,7 @@ for(var i=0; i < items.length; i++) {
 }
 
 function init4chan4chrome() {
-	if (enable_quickreply == null || enable_expand == null || enable_expandimages == null || enable_preview == null) {
+	if (enable_quickreply == null || enable_expand == null || enable_expandimages == null || enable_preview == null || enable_fetchreplies == null) {
 		setTimeout('init4chan4chrome()', 10);
 	} else {
 		var items = document.getElementsByTagName('a');
@@ -465,18 +537,29 @@ function init4chan4chrome() {
 		var threads = [];
 		var items = document.forms[1].innerHTML.split('<br clear="left"><hr>');
 		
-		for (var i=0; i < items.length; i++) {
-			var m = items[i].match(/.*\<input type\=\"checkbox\" name\=\"([0-9]+)\".*/i);
-			if (m != null) {
-				var table = document.createElement("table");
-				table.innerHTML = items[i].split("</blockquote>")[0] + "</blockquote>"			
-				table.setAttribute("postID", m[1]);
-				table.setAttribute("op", "true");
-				table.style.display = "none";
-				document.forms[1].appendChild(table);
+		if (!created_op_preview) {
+			for (var i=0; i < items.length; i++) {
+				var m = items[i].match(/.*\<input type\=\"checkbox\" name\=\"([0-9]+)\".*/i);
+				if (m != null) {
+					var table = document.createElement("table");
+					table.innerHTML = items[i].split("</blockquote>")[0] + "</blockquote>"			
+					table.setAttribute("postID", m[1]);
+					table.setAttribute("op", "true");
+					table.style.display = "none";
+					document.forms[1].appendChild(table);
+				}
 			}
+			created_op_preview = true;
 		}
-
+		
+		if (enable_fetchreplies) {
+			var m = window.location.href.match(/.*\/res\/[0-9]+.*/i);
+			if (m != null) {
+				setTimeout('fetchLatestPosts()', 5000);
+			}
+			enable_fetchreplies = false;
+		}
+		
 		replaceRefLinksWithQuickReply(null, null);
 	}
 }

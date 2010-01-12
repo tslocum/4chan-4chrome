@@ -6,8 +6,20 @@
 	</title>
 	<script type="text/javascript"> 
 		function initControls() { 
+			document.getElementById("quickreply").checked = localStorage.getItem("quickreply") != "true"; 
+			document.getElementById("expand").checked = localStorage.getItem("expand") != "true"; 
+			document.getElementById("preview").checked = localStorage.getItem("preview") != "true"; 
 			document.getElementById("autonoko").checked = localStorage.getItem("autonoko") == "true"; 
 			
+			document.getElementById("quickreply").onchange = function(event) { 
+				localStorage.setItem("quickreply", !this.checked); 
+			};
+			document.getElementById("expand").onchange = function(event) { 
+				localStorage.setItem("expand", !this.checked); 
+			};
+			document.getElementById("preview").onchange = function(event) { 
+				localStorage.setItem("preview", !this.checked); 
+			};
 			document.getElementById("autonoko").onchange = function(event) { 
 				localStorage.setItem("autonoko", this.checked); 
 			};
@@ -39,7 +51,19 @@
 	<hr>
 	<br>
 	<div>
-		<label for="autonoko">Auto noko all posts:</label> <input type="checkbox" id="autonoko">
+		<label for="quickreply">Quick Reply:</label> <input type="checkbox" id="quickreply">
+	</div>
+	<br>
+	<div>
+		<label for="expand">Thread Expansion:</label> <input type="checkbox" id="expand">
+	</div>
+	<br>
+	<div>
+		<label for="preview">Post Preview:</label> <input type="checkbox" id="preview">
+	</div>
+	<br>
+	<div>
+		<label for="autonoko">Auto Noko All Posts:</label> <input type="checkbox" id="autonoko">
 	</div>
 </body>
 </html>

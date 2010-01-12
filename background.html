@@ -2,9 +2,15 @@
 <html>
 <script>
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
-if (request.reqtype == "get-autonoko") {
-	sendResponse(localStorage.getItem("autonoko"));
-}
+	if (request.reqtype == "get-quickreply") {
+		sendResponse(!(localStorage.getItem("quickreply") == "true"));
+	} else if (request.reqtype == "get-expand") {
+		sendResponse(!(localStorage.getItem("expand") == "true"));
+	} else if (request.reqtype == "get-preview") {
+		sendResponse(!(localStorage.getItem("preview") == "true"));
+	} else if (request.reqtype == "get-autonoko") {
+		sendResponse(localStorage.getItem("autonoko"));
+	}
 });
 </script>
 i'm 12 years old and what is this?

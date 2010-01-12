@@ -205,7 +205,7 @@ function setExpandImageAttributes(a) {
 							window.open(this.getAttribute("expandImage"), '_blank');
 						} else if (e.which == 1) {
 							if (this.getAttribute("expanded") != "true") {
-								this.innerHTML = '<img style="background-image: url(\'' + this.getAttribute("thumbSRC") + '\');background-repeat: no-repeat;min-width: ' + this.getAttribute("thumbWidth") + 'px;min-height: ' + this.getAttribute("thumbHeight") + 'px;" src="' + this.getAttribute("expandImage") + '" border="0" align="left" hspace="20">';
+								this.innerHTML = '<img style="background-image: url(\'' + this.getAttribute("thumbSRC") + '\');background-repeat: no-repeat;border: 1px dashed black;min-width: ' + this.getAttribute("thumbWidth") + 'px;min-height: ' + this.getAttribute("thumbHeight") + 'px;" src="' + this.getAttribute("expandImage") + '" border="0" align="left" hspace="20">';
 								this.setAttribute("expanded", "true");
 							} else {
 								this.innerHTML = this.getAttribute("expandOriginalHTML")
@@ -431,11 +431,9 @@ function fetchLatestPosts() {
 						if (!lastreply) {
 							lastreply = document.forms[1].getElementsByTagName("blockquote")[0];
 						}
+						init4chan4chrome(replies[i]);
 						insertAfter(replies[i], lastreply);
 						lastreply = replies[i];
-					}
-					if (document.forms[1].getAttribute("has404d") == "false") {
-						setTimeout('init4chan4chrome()', 10);
 					}
 				}
 			}
@@ -521,11 +519,16 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 	}
 });
 
-function init4chan4chrome() {
+function init4chan4chrome(element) {
 	if (enable_quickreply == null || enable_quickreplyiframe == null || enable_expand == null || enable_expandimages == null || enable_preview == null || enable_fetchreplies == null || enable_autonoko == null || enable_sage == null || enable_report == null) {
 		setTimeout('init4chan4chrome()', 10);
 	} else if (document.forms.length > 0) {
-		var items = document.getElementsByTagName('a');
+		var processPage = false;
+		if (!element) {
+			element = document;
+			processPage = true;
+		}
+		var items = element.getElementsByTagName('a');
 		for (var i=0; i < items.length; i++) {
 			if (items[i].innerHTML == "Reply" && enable_quickreply) {
 				var m = items[i].href.match(/.*\/([0-9]+)(?:\.html)?/i);
@@ -537,7 +540,7 @@ function init4chan4chrome() {
 					quickReply.setAttribute("onclick", 'return false;');
 					quickReply.setAttribute("threadID", threadID);
 					quickReply.addEventListener("click", function() {
-						var items2 = document.getElementsByTagName("input");
+						var items2 = element.getElementsByTagName("input");
 						for (var i=0; i < items2.length; i++) {
 							if (items2[i].name.search(this.getAttribute("threadID")) != -1) {
 								quickReplyBox(this.getAttribute("threadID"), items2[i]);
@@ -546,7 +549,7 @@ function init4chan4chrome() {
 					}, false);
 					
 					items[i].parentNode.innerHTML += '<span id="spacer' + threadID + '">&nbsp;</span>';
-					var spacer = document.getElementById("spacer" + threadID);
+					var spacer = element.getElementById("spacer" + threadID);
 					insertAfter(quickReply, spacer);
 				}
 			} else if (items[i].innerHTML == "No.") {
@@ -561,116 +564,116 @@ function init4chan4chrome() {
 			}
 		}
 
-		
-		var delform = document.forms[1];
-		var nodes = delform.childNodes;
-		
-		lastnode = null;
-		threadID = null;
-		
-		for (var i=0; i < nodes.length; i++) {
-			node = nodes[i];
+		if (processPage) {
+			var delform = document.forms[1];
+			var nodes = delform.childNodes;
 			
-			if (!threadID && node.nodeName.toLowerCase() == "input" && node.type == "checkbox") {
-				threadID = node.name;
-			}
+			lastnode = null;
+			threadID = null;
 			
-			if (node.nodeName.toLowerCase() == "table" && !node.getAttribute("align")) {
-				node.setAttribute("threadID", threadID);
-				replaceRefLinksWithQuickReply(node, threadID);
-				setPostAttributes(node);
-			}
-			
-			if (node.className && node.className.toLowerCase() == "omittedposts" && enable_expand) {
-				var expand = document.createElement("a");
-				expand.style.textDecoration = "none";
-				expand.innerHTML = '<img border="0" src="data:image/png;base64,' + base64_expand + '" title="Expand Thread">&nbsp;';
-				expand.href = "#";
-				expand.setAttribute("onClick", 'javascript:return false;');
-				expand.setAttribute("threadID", threadID);
+			for (var i=0; i < nodes.length; i++) {
+				node = nodes[i];
 				
-				node.innerHTML = '<span id="spacer2' + threadID + '"></span><span id="omittedposts' + threadID + '">' + node.innerHTML + '</span>';
-				var spacer = document.getElementById("spacer2" + threadID);
-				spacer.insertBefore(expand);
-				var omittedposts = document.getElementById("omittedposts" + threadID);
+				if (!threadID && node.nodeName.toLowerCase() == "input" && node.type == "checkbox") {
+					threadID = node.name;
+				}
 				
-				node.setAttribute("threadID", threadID);
-				spacer.setAttribute("threadID", threadID);
-				spacer.setAttribute("expanded", "false");
+				if (node.nodeName.toLowerCase() == "table" && !node.getAttribute("align")) {
+					node.setAttribute("threadID", threadID);
+					replaceRefLinksWithQuickReply(node, threadID);
+					setPostAttributes(node);
+				}
 				
-				spacer.addEventListener("click", function() {
-					var omittedposts = document.getElementById("omittedposts" + this.getAttribute("threadID"));
-					if (this.getAttribute("expanded") == "true") {
-						document.getElementById("replies" + this.getAttribute("threadID")).parentNode.removeChild(document.getElementById("replies" + this.getAttribute("threadID")));
-						this.innerHTML = this.getAttribute("retracthtml");
-						omittedposts.innerHTML = "Thread No." + this.getAttribute("threadID") + " retracted.<br clear=\"left\">";
-						this.setAttribute("expanded", "false");
-					} else {
-						this.setAttribute("retracthtml", this.innerHTML);
-						omittedposts.innerHTML = "Thread No." + this.getAttribute("threadID") + " expanding...";
-						this.style.textDecoration = "none";
-						this.style.color = "#000000";
-						this.style.fontWeight = "bold";
-						this.innerHTML = '<img border="0" src="data:image/png;base64,' + base64_expandwait + '" title="Expanding...">&nbsp;';
-						var client = new XMLHttpRequest();
-						client.open("GET", "res/" + this.getAttribute("threadID"), true);
-						client.send();
-						client.threadID = this.getAttribute("threadID");
-						client.spacer = this;
-						client.omittedposts = omittedposts;
-						client.onreadystatechange = function() {
-							if (client.readyState == 4) {
-								if (client.status == 200) {
-									this.spacer.setAttribute("expanded", "true");
-									var replies = document.createElement("span");
-									var replies_temp = document.createElement("span");
-									replies_temp.innerHTML = client.responseText;
-									processExpand(replies, replies_temp, this.threadID, this.spacer, this.omittedposts);
-								} else if (client.status == 404) {
-									this.omittedposts.innerHTML = "Thread No." + this.threadID + " has 404'd.";
+				if (node.className && node.className.toLowerCase() == "omittedposts" && enable_expand) {
+					var expand = document.createElement("a");
+					expand.style.textDecoration = "none";
+					expand.innerHTML = '<img border="0" src="data:image/png;base64,' + base64_expand + '" title="Expand Thread">&nbsp;';
+					expand.href = "#";
+					expand.setAttribute("onClick", 'javascript:return false;');
+					expand.setAttribute("threadID", threadID);
+					
+					node.innerHTML = '<span id="spacer2' + threadID + '"></span><span id="omittedposts' + threadID + '">' + node.innerHTML + '</span>';
+					var spacer = document.getElementById("spacer2" + threadID);
+					spacer.insertBefore(expand);
+					var omittedposts = document.getElementById("omittedposts" + threadID);
+					
+					node.setAttribute("threadID", threadID);
+					spacer.setAttribute("threadID", threadID);
+					spacer.setAttribute("expanded", "false");
+					
+					spacer.addEventListener("click", function() {
+						var omittedposts = document.getElementById("omittedposts" + this.getAttribute("threadID"));
+						if (this.getAttribute("expanded") == "true") {
+							document.getElementById("replies" + this.getAttribute("threadID")).parentNode.removeChild(document.getElementById("replies" + this.getAttribute("threadID")));
+							this.innerHTML = this.getAttribute("retracthtml");
+							omittedposts.innerHTML = "Thread No." + this.getAttribute("threadID") + " retracted.<br clear=\"left\">";
+							this.setAttribute("expanded", "false");
+						} else {
+							this.setAttribute("retracthtml", this.innerHTML);
+							omittedposts.innerHTML = "Thread No." + this.getAttribute("threadID") + " expanding...";
+							this.style.textDecoration = "none";
+							this.style.color = "#000000";
+							this.style.fontWeight = "bold";
+							this.innerHTML = '<img border="0" src="data:image/png;base64,' + base64_expandwait + '" title="Expanding...">&nbsp;';
+							var client = new XMLHttpRequest();
+							client.open("GET", "res/" + this.getAttribute("threadID"), true);
+							client.send();
+							client.threadID = this.getAttribute("threadID");
+							client.spacer = this;
+							client.omittedposts = omittedposts;
+							client.onreadystatechange = function() {
+								if (client.readyState == 4) {
+									if (client.status == 200) {
+										this.spacer.setAttribute("expanded", "true");
+										var replies = document.createElement("span");
+										var replies_temp = document.createElement("span");
+										replies_temp.innerHTML = client.responseText;
+										processExpand(replies, replies_temp, this.threadID, this.spacer, this.omittedposts);
+									} else if (client.status == 404) {
+										this.omittedposts.innerHTML = "Thread No." + this.threadID + " has 404'd.";
+									}
 								}
-							}
-						};
-					}
-				}, false);
+							};
+						}
+					}, false);
+				}
+				
+				if (node.nodeName.toLowerCase() == "hr" && lastnode && lastnode.nodeName.toLowerCase() == "br") {
+					threadID = null;
+				}
+				lastnode = node;
 			}
 			
-			if (node.nodeName.toLowerCase() == "hr" && lastnode && lastnode.nodeName.toLowerCase() == "br") {
-				threadID = null;
+			var threads = [];
+			var items = document.forms[1].innerHTML.split('<br clear="left"><hr>');
+			
+			if (!created_op_preview) {
+				for (var i=0; i < items.length; i++) {
+					var m = items[i].match(/.*\<input type\=\"checkbox\" name\=\"([0-9]+)\".*/i);
+					if (m != null) {
+						var table = document.createElement("table");
+						table.innerHTML = items[i].split("</blockquote>")[0] + "</blockquote>"			
+						table.setAttribute("postID", m[1]);
+						table.setAttribute("op", "true");
+						table.style.display = "none";
+						document.forms[1].appendChild(table);
+					}
+				}
+				created_op_preview = true;
 			}
-			lastnode = node;
-		}
-		
-		var threads = [];
-		var items = document.forms[1].innerHTML.split('<br clear="left"><hr>');
-		
-		if (!created_op_preview) {
-			for (var i=0; i < items.length; i++) {
-				var m = items[i].match(/.*\<input type\=\"checkbox\" name\=\"([0-9]+)\".*/i);
+			
+			if (enable_fetchreplies) {
+				var m = window.location.href.match(/.*\/res\/[0-9]+.*/i);
 				if (m != null) {
-					var table = document.createElement("table");
-					table.innerHTML = items[i].split("</blockquote>")[0] + "</blockquote>"			
-					table.setAttribute("postID", m[1]);
-					table.setAttribute("op", "true");
-					table.style.display = "none";
-					document.forms[1].appendChild(table);
+					if (document.forms[1].getAttribute("has404d") == null) {
+						document.forms[1].setAttribute("has404d", "false");
+						setTimeout('fetchLatestPosts()', 500);
+					}
 				}
+				enable_fetchreplies = false;
 			}
-			created_op_preview = true;
 		}
-		
-		if (enable_fetchreplies) {
-			var m = window.location.href.match(/.*\/res\/[0-9]+.*/i);
-			if (m != null) {
-				if (document.forms[1].getAttribute("has404d") == null) {
-					document.forms[1].setAttribute("has404d", "false");
-					setTimeout('fetchLatestPosts()', 500);
-				}
-			}
-			enable_fetchreplies = false;
-		}
-		
-		replaceRefLinksWithQuickReply(null, null);
+		replaceRefLinksWithQuickReply(element, null);
 	} else if (enable_autonoko) {
 		var m = window.location.href.match(/.*\/imgboard\.php\#return\=(.*)/i);
 		if (m != null) {

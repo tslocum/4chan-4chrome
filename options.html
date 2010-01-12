@@ -7,10 +7,12 @@
 	<script type="text/javascript">
 		function initControls() {
 			document.getElementById("quickreply").checked = localStorage.getItem("quickreply") != "true";
+			document.getElementById("quickreplyiframe").checked = localStorage.getItem("quickreplyiframe") == "true";
 			document.getElementById("expand").checked = localStorage.getItem("expand") != "true";
 			document.getElementById("expandimages").checked = localStorage.getItem("expandimages") != "true";
 			document.getElementById("preview").checked = localStorage.getItem("preview") != "true";
 			document.getElementById("fetchreplies").checked = localStorage.getItem("fetchreplies") != "true";
+			document.getElementById("autonoko").checked = localStorage.getItem("autonoko") != "true";
 			document.getElementById("showicon").checked = localStorage.getItem("showicon") != "true";
 			
 			document.getElementById("name").value = (localStorage.getItem("defaultname") != null) ? localStorage.getItem("defaultname") : "";
@@ -21,6 +23,9 @@
 			
 			document.getElementById("quickreply").onchange = function(event) { 
 				localStorage.setItem("quickreply", !this.checked); 
+			};
+			document.getElementById("quickreplyiframe").onchange = function(event) { 
+				localStorage.setItem("quickreplyiframe", this.checked); 
 			};
 			document.getElementById("expand").onchange = function(event) { 
 				localStorage.setItem("expand", !this.checked); 
@@ -33,6 +38,9 @@
 			};
 			document.getElementById("fetchreplies").onchange = function(event) { 
 				localStorage.setItem("fetchreplies", !this.checked); 
+			};
+			document.getElementById("autonoko").onchange = function(event) { 
+				localStorage.setItem("autonoko", !this.checked); 
 			};
 			document.getElementById("showicon").onchange = function(event) { 
 				localStorage.setItem("showicon", !this.checked); 
@@ -216,7 +224,7 @@
 	<label for="quickreply">
 		<table><tr><td nowrap class="doubledash">&gt;&gt;</td><td class="reply">
 			<input type="checkbox" id="quickreply"> Quick Reply
-		</td></tr></table>
+		</td><td><label for="quickreplyiframe"><input type="checkbox" id="quickreplyiframe"> Use inline frame</label></td></tr></table>
 	</label>
 	<label for="expand">
 		<table><tr><td nowrap class="doubledash">&gt;&gt;</td><td class="reply">
@@ -237,6 +245,11 @@
 		<table><tr><td nowrap class="doubledash">&gt;&gt;</td><td class="reply">
 			<input type="checkbox" id="fetchreplies"> Fetch New Replies
 		</td><td>Note: Only available when the full thread is viewed (e.g. clicking Reply)</td></tr></table>
+	</label>
+	<label for="autonoko">
+		<table><tr><td nowrap class="doubledash">&gt;&gt;</td><td class="reply">
+			<input type="checkbox" id="autonoko"> Auto Noko
+		</td><td>This will always return you to a post you have made, regardless of your e-mail</td></tr></table>
 	</label>
 	<label for="showicon">
 		<table><tr><td nowrap class="doubledash">&gt;&gt;</td><td class="reply">

@@ -39,7 +39,10 @@ function quickReplyBox(resto, atElement) {
 	quickReplyBox.style.borderBottom = "1px solid #CCCCCC";
 	quickReplyBox.style.borderLeft = "1px solid #CCCCCC";
 	quickReplyBox.style.borderRight = "1px solid #CCCCCC";
-	quickReplyBox.innerHTML = '<span style="float: right;cursor: pointer;font-weight: bold;font-size: 1.1em;padding: 1px;" onclick="javascript:var qr=document.getElementById(\'' + qrbid + '\');qr.parentNode.removeChild(qr);return false;">&nbsp;X&nbsp;</span><div style="text-align: center;cursor: move;padding: 1px;margin-bottom: 10px;" class="postblock">Quick Reply (#' + resto + ')</div>' + postarea + '<iframe id="' + qrbid + 'iframe" src="about:blank" style="display: none;min-width:100px;height:50px;margin:0px;padding:0px;"></iframe>';
+	quickReplyBox.innerHTML = '<span style="float: right;cursor: pointer;font-weight: bold;font-size: 1.1em;padding: 1px;" onclick="javascript:var qr=document.getElementById(\'' + qrbid + '\');qr.parentNode.removeChild(qr);return false;">&nbsp;X&nbsp;</span><div style="text-align: center;cursor: move;padding: 1px;margin-bottom: 10px;" class="postblock">Quick Reply (#' + resto + ')</div>' + postarea;
+	if (enable_quickreplyiframe) {
+		quickReplyBox.innerHTML += '<iframe id="' + qrbid + 'iframe" src="about:blank" style="display: none;min-width:100px;height:50px;margin:0px;padding:0px;"></iframe>';
+	}
 	quickReplyBox.className = "reply";
 	quickReplyBox.style.margin = "0";
 	quickReplyBox.style.padding = "0";
@@ -76,23 +79,25 @@ function quickReplyBox(resto, atElement) {
 			items3[j].parentNode.removeChild(items3[j]);
 		}
 	}
-	quickReplyBox.getElementsByTagName("form")[0].id = qrbid + "form";
-	var items3 = quickReplyBox.getElementsByTagName("input");
-	for (var j=0; j < items3.length; j++) {
-		if (items3[j].value == "Submit") {
-			items3[j].setAttribute("submitted", "false");
-			items3[j].setAttribute("qrbid", qrbid);
-			items3[j].addEventListener("click", function() {
-				document.getElementById(this.getAttribute("qrbid") + "iframe").style.display = "block";
-				document.getElementById(this.getAttribute("qrbid") + "form").submit();
-				/*if (this.getAttribute("submitted") == "false") {
-					setTimeout(checkQuickReplyBoxSubmitted, 200, qrbid);
-					this.setAttribute("submitted", "true");
-				}*/
-			}, false);
+	if (enable_quickreplyiframe) {
+		quickReplyBox.getElementsByTagName("form")[0].id = qrbid + "form";
+		var items3 = quickReplyBox.getElementsByTagName("input");
+		for (var j=0; j < items3.length; j++) {
+			if (items3[j].value == "Submit") {
+				items3[j].setAttribute("submitted", "false");
+				items3[j].setAttribute("qrbid", qrbid);
+				items3[j].addEventListener("click", function() {
+					document.getElementById(this.getAttribute("qrbid") + "iframe").style.display = "block";
+					document.getElementById(this.getAttribute("qrbid") + "form").submit();
+					/*if (this.getAttribute("submitted") == "false") {
+						setTimeout(checkQuickReplyBoxSubmitted, 200, qrbid);
+						this.setAttribute("submitted", "true");
+					}*/
+				}, false);
+			}
 		}
+		quickReplyBox.getElementsByTagName("form")[0].setAttribute("target", qrbid + "iframe");
 	}
-	quickReplyBox.getElementsByTagName("form")[0].setAttribute("target", qrbid + "iframe");
 	insertAfter(quickReplyBox, atElement);
 	
 	// Set resto
@@ -417,10 +422,12 @@ function fetchLatestPosts() {
 
 var created_op_preview = false;
 var enable_quickreply = null;
+var enable_quickreplyiframe = null;
 var enable_expand = null;
 var enable_expandimages = null;
 var enable_preview = null;
 var enable_fetchreplies = null;
+var enable_autonoko = null;
 var default_name = null;
 var default_email = null;
 var default_subject = null;
@@ -428,6 +435,9 @@ var default_comment = null;
 var default_password = null;
 chrome.extension.sendRequest({reqtype: "get-quickreply"}, function(response) {
 	enable_quickreply = response;
+});
+chrome.extension.sendRequest({reqtype: "get-quickreplyiframe"}, function(response) {
+	enable_quickreplyiframe = response;
 });
 chrome.extension.sendRequest({reqtype: "get-expand"}, function(response) {
 	enable_expand = response;
@@ -440,6 +450,9 @@ chrome.extension.sendRequest({reqtype: "get-preview"}, function(response) {
 });
 chrome.extension.sendRequest({reqtype: "get-fetchreplies"}, function(response) {
 	enable_fetchreplies = response;
+});
+chrome.extension.sendRequest({reqtype: "get-autonoko"}, function(response) {
+	enable_autonoko = response;
 });
 chrome.extension.sendRequest({reqtype: "get-default-name"}, function(response) {
 	default_name = response;
@@ -471,16 +484,8 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 	}
 });
 
-var items = document.getElementsByTagName('div');
-for(var i=0; i < items.length; i++) {
-	if (items[i].className == "postarea") {
-		var postarea = items[i].innerHTML;
-		autoFillPostBox(document);
-	}
-}
-
 function init4chan4chrome() {
-	if (enable_quickreply == null || enable_expand == null || enable_expandimages == null || enable_preview == null || enable_fetchreplies == null) {
+	if (enable_quickreply == null || enable_quickreplyiframe == null || enable_expand == null || enable_expandimages == null || enable_preview == null || enable_fetchreplies == null || enable_autonoko == null) {
 		setTimeout('init4chan4chrome()', 10);
 	} else if (document.forms.length > 0) {
 		var items = document.getElementsByTagName('a');
@@ -614,6 +619,19 @@ function init4chan4chrome() {
 		}
 		
 		replaceRefLinksWithQuickReply(null, null);
+	} else if (enable_autonoko) {
+		var m = window.location.href.match(/.*\/imgboard\.php\#return\=(.*)/i);
+		if (m != null) {
+			if (document.body.innerHTML.search("Updating ") > -1 && document.body.innerHTML.search("Updating ") < 100) {
+				var m2 = document.body.innerHTML.match(/\.*<\!-- thread\:([0-9]+),no\:([0-9]+) --\>.*/i);
+				if (m2 != null) {
+					if (m2[1] == 0) {
+						m2[1] = m2[2];
+					}
+					window.location = decodeURI(m[1]) + "/res/" + m2[1] + "#" + m2[2];
+				}
+			}
+		}
 	}
 }
 
@@ -648,5 +666,22 @@ function selectmouse(e) {
 }
 document.onmousedown=selectmouse;
 document.onmouseup=new Function("isdrag=false");
+
+if (window.location.href.search("return") == -1) {
+	var m = window.location.href.match(/(^.*)\/res\/[0-9]+.*/i);
+	if (m == null) {
+		var m = window.location.href.match(/(^.*)\//i);
+	}
+	if (m != null) {
+		document.forms[0].action += "#return=" + encodeURI(m[1]);
+	}
+}
+var items = document.getElementsByTagName('div');
+for(var i=0; i < items.length; i++) {
+	if (items[i].className == "postarea") {
+		var postarea = items[i].innerHTML;
+		autoFillPostBox(document);
+	}
+}
 
 setTimeout('init4chan4chrome()', 10);

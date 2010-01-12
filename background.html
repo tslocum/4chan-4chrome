@@ -5,6 +5,8 @@ var lastTabId = null;
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 	if (request.reqtype == "get-quickreply") {
 		sendResponse(!(localStorage.getItem("quickreply") == "true"));
+	} else if (request.reqtype == "get-quickreplyiframe") {
+		sendResponse(localStorage.getItem("quickreplyiframe") == "true");
 	} else if (request.reqtype == "get-expand") {
 		sendResponse(!(localStorage.getItem("expand") == "true"));
 	} else if (request.reqtype == "get-expandimages") {
@@ -13,6 +15,8 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 		sendResponse(!(localStorage.getItem("preview") == "true"));
 	} else if (request.reqtype == "get-fetchreplies") {
 		sendResponse(!(localStorage.getItem("fetchreplies") == "true"));
+	} else if (request.reqtype == "get-autonoko") {
+		sendResponse(!(localStorage.getItem("autonoko") == "true"));
 	} else if (request.reqtype == "get-tabid") {
 		chrome.tabs.getSelected(null, function(tab) {
 			sendResponse(tab.id);

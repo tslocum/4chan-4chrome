@@ -12,6 +12,94 @@ function insertAfter(newElement,targetElement) {
 	}
 }
 
+function quickReplyBox(resto, atElement) {
+	var quickReplyBox = document.createElement("div");
+	quickReplyBox.id = "qr" + resto;
+	quickReplyBox.innerHTML = '<span style="float: right;cursor: pointer;" onclick="javascript:var qr=document.getElementById(\'qr' + resto + '\');qr.parentNode.removeChild(qr);return false;">&nbsp;X&nbsp;</span><div style="text-align: center;" class="postblock">Quick Reply (#' + resto + ')</div>' + postarea;
+	quickReplyBox.className = "reply";
+	quickReplyBox.style.position = "absolute";
+	var offsetLeft = atElement.offsetLeft;
+	var offsetTop = atElement.offsetTop;
+	var obj = atElement;
+	while (obj.offsetParent){
+		if (obj == document.getElementsByTagName('body')[0]) {
+			break;
+		} else {
+			offsetLeft += obj.offsetParent.offsetLeft;
+			offsetTop += obj.offsetParent.offsetTop;
+			obj = obj.offsetParent;
+		}
+	}
+	quickReplyBox.style.left = offsetLeft;
+	quickReplyBox.style.top = offsetTop;
+	var items3 = quickReplyBox.getElementsByTagName("table");
+	for (var j=0; j < items3.length; j++) {
+		if (items3[j].width == "100%") {
+			items3[j].style.display = "none";
+		}
+	}
+	var items3 = quickReplyBox.getElementsByTagName("div");
+	for (var j=0; j < items3.length; j++) {
+		if (items3[j].className != "postblock") {
+			items3[j].style.display = "none";
+		}
+	}
+	insertAfter(quickReplyBox, atElement);
+	
+	// Set resto
+	firstinput = quickReplyBox.getElementsByTagName("input")[0];
+	var resto_input = document.createElement("input");
+	resto_input.name = "resto";
+	resto_input.value = resto;
+	resto_input.type = "hidden";
+	insertAfter(resto_input, firstinput);
+	return quickReplyBox;
+}
+
+function quickReplyQuote(resto, postid, atElement) {
+	qrb = quickReplyBox(resto, atElement);
+	var items = qrb.getElementsByTagName("textarea");
+	for (var i=0; i < items.length; i++) {
+		items[i].value = ">>" + postid
+	}
+}
+
+function replaceRefLinksWithQuickReply(searchElement, resto_override) {
+	if (!searchElement) {
+		searchElement = document;
+	}
+	var items = searchElement.getElementsByTagName('a');
+	for(var i=0; i < items.length; i++) {
+		var postid = null;
+		var resto = resto_override;
+		var m = items[i].href.match(/.*quote\(\'([0-9]+)\'\)/i);
+		if (m != null) {
+			postid = m[1];
+			if (!resto) {
+				var m = window.location.href.match(/.*\/([0-9]+)\.html.*/i);
+				if (m != null) {
+					resto = m[1];
+				}
+			}
+		} else if (items[i].className == "quotejs") {
+			var m = items[i].href.match(/res\/([0-9]+)\.html\#q([0-9]+)/i);
+			if (m != null) {
+				resto = m[1];
+				postid = m[2];
+			}
+		}
+		if (postid && resto && items[i].href != "javascript:return false;") {
+			items[i].setAttribute("postID", postid);
+			items[i].setAttribute("threadID", resto);
+			items[i].setAttribute("thisElement", items[i]);
+			items[i].addEventListener("click", function() {
+				quickReplyQuote(this.getAttribute("threadID"), this.getAttribute("postID"), this.parentNode);
+			}, false);
+			items[i].href = "javascript:false;"
+		}
+	}
+}
+
 var items = document.getElementsByTagName('div');
 for(var i=0; i < items.length; i++) {
 	if (items[i].className == "postarea") {
@@ -39,41 +127,20 @@ for (var i=0; i < items.length; i++) {
 				var items2 = document.getElementsByTagName("input");
 				for (var i=0; i < items2.length; i++) {
 					if (items2[i].name.search(this.getAttribute("threadID")) != -1) {
-						// Create and show quick reply box
-						var quickReplyBox = document.createElement("div");
-						quickReplyBox.id = "qr" + this.getAttribute("threadID")
-						quickReplyBox.innerHTML = '<span style="float: right;cursor: pointer;" onclick="javascript:var qr=document.getElementById(\'qr' + this.getAttribute("threadID") + '\');qr.parentNode.removeChild(qr);return false;">&nbsp;X&nbsp;</span><div style="text-align: center;" class="postblock">Quick Reply (#' + this.getAttribute("threadID") + ')</div>' + postarea;
-						quickReplyBox.className = "reply";
-						quickReplyBox.style.position = "absolute";
-						quickReplyBox.style.left = items2[i].offsetLeft;
-						quickReplyBox.style.top = items2[i].offsetTop;
-						var items3 = quickReplyBox.getElementsByTagName("table");
-						for (var j=0; j < items3.length; j++) {
-							if (items3[j].width == "100%") {
-								items3[j].style.display = "none";
-							}
-						}
-						var items3 = quickReplyBox.getElementsByTagName("div");
-						for (var j=0; j < items3.length; j++) {
-							if (items3[j].className != "postblock") {
-								items3[j].style.display = "none";
-							}
-						}
-						insertAfter(quickReplyBox, items2[i]);
-						
-						// Set resto
-						firstinput = quickReplyBox.getElementsByTagName("input")[0];
-						var resto = document.createElement("input");
-						resto.name = "resto";
-						resto.value = this.getAttribute("threadID");
-						resto.type = "hidden";
-						insertAfter(resto, firstinput);
+						quickReplyBox(this.getAttribute("threadID"), items2[i]);
 					}
 				}
 			}, false);
 			var quickReplyText = document.createTextNode("Quick Reply");
 			quickReply.appendChild(quickReplyText);
 			insertAfter(quickReply, comma);
+		}
+	} else if (items[i].innerHTML == "No.") {
+		var m = items[i].href.match(/.*\/([0-9]+)\.html\#([0-9]+)/i);
+		if (m != null) {
+			if (m[1] == m[2]) {
+				items[i].name = m[1];
+			}
 		}
 	}
 }
@@ -91,6 +158,7 @@ for (var i=0; i < nodes.length; i++) {
 	
 	if (node.nodeName.toLowerCase() == "table" && !node.getAttribute("align")) {
 		node.setAttribute("threadID", threadID);
+		replaceRefLinksWithQuickReply(node, threadID);
 	}
 	
 	if (node.className && node.className.toLowerCase() == "omittedposts") {
@@ -126,6 +194,8 @@ for (var i=0; i < nodes.length; i++) {
 					}
 					replies_temp.style.display = "none";
 					
+					replaceRefLinksWithQuickReply(replies, this.threadID);
+					
 					var items2 = document.getElementsByTagName("table");
 					for (var i=0; i < items2.length; i++) {
 						if (items2[i].getAttribute("ThreadID") == this.threadID) {
@@ -155,3 +225,5 @@ for (var i=0; i < nodes.length; i++) {
 	}
 	lastnode = node;
 }
+
+replaceRefLinksWithQuickReply(null, null);

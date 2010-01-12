@@ -6,6 +6,8 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 		sendResponse(!(localStorage.getItem("quickreply") == "true"));
 	} else if (request.reqtype == "get-expand") {
 		sendResponse(!(localStorage.getItem("expand") == "true"));
+	} else if (request.reqtype == "get-expandimages") {
+		sendResponse(!(localStorage.getItem("expandimages") == "true"));
 	} else if (request.reqtype == "get-preview") {
 		sendResponse(!(localStorage.getItem("preview") == "true"));
 	} else if (request.reqtype == "get-autonoko") {

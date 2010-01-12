@@ -8,6 +8,7 @@
 		function initControls() { 
 			document.getElementById("quickreply").checked = localStorage.getItem("quickreply") != "true"; 
 			document.getElementById("expand").checked = localStorage.getItem("expand") != "true"; 
+			document.getElementById("expandimages").checked = localStorage.getItem("expandimages") != "true"; 
 			document.getElementById("preview").checked = localStorage.getItem("preview") != "true"; 
 			document.getElementById("autonoko").checked = localStorage.getItem("autonoko") == "true"; 
 			
@@ -16,6 +17,9 @@
 			};
 			document.getElementById("expand").onchange = function(event) { 
 				localStorage.setItem("expand", !this.checked); 
+			};
+			document.getElementById("expandimages").onchange = function(event) { 
+				localStorage.setItem("expandimages", !this.checked); 
 			};
 			document.getElementById("preview").onchange = function(event) { 
 				localStorage.setItem("preview", !this.checked); 
@@ -56,6 +60,10 @@
 	<br>
 	<div>
 		<label for="expand">Thread Expansion:</label> <input type="checkbox" id="expand">
+	</div>
+	<br>
+	<div>
+		<label for="expandimages">Image Expansion:</label> <input type="checkbox" id="expandimages">
 	</div>
 	<br>
 	<div>

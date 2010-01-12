@@ -109,8 +109,36 @@ function replaceRefLinksWithQuickReply(searchElement, resto_override) {
 	}
 }
 
-function setReplyPostID(element) {
+function setExpandImageAttributes(a) {
+	if (enable_expandimages) {
+		var m = a.href.match(/.*images\.4chan\.org\/.*\/src\/(.*)/i);
+		if (m != null) {
+			if (a.innerHTML.substring(0, 4) == "<img") {
+				if (a.getAttribute("expanded") == null) {
+					a.setAttribute("expanded", "false");
+					a.setAttribute("expandImage", expandImage);
+					a.setAttribute("onClick", "javascript:return false;");
+					a.target = "_self";
+					a.addEventListener("click", function(e) {;
+						if (e.which == 2 || this.getAttribute("expanded") == "true") {
+							window.open(this.getAttribute("expandImage"), '_blank');
+						} else if (e.which == 1) {
+							this.innerHTML = '<img src="' + this.getAttribute("expandImage") + '"  border="0" align="left" hspace="20">';
+							this.setAttribute("expanded", "true");
+						}
+					}, false);
+
+				}
+			} else {
+				expandImage = a.href;
+			}
+		}
+	}
+}
+
+function setPostAttributes(element, setExpand) {
 	var items = element.getElementsByTagName('a');
+	var expandImage;
 	for(var j=0; j < items.length; j++) {
 		var m = items[j].href.match(/.*\/[0-9]+(?:\.html)?#([0-9]+)/i);
 		if (m == null) {
@@ -154,6 +182,8 @@ function setReplyPostID(element) {
 					}, false);
 				}
 			}
+		} else if (setExpand) {
+			setExpandImageAttributes(items[j]);
 		}
 	}
 }
@@ -165,15 +195,6 @@ function processExpandTables(replies, replies_temp, threadID, items, tables) {
 	if (items && items.length > 0) {
 		var table = items.shift();
 		if (table.width != "100%" && table.cellpadding != "0" && table.align != "right") {
-			for (var j=0; j < tables.length; j++) {
-				var items3 = tables[j].getElementsByTagName("a");
-				for (var k=0; k < items3.length; k++) {
-					m = items3[k].href.match(/\/([0-9]+)(?:\.html)?.*/)
-					if (m != null && items3[k].innerHTML == "No.") {
-						items3[k].href = "#" + m[1];
-					}
-				}
-			}
 			replies.innerHTML += "<table>" + table.innerHTML + "</table>"
 		}
 	}
@@ -190,7 +211,7 @@ function processExpandTablesFinish(replies, replies_temp, threadID, tables) {
 	
 	var items2 = replies.getElementsByTagName("table");
 	for (var i=0; i < items2.length; i++) {
-		setReplyPostID(items2[i]);
+		setPostAttributes(items2[i], true);
 	}
 	
 	replaceRefLinksWithQuickReply(replies, threadID);
@@ -239,12 +260,16 @@ function autoNoko(element) {
 
 var enable_quickreply = null;
 var enable_expand = null;
+var enable_expandimages = null;
 var enable_preview = null;
 chrome.extension.sendRequest({reqtype: "get-quickreply"}, function(response) {
 	enable_quickreply = response;
 });
 chrome.extension.sendRequest({reqtype: "get-expand"}, function(response) {
 	enable_expand = response;
+});
+chrome.extension.sendRequest({reqtype: "get-expandimages"}, function(response) {
+	enable_expandimages = response;
 });
 chrome.extension.sendRequest({reqtype: "get-preview"}, function(response) {
 	enable_preview = response;
@@ -294,6 +319,8 @@ function init4chan4chrome() {
 					items[i].name = m[1];
 				}
 			}
+		} else {
+			setExpandImageAttributes(items[i]);
 		}
 	}
 
@@ -312,7 +339,7 @@ function init4chan4chrome() {
 		if (node.nodeName.toLowerCase() == "table" && !node.getAttribute("align")) {
 			node.setAttribute("threadID", threadID);
 			replaceRefLinksWithQuickReply(node, threadID);
-			setReplyPostID(node);
+			setPostAttributes(node);
 		}
 		
 		if (node.className && node.className.toLowerCase() == "omittedposts" && enable_expand) {

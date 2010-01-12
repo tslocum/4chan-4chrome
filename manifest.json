@@ -1,9 +1,17 @@
 {
   "name": "4chan 4chrome",
-  "version": "9001.6",
+  "version": "9001.7",
   "description": "Adds a little extra functionality when browsing 4chan.",
+  "permissions": [
+    "tabs"
+  ],
   "icons": {
     "128": "4chan_icon.png"
+  },
+  "page_action": {
+    "default_icon": "4chan_icon_action.png",
+    "default_title": "4chan 4chrome",
+    "popup": "popup.html"
   },
   "background_page": "background.html",
   "options_page": "options.html",

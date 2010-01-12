@@ -10,7 +10,13 @@
 			document.getElementById("expand").checked = localStorage.getItem("expand") != "true"; 
 			document.getElementById("expandimages").checked = localStorage.getItem("expandimages") != "true"; 
 			document.getElementById("preview").checked = localStorage.getItem("preview") != "true"; 
-			document.getElementById("autonoko").checked = localStorage.getItem("autonoko") == "true"; 
+			document.getElementById("showicon").checked = localStorage.getItem("showicon") != "true";
+			
+			document.getElementById("name").value = (localStorage.getItem("defaultname") != null) ? localStorage.getItem("defaultname") : "";
+			document.getElementById("email").value = (localStorage.getItem("defaultemail") != null) ? localStorage.getItem("defaultemail") : "";
+			document.getElementById("subject").value = (localStorage.getItem("defaultsubject") != null) ? localStorage.getItem("defaultsubject") : "";
+			document.getElementById("comment").value = (localStorage.getItem("defaultcomment") != null) ? localStorage.getItem("defaultcomment") : "";
+			document.getElementById("password").value = (localStorage.getItem("defaultpassword") != null) ? localStorage.getItem("defaultpassword") : "";
 			
 			document.getElementById("quickreply").onchange = function(event) { 
 				localStorage.setItem("quickreply", !this.checked); 
@@ -24,8 +30,24 @@
 			document.getElementById("preview").onchange = function(event) { 
 				localStorage.setItem("preview", !this.checked); 
 			};
-			document.getElementById("autonoko").onchange = function(event) { 
-				localStorage.setItem("autonoko", this.checked); 
+			document.getElementById("showicon").onchange = function(event) { 
+				localStorage.setItem("showicon", !this.checked); 
+			};
+			
+			document.getElementById("name").onchange = function(event) { 
+				localStorage.setItem("defaultname", this.value); 
+			};
+			document.getElementById("email").onchange = function(event) { 
+				localStorage.setItem("defaultemail", this.value); 
+			};
+			document.getElementById("subject").onchange = function(event) { 
+				localStorage.setItem("defaultsubject", this.value); 
+			};
+			document.getElementById("comment").onchange = function(event) { 
+				localStorage.setItem("defaultcomment", this.value); 
+			};
+			document.getElementById("password").onchange = function(event) { 
+				localStorage.setItem("defaultpassword", this.value); 
 			};
 			var date = new Date();
 			datespan = document.getElementById("date");
@@ -126,6 +148,23 @@
 		a:hover {
 			color: #DD0000;
 		}
+		.postblock { background: #EEAA88;
+	color: #800000;
+	font-weight: 800;
+	border: 1px solid #800; font-size: 10pt; padding: 0px 5px;  }
+	.inputtext {
+	margin: 0;
+	margin-right: 2px; 
+	padding: 1px 4px;
+	border: 1px solid #aaa;
+	outline: none;
+	font-family: arial,helvetica,sans-serif; 
+	font-size: 10pt;
+}
+input.inputtext { height: 1.75em; }
+td > .inputtext { height: auto; padding-top: 2px; padding-bottom: 3px; }
+.inputtext:focus { border: 1px solid #ea8; }
+.rules { font-size: 0.85em; margin-bottom: 7px; }
 		.doubledash {
 			color: #D9BFB7;
 		}
@@ -142,8 +181,25 @@
 </head>
 <body onload="initControls();">
 	<h1 style="text-align: center;"><span style="cursor: pointer;" title="Click to visit 4chan 4chrome on the Google Chrome extensions directory" onclick="javascript:window.location.href='https://chrome.google.com/extensions/detail/ncbfnjcklemldbidfoceaffkjofkcomb'">4chan 4chrome</span></h1>
-	<hr>
 	<br>
+	<table align="center" cellpadding=1 cellspacing=1> 
+	<tr><td></td><td class="postblock" align="left"><b>Name</b></td><td><input class=inputtext type=text id=name size="28"><span id="tdname"></span></td></tr> 
+	<tr><td></td><td class="postblock" align="left"><b>E-mail</b></td><td><input class=inputtext type=text id=email size="28"><span id="tdemail"></span></td></tr> 
+	<tr><td></td><td class="postblock" align="left"><b>Subject</b></td><td><input class=inputtext type=text id=subject size="35"><input type=submit value="Submit" accesskey="s" disabled></td></tr> 
+	<tr><td valign=bottom></td><td class="postblock" align="left"><b>Comment</b></td><td><textarea class=inputtext id=comment cols="48" rows="4" wrap=soft></textarea></td></tr> 
+	<tr><td></td><td class="postblock" align="left"><b>File</b></td><td><input type=file name=upfile size="35" disabled></td></tr>
+	<tr><td></td><td class="postblock" align="left"><b>Password</b></td><td><input class=inputtext type=password id="password" size=8 maxlength=8 value="" disabled><small>(Password used for file deletion)</small></tr>
+	<tr><td></td><td colspan=2>
+	<table border=0 cellpadding=0 cellspacing=0 width="100%">
+		<tr>
+			<td class="rules">
+				<li>Enter text in the above fields to set their defaults when browsing</li>
+			</td>
+		</tr>
+	</table>
+	</td></tr>
+	</table>
+	<hr>
 	File: <a href="#" style="color: #0000EE;text-decoration: underline;"><span name="stamp"></span>.png</a>-(19 KB, 128x128, 4chan_4chrome.png)<br>
 	<a href="#"><img src="4chan_icon.png" border="0" align="left" style="margin-left: 10px;margin-right: 10px;"></a>
 	<label for="checkbox">
@@ -173,10 +229,10 @@
 			<input type="checkbox" id="preview"> Post Preview
 		</td></tr></table>
 	</label>
-	<label for="autonoko">
+	<label for="showicon">
 		<table><tr><td nowrap class="doubledash">&gt;&gt;</td><td class="reply">
-			<input type="checkbox" id="autonoko"> Auto Noko All Posts
-		</td></tr></table>
+			<input type="checkbox" id="showicon"> Show Icon
+		</td><td>Note: This option will not take effect immediately</td></tr></table>
 	</label>
 </body>
 </html>

@@ -60,7 +60,7 @@ function quickReplyBox(resto, atElement) {
 	resto_input.type = "hidden";
 	insertAfter(resto_input, firstinput);
 	
-	autoNoko(quickReplyBox);
+	autoFillPostBox(quickReplyBox);
 	
 	return quickReplyBox;
 }
@@ -69,7 +69,11 @@ function quickReplyQuote(resto, postid, atElement) {
 	qrb = quickReplyBox(resto, atElement);
 	var items = qrb.getElementsByTagName("textarea");
 	for (var i=0; i < items.length; i++) {
-		items[i].value = ">>" + postid
+		if (items[i].value != "") {
+			items[i].value = ">>" + postid + "\n\n" + items[i].value;
+		} else { 
+			items[i].value = ">>" + postid;
+		}
 	}
 }
 
@@ -121,14 +125,20 @@ function setExpandImageAttributes(a) {
 				if (a.getAttribute("expanded") == null) {
 					a.setAttribute("expanded", "false");
 					a.setAttribute("expandImage", expandImage);
+					a.setAttribute("expandOriginalHTML", a.innerHTML);
 					a.setAttribute("onClick", "javascript:return false;");
 					a.target = "_self";
 					a.addEventListener("click", function(e) {;
-						if (e.which == 2 || this.getAttribute("expanded") == "true") {
+						if (e.which == 2) {
 							window.open(this.getAttribute("expandImage"), '_blank');
 						} else if (e.which == 1) {
-							this.innerHTML = '<img src="' + this.getAttribute("expandImage") + '"  border="0" align="left" hspace="20">';
-							this.setAttribute("expanded", "true");
+							if (this.getAttribute("expanded") != "true") {
+								this.innerHTML = '<img src="' + this.getAttribute("expandImage") + '"  border="0" align="left" hspace="20">';
+								this.setAttribute("expanded", "true");
+							} else {
+								this.innerHTML = this.getAttribute("expandOriginalHTML")
+								this.setAttribute("expanded", "false");
+							}
 						}
 					}, false);
 
@@ -246,26 +256,53 @@ function processExpand(replies, replies_temp, threadID) {
 	processExpandTables(replies, replies_temp, threadID, tables);
 }
 
-function autoNoko(element) {
+function autoFillPostBox(element) {
 	if (!element) {
 		element = document;
 	}
-	chrome.extension.sendRequest({reqtype: "get-autonoko"}, function(response) {
-		if (response == "true") {
-			var items3 = element.getElementsByTagName("input");
-			for (var j=0; j < items3.length; j++) {
-				if (items3[j].name == "email") {
-					items3[j].value = "noko"
+	if (default_name == null || default_email == null || default_subject == null || default_comment == null || default_password == null) {
+		setTimeout(autoFillPostBox, 10, element);
+	} else {
+		var items3 = element.getElementsByTagName("input");
+		for (var j=0; j < items3.length; j++) {
+			if (items3[j].name == "name") {
+				if (default_name != "") {
+					items3[j].value = default_name;
+				}
+			} else if (items3[j].name == "email") {
+				if (default_email != "") {
+					items3[j].value = default_email;
+				}
+			} else if (items3[j].name == "sub") {
+				if (default_subject != "") {
+					items3[j].value = default_subject;
+				}
+			} else if (items3[j].name == "pwd") {
+				if (default_password != "") {
+					items3[j].value = default_password;
 				}
 			}
 		}
-	});
+		var items3 = element.getElementsByTagName("textarea");
+		for (var j=0; j < items3.length; j++) {
+			if (items3[j].name == "com") {
+				if (default_comment != "") {
+					items3[j].value += default_comment;
+				}
+			}
+		}
+	}
 }
 
 var enable_quickreply = null;
 var enable_expand = null;
 var enable_expandimages = null;
 var enable_preview = null;
+var default_name = null;
+var default_email = null;
+var default_subject = null;
+var default_comment = null;
+var default_password = null;
 chrome.extension.sendRequest({reqtype: "get-quickreply"}, function(response) {
 	enable_quickreply = response;
 });
@@ -278,116 +315,149 @@ chrome.extension.sendRequest({reqtype: "get-expandimages"}, function(response) {
 chrome.extension.sendRequest({reqtype: "get-preview"}, function(response) {
 	enable_preview = response;
 });
+chrome.extension.sendRequest({reqtype: "get-default-name"}, function(response) {
+	default_name = response;
+});
+chrome.extension.sendRequest({reqtype: "get-default-email"}, function(response) {
+	default_email = response;
+});
+chrome.extension.sendRequest({reqtype: "get-default-subject"}, function(response) {
+	default_subject = response;
+});
+chrome.extension.sendRequest({reqtype: "get-default-comment"}, function(response) {
+	default_comment = response;
+});
+chrome.extension.sendRequest({reqtype: "get-default-password"}, function(response) {
+	default_password = response;
+});
+chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
+	if (request.reqtype == "expandall") {
+		var items = document.getElementsByTagName("a");
+		for(var i=0; i < items.length; i++) {
+			if (items[i].getAttribute("expanded") != null) {
+				if (items[i].getAttribute("expanded") == "false") {
+					var evt = document.createEvent("MouseEvents");
+					evt.initMouseEvent("click", true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+					items[i].dispatchEvent(evt);
+				}
+			}
+		}
+	}
+});
 
 var items = document.getElementsByTagName('div');
 for(var i=0; i < items.length; i++) {
 	if (items[i].className == "postarea") {
 		var postarea = items[i].innerHTML;
-		autoNoko(document);
+		autoFillPostBox(document);
 	}
 }
 
 function init4chan4chrome() {
-	var items = document.getElementsByTagName('a');
-	for (var i=0; i < items.length; i++) {
-		if (items[i].innerHTML == "Reply" && enable_quickreply) {
-			var m = items[i].href.match(/.*\/([0-9]+)(?:\.html)?/i);
-			if (m != null) {
-				var threadID = m[1];
-				var quickReply = document.createElement("a");
-				quickReply.href = "#";
-				quickReply.innerHTML = '<img border="0" src="data:image/png;base64,' + base64_quickreply + '" title="Quick Reply">';
-				quickReply.setAttribute("onclick", 'return false;');
-				quickReply.setAttribute("threadID", threadID);
-				quickReply.addEventListener("click", function() {
-					var items2 = document.getElementsByTagName("input");
-					for (var i=0; i < items2.length; i++) {
-						if (items2[i].name.search(this.getAttribute("threadID")) != -1) {
-							quickReplyBox(this.getAttribute("threadID"), items2[i]);
+	if (enable_quickreply == null || enable_expand == null || enable_expandimages == null || enable_preview == null) {
+		setTimeout('init4chan4chrome()', 10);
+	} else {
+		var items = document.getElementsByTagName('a');
+		for (var i=0; i < items.length; i++) {
+			if (items[i].innerHTML == "Reply" && enable_quickreply) {
+				var m = items[i].href.match(/.*\/([0-9]+)(?:\.html)?/i);
+				if (m != null) {
+					var threadID = m[1];
+					var quickReply = document.createElement("a");
+					quickReply.href = "#";
+					quickReply.innerHTML = '<img border="0" src="data:image/png;base64,' + base64_quickreply + '" title="Quick Reply">';
+					quickReply.setAttribute("onclick", 'return false;');
+					quickReply.setAttribute("threadID", threadID);
+					quickReply.addEventListener("click", function() {
+						var items2 = document.getElementsByTagName("input");
+						for (var i=0; i < items2.length; i++) {
+							if (items2[i].name.search(this.getAttribute("threadID")) != -1) {
+								quickReplyBox(this.getAttribute("threadID"), items2[i]);
+							}
 						}
-					}
-				}, false);
-				
-				items[i].parentNode.innerHTML += '<span id="spacer' + threadID + '">&nbsp;</span>';
-				var spacer = document.getElementById("spacer" + threadID);
-				insertAfter(quickReply, spacer);
-			}
-		} else if (items[i].innerHTML == "No.") {
-			var m = items[i].href.match(/.*\/([0-9]+)(?:\.html)?\#([0-9]+)/i);
-			if (m != null) {
-				if (m[1] == m[2]) {
-					items[i].name = m[1];
+					}, false);
+					
+					items[i].parentNode.innerHTML += '<span id="spacer' + threadID + '">&nbsp;</span>';
+					var spacer = document.getElementById("spacer" + threadID);
+					insertAfter(quickReply, spacer);
 				}
-			}
-		} else {
-			setExpandImageAttributes(items[i]);
-		}
-	}
-
-
-	var delform = document.forms[1];
-	var nodes = delform.childNodes;
-	lastnode = null;
-	threadID = null;
-	for (var i=0; i < nodes.length; i++) {
-		node = nodes[i];
-		
-		if (!threadID && node.nodeName.toLowerCase() == "input" && node.type == "checkbox") {
-			threadID = node.name;
-		}
-		
-		if (node.nodeName.toLowerCase() == "table" && !node.getAttribute("align")) {
-			node.setAttribute("threadID", threadID);
-			replaceRefLinksWithQuickReply(node, threadID);
-			setPostAttributes(node);
-		}
-		
-		if (node.className && node.className.toLowerCase() == "omittedposts" && enable_expand) {
-			var expand = document.createElement("a");
-			expand.style.textDecoration = "none";
-			expand.innerHTML = '<img border="0" src="data:image/png;base64,' + base64_expand + '" title="Expand Thread">&nbsp;';
-			expand.href = "#";
-			expand.setAttribute("onClick", 'javascript:return false;');
-			expand.setAttribute("threadID", threadID);
-			
-			node.innerHTML = '<span id="spacer2' + threadID + '"></span>' + node.innerHTML;
-			var spacer = document.getElementById("spacer2" + threadID);
-			spacer.insertBefore(expand);
-			
-			node.setAttribute("threadID", threadID);
-			spacer.setAttribute("threadID", threadID);
-			
-			spacer.addEventListener("click", function() {
-				this.style.textDecoration = "none";
-				this.style.color = "#000000";
-				this.style.fontWeight = "bold";
-				this.innerHTML = '<img border="0" src="data:image/png;base64,' + base64_expandwait + '" title="Expanding...">&nbsp;';
-				var client = new XMLHttpRequest();
-				client.open("GET", "res/" + this.getAttribute("threadID"), true);
-				client.send();
-				client.threadID = this.getAttribute("threadID");
-				client.onreadystatechange = function() {
-					if (client.readyState == 4) {
-						if (client.status == 200) {
-							var replies = document.createElement("span");
-							var replies_temp = document.createElement("span");
-							replies_temp.innerHTML = client.responseText;
-							processExpand(replies, replies_temp, this.threadID);
-						} else if (client.status == 404) {
-							alert("Sorry, thread No." + this.threadID + " has 404'd.");
-						}
+			} else if (items[i].innerHTML == "No.") {
+				var m = items[i].href.match(/.*\/([0-9]+)(?:\.html)?\#([0-9]+)/i);
+				if (m != null) {
+					if (m[1] == m[2]) {
+						items[i].name = m[1];
 					}
-				};
-			}, false);
+				}
+			} else {
+				setExpandImageAttributes(items[i]);
+			}
 		}
-		
-		if (node.nodeName.toLowerCase() == "hr" && lastnode && lastnode.nodeName.toLowerCase() == "br") {
-			threadID = null;
-		}
-		lastnode = node;
-	}
 
-	replaceRefLinksWithQuickReply(null, null);
+
+		var delform = document.forms[1];
+		var nodes = delform.childNodes;
+		lastnode = null;
+		threadID = null;
+		for (var i=0; i < nodes.length; i++) {
+			node = nodes[i];
+			
+			if (!threadID && node.nodeName.toLowerCase() == "input" && node.type == "checkbox") {
+				threadID = node.name;
+			}
+			
+			if (node.nodeName.toLowerCase() == "table" && !node.getAttribute("align")) {
+				node.setAttribute("threadID", threadID);
+				replaceRefLinksWithQuickReply(node, threadID);
+				setPostAttributes(node);
+			}
+			
+			if (node.className && node.className.toLowerCase() == "omittedposts" && enable_expand) {
+				var expand = document.createElement("a");
+				expand.style.textDecoration = "none";
+				expand.innerHTML = '<img border="0" src="data:image/png;base64,' + base64_expand + '" title="Expand Thread">&nbsp;';
+				expand.href = "#";
+				expand.setAttribute("onClick", 'javascript:return false;');
+				expand.setAttribute("threadID", threadID);
+				
+				node.innerHTML = '<span id="spacer2' + threadID + '"></span>' + node.innerHTML;
+				var spacer = document.getElementById("spacer2" + threadID);
+				spacer.insertBefore(expand);
+				
+				node.setAttribute("threadID", threadID);
+				spacer.setAttribute("threadID", threadID);
+				
+				spacer.addEventListener("click", function() {
+					this.style.textDecoration = "none";
+					this.style.color = "#000000";
+					this.style.fontWeight = "bold";
+					this.innerHTML = '<img border="0" src="data:image/png;base64,' + base64_expandwait + '" title="Expanding...">&nbsp;';
+					var client = new XMLHttpRequest();
+					client.open("GET", "res/" + this.getAttribute("threadID"), true);
+					client.send();
+					client.threadID = this.getAttribute("threadID");
+					client.onreadystatechange = function() {
+						if (client.readyState == 4) {
+							if (client.status == 200) {
+								var replies = document.createElement("span");
+								var replies_temp = document.createElement("span");
+								replies_temp.innerHTML = client.responseText;
+								processExpand(replies, replies_temp, this.threadID);
+							} else if (client.status == 404) {
+								alert("Sorry, thread No." + this.threadID + " has 404'd.");
+							}
+						}
+					};
+				}, false);
+			}
+			
+			if (node.nodeName.toLowerCase() == "hr" && lastnode && lastnode.nodeName.toLowerCase() == "br") {
+				threadID = null;
+			}
+			lastnode = node;
+		}
+
+		replaceRefLinksWithQuickReply(null, null);
+	}
 }
 
 // Drag and drop quick reply boxes
@@ -422,4 +492,4 @@ function selectmouse(e) {
 document.onmousedown=selectmouse;
 document.onmouseup=new Function("isdrag=false");
 
-setTimeout('init4chan4chrome()', 200);
+setTimeout('init4chan4chrome()', 10);

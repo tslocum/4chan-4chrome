@@ -1,6 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"> 
 <html>
 <script>
+var lastTabId = null;
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 	if (request.reqtype == "get-quickreply") {
 		sendResponse(!(localStorage.getItem("quickreply") == "true"));
@@ -10,9 +11,48 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 		sendResponse(!(localStorage.getItem("expandimages") == "true"));
 	} else if (request.reqtype == "get-preview") {
 		sendResponse(!(localStorage.getItem("preview") == "true"));
-	} else if (request.reqtype == "get-autonoko") {
-		sendResponse(localStorage.getItem("autonoko"));
+	} else if (request.reqtype == "get-tabid") {
+		chrome.tabs.getSelected(null, function(tab) {
+			sendResponse(tab.id);
+		});
+	} else if (request.reqtype == "get-default-name") {
+		sendResponse((localStorage.getItem("defaultname") != null) ? localStorage.getItem("defaultname") : "");
+	} else if (request.reqtype == "get-default-email") {
+		sendResponse((localStorage.getItem("defaultemail") != null) ? localStorage.getItem("defaultemail") : "");
+	} else if (request.reqtype == "get-default-subject") {
+		sendResponse((localStorage.getItem("defaultsubject") != null) ? localStorage.getItem("defaultsubject") : "");
+	} else if (request.reqtype == "get-default-comment") {
+		sendResponse((localStorage.getItem("defaultcomment") != null) ? localStorage.getItem("defaultcomment") : "");
+	} else if (request.reqtype == "get-default-password") {
+		sendResponse("");
+		//sendResponse((localStorage.getItem("defaultpassword") != null) ? localStorage.getItem("defaultpassword") : "");
 	}
+});
+function refreshIcon(tabId) {
+	chrome.tabs.get(tabId, function(tab) {
+		var m = tab.url.match(/http(?:s)?\:\/\/.*\.4chan\.org\/.*/i);
+		if (m != null) {
+			if (!(localStorage.getItem("showicon") == "true")) {
+				chrome.pageAction.show(tabId);
+			} else {
+				chrome.pageAction.hide(tabId);
+			}
+		}
+	});
+}
+chrome.tabs.onSelectionChanged.addListener(function(tabId) {
+	lastTabId = tabId;
+	refreshIcon(tabId);
+});
+chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
+	lastTabId = tabId;
+	if(changeInfo.status == "complete") {
+		refreshIcon(tabId);
+	}
+});
+chrome.tabs.getSelected(null, function(tab) {
+	lastTabId = tab.id;
+	refreshIcon(tab.id);
 });
 </script>
 i'm 12 years old and what is this?

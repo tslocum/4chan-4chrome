@@ -16,10 +16,30 @@ function insertAfter(newElement,targetElement) {
 	}
 }
 
+function checkQuickReplyBoxSubmitted(qrbid) {
+	var qrb = document.getElementById(qrbid);
+	var qrb_iframe = qrb.getElementsByTagName("iframe")[0];
+	if (qrb_iframe.src.search("Updating page.") != -1) {
+		closeQuickReplyBox(qrbid)
+	} else {
+		setTimeout(checkQuickReplyBoxSubmitted, 200, qrbid);
+	}
+}
+
+function closeQuickReplyBox(qrbid) {
+	var qrb = document.getElementById(qrbid);
+	qrb.parentNode.removeChild(qrb);
+}
+
 function quickReplyBox(resto, atElement) {
 	var quickReplyBox = document.createElement("div");
-	quickReplyBox.id = "qr" + resto;
-	quickReplyBox.innerHTML = '<span style="float: right;cursor: pointer;font-weight: bold;font-size: 1.1em;padding: 1px;" onclick="javascript:var qr=document.getElementById(\'qr' + resto + '\');qr.parentNode.removeChild(qr);return false;">&nbsp;X&nbsp;</span><div style="text-align: center;cursor: move;padding: 1px;margin-bottom: 10px;" class="postblock">Quick Reply (#' + resto + ')</div>' + postarea;
+	var qrbid = "qr" + Math.floor(Math.random()*1000)
+	quickReplyBox.id = qrbid;
+	quickReplyBox.style.borderTop = "0px none";
+	quickReplyBox.style.borderBottom = "1px solid #CCCCCC";
+	quickReplyBox.style.borderLeft = "1px solid #CCCCCC";
+	quickReplyBox.style.borderRight = "1px solid #CCCCCC";
+	quickReplyBox.innerHTML = '<span style="float: right;cursor: pointer;font-weight: bold;font-size: 1.1em;padding: 1px;" onclick="javascript:var qr=document.getElementById(\'' + qrbid + '\');qr.parentNode.removeChild(qr);return false;">&nbsp;X&nbsp;</span><div style="text-align: center;cursor: move;padding: 1px;margin-bottom: 10px;" class="postblock">Quick Reply (#' + resto + ')</div>' + postarea + '<iframe id="' + qrbid + 'iframe" src="about:blank" style="display: none;min-width:100px;height:50px;margin:0px;padding:0px;"></iframe>';
 	quickReplyBox.className = "reply";
 	quickReplyBox.style.margin = "0";
 	quickReplyBox.style.padding = "0";
@@ -41,15 +61,38 @@ function quickReplyBox(resto, atElement) {
 	var items3 = quickReplyBox.getElementsByTagName("table");
 	for (var j=0; j < items3.length; j++) {
 		if (items3[j].width == "100%") {
-			items3[j].style.display = "none";
+			items3[j].parentNode.removeChild(items3[j]);
 		}
 	}
 	var items3 = quickReplyBox.getElementsByTagName("div");
 	for (var j=0; j < items3.length; j++) {
 		if (items3[j].className != "postblock") {
-			items3[j].style.display = "none";
+			items3[j].parentNode.removeChild(items3[j]);
 		}
 	}
+	var items3 = quickReplyBox.getElementsByTagName("tr");
+	for (var j=0; j < items3.length; j++) {
+		if (items3[j].innerHTML == "<td></td><td colspan=\"2\">\n</td>") {
+			items3[j].parentNode.removeChild(items3[j]);
+		}
+	}
+	quickReplyBox.getElementsByTagName("form")[0].id = qrbid + "form";
+	var items3 = quickReplyBox.getElementsByTagName("input");
+	for (var j=0; j < items3.length; j++) {
+		if (items3[j].value == "Submit") {
+			items3[j].setAttribute("submitted", "false");
+			items3[j].setAttribute("qrbid", qrbid);
+			items3[j].addEventListener("click", function() {
+				document.getElementById(this.getAttribute("qrbid") + "iframe").style.display = "block";
+				document.getElementById(this.getAttribute("qrbid") + "form").submit();
+				/*if (this.getAttribute("submitted") == "false") {
+					setTimeout(checkQuickReplyBoxSubmitted, 200, qrbid);
+					this.setAttribute("submitted", "true");
+				}*/
+			}, false);
+		}
+	}
+	quickReplyBox.getElementsByTagName("form")[0].setAttribute("target", qrbid + "iframe");
 	insertAfter(quickReplyBox, atElement);
 	
 	// Set resto
@@ -299,7 +342,6 @@ function autoFillPostBox(element) {
 }
 
 function fetchLatestPosts() {
-	var has404d = false;
 	var threadID = false;
 	var m = window.location.href.match(/.*\/res\/([0-9]+).*/i);
 	if (m != null) {
@@ -313,8 +355,17 @@ function fetchLatestPosts() {
 		client.threadID = threadID;
 		client.onreadystatechange = function() {
 			if (client.readyState == 4) {
-				if (client.status == 200) {
-					var replies = [];
+				var replies = [];
+				if (client.status == 404) {
+					if (document.forms[1].getAttribute("has404d") == "false") {
+						document.forms[1].setAttribute("has404d", "true");
+						var reply_404 = document.createElement("span");
+						reply_404.innerHTML = "This thread has 404'd";
+						reply_404.style.color = "red";
+						reply_404.style.fontSize = "2.0em";
+						replies.push(reply_404);
+					}
+				} else if (client.status == 200) {
 					var replies_temp = document.createElement("span");
 					replies_temp.innerHTML = client.responseText;
 					var items = replies_temp.getElementsByTagName("table");
@@ -328,38 +379,37 @@ function fetchLatestPosts() {
 									found = true;
 								}
 							}
-							
 							if (!found) {
 								replies.push(items[i]);
 							}
 						}
 					}
-					if (replies.length > 0) {
-						var lastreply = false;
-						for (var i=0; i < replies.length; i++) {
-							if (!lastreply) {
-								var items2 = document.forms[1].getElementsByTagName("table");
-								for (var j=0; j < items2.length; j++) {
-									if (items2[j].getAttribute("postID") != null && items2[j].getAttribute("op") == null) {
-										lastreply = items2[j];
-									}
+				}
+				if (replies.length > 0) {
+					var lastreply = false;
+					for (var i=0; i < replies.length; i++) {
+						if (!lastreply) {
+							var items2 = document.forms[1].getElementsByTagName("table");
+							for (var j=0; j < items2.length; j++) {
+								if (items2[j].getAttribute("postID") != null && items2[j].getAttribute("op") == null) {
+									lastreply = items2[j];
 								}
 							}
-							if (!lastreply) {
-								lastreply = document.forms[1].getElementsByTagName("blockquote")[0];
-							}
-							insertAfter(replies[i], lastreply);
-							lastreply = replies[i];
 						}
+						if (!lastreply) {
+							lastreply = document.forms[1].getElementsByTagName("blockquote")[0];
+						}
+						insertAfter(replies[i], lastreply);
+						lastreply = replies[i];
+					}
+					if (document.forms[1].getAttribute("has404d") == "false") {
 						setTimeout('init4chan4chrome()', 10);
 					}
-				} else if (client.status == 404) {
-					has404d = true;
 				}
 			}
 		};
 		
-		if (!has404d) {
+		if (document.forms[1].getAttribute("has404d") == "false") {
 			setTimeout('fetchLatestPosts()', 5000);
 		}
 	}
@@ -432,7 +482,7 @@ for(var i=0; i < items.length; i++) {
 function init4chan4chrome() {
 	if (enable_quickreply == null || enable_expand == null || enable_expandimages == null || enable_preview == null || enable_fetchreplies == null) {
 		setTimeout('init4chan4chrome()', 10);
-	} else {
+	} else if (document.forms.length > 0) {
 		var items = document.getElementsByTagName('a');
 		for (var i=0; i < items.length; i++) {
 			if (items[i].innerHTML == "Reply" && enable_quickreply) {
@@ -469,7 +519,7 @@ function init4chan4chrome() {
 			}
 		}
 
-
+		
 		var delform = document.forms[1];
 		var nodes = delform.childNodes;
 		
@@ -555,7 +605,10 @@ function init4chan4chrome() {
 		if (enable_fetchreplies) {
 			var m = window.location.href.match(/.*\/res\/[0-9]+.*/i);
 			if (m != null) {
-				setTimeout('fetchLatestPosts()', 5000);
+				if (document.forms[1].getAttribute("has404d") == null) {
+					document.forms[1].setAttribute("has404d", "false");
+					setTimeout('fetchLatestPosts()', 5000);
+				}
 			}
 			enable_fetchreplies = false;
 		}

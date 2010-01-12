@@ -1,0 +1,45 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"> 
+<html>
+<head>
+	<title>
+		4chan 4chrome Options
+	</title>
+	<script type="text/javascript"> 
+		function initControls() { 
+			document.getElementById("autonoko").checked = localStorage.getItem("autonoko") == "true"; 
+			
+			document.getElementById("autonoko").onchange = function(event) { 
+				localStorage.setItem("autonoko", this.checked); 
+			};
+		} 
+	</script> 
+	<style type="text/css">
+		body {
+			margin: 1.0em;
+			background: #FFFFEE url(fade.png) top center repeat-x;
+			font-family: "Helvetica", "Arial", "FreeSans";
+			color: #800000;
+			font-size: 1.5em;
+		}
+		h1 {
+			font-size: 2em;
+			color: #800000;
+			margin-bottom: 3px;
+			font-family: "Tahoma";
+		}
+		hr {
+			border: 0;
+			width: 80%;
+			border-bottom: 1px solid #aaa;
+		}
+	</style>
+</head>
+<body onload="initControls();">
+	<h1 style="text-align: center;"><span style="cursor: pointer;" onclick="javascript:window.location.href='https://chrome.google.com/extensions/detail/ncbfnjcklemldbidfoceaffkjofkcomb'">4chan 4chrome</span></h1>
+	<hr>
+	<br>
+	<div>
+		<label for="autonoko">Auto noko all posts:</label> <input type="checkbox" id="autonoko">
+	</div>
+</body>
+</html>

@@ -15,8 +15,10 @@ function insertAfter(newElement,targetElement) {
 function quickReplyBox(resto, atElement) {
 	var quickReplyBox = document.createElement("div");
 	quickReplyBox.id = "qr" + resto;
-	quickReplyBox.innerHTML = '<span style="float: right;cursor: pointer;" onclick="javascript:var qr=document.getElementById(\'qr' + resto + '\');qr.parentNode.removeChild(qr);return false;">&nbsp;X&nbsp;</span><div style="text-align: center;" class="postblock">Quick Reply (#' + resto + ')</div>' + postarea;
+	quickReplyBox.innerHTML = '<span style="float: right;cursor: pointer;font-weight: bold;font-size: 1.1em;padding: 1px;" onclick="javascript:var qr=document.getElementById(\'qr' + resto + '\');qr.parentNode.removeChild(qr);return false;">&nbsp;X&nbsp;</span><div style="text-align: center;cursor: move;padding: 1px;margin-bottom: 10px;" class="postblock">Quick Reply (#' + resto + ')</div>' + postarea;
 	quickReplyBox.className = "reply";
+	quickReplyBox.style.margin = "0";
+	quickReplyBox.style.padding = "0";
 	quickReplyBox.style.position = "absolute";
 	var offsetLeft = atElement.offsetLeft;
 	var offsetTop = atElement.offsetTop;
@@ -53,6 +55,9 @@ function quickReplyBox(resto, atElement) {
 	resto_input.value = resto;
 	resto_input.type = "hidden";
 	insertAfter(resto_input, firstinput);
+	
+	autoNoko(quickReplyBox);
+	
 	return quickReplyBox;
 }
 
@@ -100,10 +105,27 @@ function replaceRefLinksWithQuickReply(searchElement, resto_override) {
 	}
 }
 
+function autoNoko(element) {
+	if (!element) {
+		element = document;
+	}
+	chrome.extension.sendRequest({reqtype: "get-autonoko"}, function(response) {
+		if (response == "true") {
+			var items3 = element.getElementsByTagName("input");
+			for (var j=0; j < items3.length; j++) {
+				if (items3[j].name == "email") {
+					items3[j].value = "noko"
+				}
+			}
+		}
+	});
+}
+
 var items = document.getElementsByTagName('div');
 for(var i=0; i < items.length; i++) {
 	if (items[i].className == "postarea") {
 		var postarea = items[i].innerHTML;
+		autoNoko(document);
 	}
 }
 
@@ -227,3 +249,38 @@ for (var i=0; i < nodes.length; i++) {
 }
 
 replaceRefLinksWithQuickReply(null, null);
+
+// Drag and drop quick reply boxes
+var isdrag=false;
+var x,y;
+var dobj;
+
+function movemouse(e)
+{
+  if (isdrag)
+  {
+    dobj.style.left = tx + e.clientX - x;
+    dobj.style.top  = ty + e.clientY - y;
+    return false;
+  }
+}
+
+function selectmouse(e)
+{
+  var fobj = e.target;
+  while (fobj.tagName.toLowerCase() != "html" && !(fobj.className=="postblock" && fobj.style.textAlign == "center")) {
+    fobj = fobj.parentNode;
+  }
+  if (fobj.className=="postblock" && fobj.style.textAlign == "center") {
+    isdrag = true;
+    dobj = fobj.parentNode;
+    tx = parseInt(dobj.style.left+0,10);
+    ty = parseInt(dobj.style.top+0,10);
+    x = e.clientX;
+    y = e.clientY;
+    document.onmousemove=movemouse;
+    return false;
+  }
+}
+document.onmousedown=selectmouse;
+document.onmouseup=new Function("isdrag=false");

@@ -189,6 +189,16 @@
 			font-size: 1.5em;
 			padding: 4px;
 		}
+		.entry {
+			padding-left: 7px;
+		}
+		.replytitle {
+			white-space: pre;
+		}
+		.replytext {
+			font-size: 0.8em;
+			white-space: pre;
+		}
 	</style>
 </head>
 <body onload="initControls();">
@@ -216,45 +226,66 @@
 	<a href="#"><img src="4chan_icon.png" border="0" align="left" style="margin-left: 10px;margin-right: 10px;"></a>
 	<label for="checkbox">
 		<input type="checkbox" id="checkbox">
-		<span style="font-weight: 800;"><span style="color: #117743;">Anonymous</span> <span style="color: #CC1105;">4chan 4chrome Options</span></span> <span id="date"></span> <a href="#">No.</a><a href="#"><span name="stamp"></span></a>
+		<span style="font-weight: 800;"><span style="color: #CC1105;">4chan 4chrome Options</span> <span style="color: #117743;">Anonymous</span></span> <span id="date"></span> <a href="#">No.</a><a href="#"><span name="stamp"></span></a>
 	</label>
 	<blockquote>
 		Enable or disable the features of this extension by using the controls below.
 	</blockquote>
 	<label for="quickreply">
-		<table><tr><td nowrap class="doubledash">&gt;&gt;</td><td class="reply">
-			<input type="checkbox" id="quickreply"> Quick Reply
-		</td><td><label for="quickreplyiframe"><input type="checkbox" id="quickreplyiframe"> Use inline frame</label></td></tr></table>
+		<table><tr><td nowrap class="doubledash">&gt;&gt;</td>
+		<td class="reply"><input type="checkbox" id="quickreply"></td>
+		<td class="reply entry">
+			<span class="replytitle">Quick Reply</span><br>
+			<span class="replytext"><label for="quickreplyiframe"><input type="checkbox" id="quickreplyiframe"> Use inline frame</label></span>
+		</td></tr></table>
 	</label>
 	<label for="expand">
-		<table><tr><td nowrap class="doubledash">&gt;&gt;</td><td class="reply">
-			<input type="checkbox" id="expand"> Thread Expansion
+		<table><tr><td nowrap class="doubledash">&gt;&gt;</td>
+		<td class="reply"><input type="checkbox" id="expand"></td>
+		<td class="reply entry">
+			<span class="replytitle">Thread Expansion</span><br>
+			<span class="replytext">Display all replies to a thread without leaving the page</span>
 		</td></tr></table>
 	</label>
 	<label for="expandimages">
-		<table><tr><td nowrap class="doubledash">&gt;&gt;</td><td class="reply">
-			<input type="checkbox" id="expandimages"> Image Expansion
+		<table><tr><td nowrap class="doubledash">&gt;&gt;</td>
+		<td class="reply"><input type="checkbox" id="expandimages"></td>
+		<td class="reply entry">
+			<span class="replytitle">Image Expansion</span><br>
+			<span class="replytext">Left-click a thumbnail to expand it within the page</span>
 		</td></tr></table>
 	</label>
 	<label for="preview">
-		<table><tr><td nowrap class="doubledash">&gt;&gt;</td><td class="reply">
-			<input type="checkbox" id="preview"> Post Preview
+		<table><tr><td nowrap class="doubledash">&gt;&gt;</td>
+		<td class="reply"><input type="checkbox" id="preview"></td>
+		<td class="reply entry">
+			<span class="replytitle">Post Preview</span><br>
+			<span class="replytext">When hovering over &gt;&gt;####### links, display the post it references</span>
 		</td></tr></table>
 	</label>
 	<label for="fetchreplies">
-		<table><tr><td nowrap class="doubledash">&gt;&gt;</td><td class="reply">
-			<input type="checkbox" id="fetchreplies"> Fetch New Replies
-		</td><td>Note: Only available when the full thread is viewed (e.g. clicking Reply)</td></tr></table>
+		<table><tr><td nowrap class="doubledash">&gt;&gt;</td>
+		<td class="reply"><input type="checkbox" id="fetchreplies"></td>
+		<td class="reply entry">
+			<span class="replytitle">Fetch New Replies</span><br>
+			<span class="replytext">Note: Only available when the full thread is viewed (e.g. clicking Reply)</span>
+		</td></tr></table>
 	</label>
 	<label for="autonoko">
-		<table><tr><td nowrap class="doubledash">&gt;&gt;</td><td class="reply">
-			<input type="checkbox" id="autonoko"> Auto Noko
-		</td><td>This will always return you to a post you have made, regardless of your e-mail</td></tr></table>
+		<table><tr><td nowrap class="doubledash">&gt;&gt;</td>
+		<td class="reply"><input type="checkbox" id="autonoko"></td>
+		<td class="reply entry">
+			<span class="replytitle">Auto Noko</span><br>
+			<span class="replytext">Always behave as if noko was entered in the e-mail field</span>
+		</td></tr></table>
 	</label>
 	<label for="showicon">
-		<table><tr><td nowrap class="doubledash">&gt;&gt;</td><td class="reply">
-			<input type="checkbox" id="showicon"> Show Icon
-		</td><td>Note: This option will not take effect immediately</td></tr></table>
+		<table><tr><td nowrap class="doubledash">&gt;&gt;</td>
+		<td class="reply"><input type="checkbox" id="showicon"></td>
+		<td class="reply entry">
+			<span class="replytitle">Show Icon</span><br>
+			<span class="replytext">Note: This option will not take effect immediately</span>
+		</td></tr></table>
 	</label>
 </body>
 </html>

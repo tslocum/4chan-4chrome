@@ -105,6 +105,55 @@ function replaceRefLinksWithQuickReply(searchElement, resto_override) {
 	}
 }
 
+function setReplyPostID(element) {
+	var items = element.getElementsByTagName('a');
+	for(var j=0; j < items.length; j++) {
+		var m = items[j].href.match(/.*\/[0-9]+\.html\#([0-9]+)/i);
+		if (m == null) {
+			var m = items[j].href.match(/\#([0-9]+)/i);
+		}
+		if (m != null) {
+			if (items[j].innerHTML == "No.") {
+				element.setAttribute("postID", m[1]);
+			} else {
+				var m2 = items[j].innerHTML.match(/^\&gt\;\&gt\;[0-9]+/i);
+				if (m2 != null) {
+					items[j].setAttribute("refID", m[1]);
+					items[j].addEventListener("mousemove", function(e) {
+						var preview = document.getElementById("ref" + this.getAttribute("refID"));
+						if (!preview) {
+							var preview = document.createElement("div");
+							preview.id = "ref" + this.getAttribute("refID");
+							preview.className = "reply";
+							preview.style.margin = "0";
+							preview.style.padding = "0";
+							preview.style.position = "absolute";
+							
+							var items2 = document.getElementsByTagName("table");
+							for (var i=0; i < items2.length; i++) {
+								var postid = items2[i].getAttribute("postID");
+								if (postid && postid == this.getAttribute("refID")) {
+									preview.innerHTML = items2[i].innerHTML;
+								}
+							}
+							
+							insertAfter(preview, this);
+						}
+						preview.style.left = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft + 25;
+						preview.style.top = e.clientY + document.body.scrollTop + document.documentElement.scrollTop + 10;
+					}, false);
+					items[j].addEventListener("mouseout", function() {
+						var preview = document.getElementById("ref" + this.getAttribute("refID"));
+						if (preview) {
+							preview.parentNode.removeChild(preview);
+						}
+					}, false);
+				}
+			}
+		}
+	}
+}
+
 function autoNoko(element) {
 	if (!element) {
 		element = document;
@@ -181,6 +230,7 @@ for (var i=0; i < nodes.length; i++) {
 	if (node.nodeName.toLowerCase() == "table" && !node.getAttribute("align")) {
 		node.setAttribute("threadID", threadID);
 		replaceRefLinksWithQuickReply(node, threadID);
+		setReplyPostID(node);
 	}
 	
 	if (node.className && node.className.toLowerCase() == "omittedposts") {
@@ -215,6 +265,11 @@ for (var i=0; i < nodes.length; i++) {
 						}
 					}
 					replies_temp.style.display = "none";
+					
+					var items2 = replies.getElementsByTagName("table");
+					for (var i=0; i < items2.length; i++) {
+						setReplyPostID(items2[i]);
+					}
 					
 					replaceRefLinksWithQuickReply(replies, this.threadID);
 					
@@ -255,32 +310,29 @@ var isdrag=false;
 var x,y;
 var dobj;
 
-function movemouse(e)
-{
-  if (isdrag)
-  {
-    dobj.style.left = tx + e.clientX - x;
-    dobj.style.top  = ty + e.clientY - y;
-    return false;
-  }
+function movemouse(e) {
+	if (isdrag) {
+		dobj.style.left = tx + e.clientX - x;
+		dobj.style.top = ty + e.clientY - y;
+		return false;
+	}
 }
 
-function selectmouse(e)
-{
-  var fobj = e.target;
-  while (fobj.tagName.toLowerCase() != "html" && !(fobj.className=="postblock" && fobj.style.textAlign == "center")) {
-    fobj = fobj.parentNode;
-  }
-  if (fobj.className=="postblock" && fobj.style.textAlign == "center") {
-    isdrag = true;
-    dobj = fobj.parentNode;
-    tx = parseInt(dobj.style.left+0,10);
-    ty = parseInt(dobj.style.top+0,10);
-    x = e.clientX;
-    y = e.clientY;
-    document.onmousemove=movemouse;
-    return false;
-  }
+function selectmouse(e) {
+	var fobj = e.target;
+	while (fobj.tagName.toLowerCase() != "html" && !(fobj.className=="postblock" && fobj.style.textAlign == "center")) {
+		fobj = fobj.parentNode;
+	}
+	if (fobj.className=="postblock" && fobj.style.textAlign == "center") {
+		isdrag = true;
+		dobj = fobj.parentNode;
+		tx = parseInt(dobj.style.left+0,10);
+		ty = parseInt(dobj.style.top+0,10);
+		x = e.clientX;
+		y = e.clientY;
+		document.onmousemove=movemouse;
+		return false;
+	}
 }
 document.onmousedown=selectmouse;
 document.onmouseup=new Function("isdrag=false");

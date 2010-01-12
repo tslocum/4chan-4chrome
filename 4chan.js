@@ -454,7 +454,7 @@ function fetchLatestPosts() {
 							replies_temp.innerHTML = client2.responseText;
 							var items = replies_temp.getElementsByTagName("table");
 							for (var i=0; i < items.length; i++) {
-								setPostAttributes(items[i]);
+								setPostAttributes(items[i], true);
 								if (items[i].getAttribute("postID") != null) {
 									var found = false;
 									var items2 = document.forms[1].getElementsByClassName("4c4c_reply");
@@ -747,7 +747,7 @@ function init4chan4chrome(element) {
 				if (m != null) {
 					if (delform.getAttribute("has404d") == null) {
 						delform.setAttribute("has404d", "false");
-						setTimeout('fetchLatestPosts()', 500);
+						setTimeout('fetchLatestPosts()', 5000);
 					}
 				}
 				enable_fetchreplies = false;

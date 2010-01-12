@@ -180,6 +180,10 @@ function setPostAttributes(element, setExpand) {
 								var postid = items2[i].getAttribute("postID");
 								if (postid && postid == this.getAttribute("refID")) {
 									preview.innerHTML = items2[i].innerHTML;
+									if (items2[i].getAttribute("op") == "true") {
+										preview.className = "postblock";
+										preview.innerHTML = '<div style="position: absolute;right: 0px;top: 0px;font-size: 1.5em;margin: 0px;padding: 1px;" class="unkfunc">OP</div>' + preview.innerHTML;
+									}
 								}
 							}
 							
@@ -396,8 +400,10 @@ function init4chan4chrome() {
 
 		var delform = document.forms[1];
 		var nodes = delform.childNodes;
+		
 		lastnode = null;
 		threadID = null;
+		
 		for (var i=0; i < nodes.length; i++) {
 			node = nodes[i];
 			
@@ -454,6 +460,21 @@ function init4chan4chrome() {
 				threadID = null;
 			}
 			lastnode = node;
+		}
+		
+		var threads = [];
+		var items = document.forms[1].innerHTML.split('<br clear="left"><hr>');
+		
+		for (var i=0; i < items.length; i++) {
+			var m = items[i].match(/.*\<input type\=\"checkbox\" name\=\"([0-9]+)\".*/i);
+			if (m != null) {
+				var table = document.createElement("table");
+				table.innerHTML = items[i].split("</blockquote>")[0] + "</blockquote>"			
+				table.setAttribute("postID", m[1]);
+				table.setAttribute("op", "true");
+				table.style.display = "none";
+				document.forms[1].appendChild(table);
+			}
 		}
 
 		replaceRefLinksWithQuickReply(null, null);

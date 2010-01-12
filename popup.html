@@ -1,15 +1,39 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"> 
 <html>
+<head>
 <style>
 body {
-	white-space: pre;
+  margin: 0px;
+  background-color: Menu;
+}
+.menuitem {
+  height: 16px;
+  padding: 2px 14px;
+  white-space: nowrap;
+  color: MenuText;
+  font: menu;
+  cursor: pointer;
+}
+.menuitem:hover {
+  color: HighlightText;
+  background-color: Highlight;
+}
+.separator {
+  height: 1px;
+  margin: 4px 2px;
+  border-top: 1px solid grey;
 }
 </style>
 <script>
 function expandAll() {
 	chrome.extension.sendRequest({reqtype: "get-tabid"}, function(response) {
 		chrome.tabs.sendRequest(response, {reqtype: "expandall"});
+		window.close();
 	});
+}
+function openOptions() {
+	chrome.tabs.create({url: "options.html"});
+	window.close();
 }
 chrome.extension.sendRequest({reqtype: "get-expandimages"}, function(response) {
 	if (response == false) {
@@ -20,5 +44,10 @@ chrome.extension.sendRequest({reqtype: "get-expandimages"}, function(response) {
 	}
 });
 </script>
-<button type="button" onclick="javascript:expandAll();return false;">Expand All Thumbnails</a>
+</head>
+<body>
+<div class="menuitem" onclick="javascript:expandAll();return false;">Expand All Thumbnails</div>
+<div class="separator"></div>
+<div class="menuitem" onclick="javascript:openOptions();return false;">4chan 4chrome Options</div>
+</body>
 </html>

@@ -125,7 +125,7 @@ function quickReplyQuote(resto, postid, atElement) {
 		if (items[i].value != "") {
 			items[i].value = ">>" + postid + "\n\n" + items[i].value;
 		} else { 
-			items[i].value = ">>" + postid;
+			items[i].value = ">>" + postid + "\n";
 		}
 	}
 }
@@ -148,11 +148,17 @@ function replaceRefLinksWithQuickReply(searchElement, resto_override) {
 						resto = m[1];
 					}
 				}
+				if (items[i].innerText.search("X") != -1) {
+					items[i].innerText = postid;
+				}
 			} else if (items[i].className == "quotejs") {
 				var m = items[i].href.match(/[.*]?res\/([0-9]+)(?:\.html)?\#q([0-9]+)/i);
 				if (m != null) {
 					resto = m[1];
 					postid = m[2];
+					if (items[i].innerText.search("X") != -1) {
+						items[i].innerText = postid;
+					}
 				}
 			}
 			if (enable_quickreply && postid && resto && items[i].href != "javascript:return false;") {
@@ -794,7 +800,7 @@ document.onmouseup=new Function("isdrag=false");
 if (document.forms.length == 0) {
 	var m = window.location.href.match(/http\:\/\/.*\.4chan\.org\/.*\#return\=(.*)/i);
 	if (m != null) {
-		if (document.body.innerHTML.search("Updating ") > -1 && document.body.innerHTML.search("Updating ") < 100) {
+		if (document.body.innerHTML.search("<\!-- thread\:") > -1 && document.body.innerHTML.search("<\!-- thread\:") < 500) {
 			var m2 = document.body.innerHTML.match(/\.*<\!-- thread\:([0-9]+),no\:([0-9]+) --\>.*/i);
 			if (m2 != null) {
 				if (m2[1] == 0) {

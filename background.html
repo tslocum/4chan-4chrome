@@ -21,6 +21,8 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 		sendResponse(!(localStorage.getItem("sage") == "true"));
 	} else if (request.reqtype == "get-report") {
 		sendResponse(localStorage.getItem("report") == "true");
+	} else if (request.reqtype == "get-returntotop") {
+		sendResponse(!(localStorage.getItem("returntotop") == "true"));
 	} else if (request.reqtype == "get-tabid") {
 		chrome.tabs.getSelected(null, function(tab) {
 			sendResponse(tab.id);

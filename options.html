@@ -15,6 +15,7 @@
 			document.getElementById("autonoko").checked = localStorage.getItem("autonoko") != "true";
 			document.getElementById("sage").checked = localStorage.getItem("sage") != "true";
 			document.getElementById("report").checked = localStorage.getItem("report") == "true";
+			document.getElementById("returntotop").checked = localStorage.getItem("returntotop") != "true";
 			document.getElementById("showicon").checked = localStorage.getItem("showicon") != "true";
 			
 			document.getElementById("name").value = (localStorage.getItem("defaultname") != null) ? localStorage.getItem("defaultname") : "";
@@ -49,6 +50,9 @@
 			};
 			document.getElementById("report").onchange = function(event) { 
 				localStorage.setItem("report", this.checked); 
+			};
+			document.getElementById("returntotop").onchange = function(event) { 
+				localStorage.setItem("returntotop", !this.checked); 
 			};
 			document.getElementById("showicon").onchange = function(event) { 
 				localStorage.setItem("showicon", !this.checked); 
@@ -301,6 +305,14 @@
 		<td class="reply entry">
 			<span class="replytitle">Auto Noko</span><br>
 			<span class="replytext">Always behave as if noko was entered in the e-mail field</span>
+		</td></tr></table>
+	</label>
+	<label for="returntotop">
+		<table><tr><td nowrap class="doubledash">&gt;&gt;</td>
+		<td class="reply"><input type="checkbox" id="returntotop"></td>
+		<td class="reply entry">
+			<span class="replytitle">Return to Top</span><br>
+			<span class="replytext">Adds a link to return to the top of the page</span>
 		</td></tr></table>
 	</label>
 	<label for="showicon">

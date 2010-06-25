@@ -174,12 +174,14 @@ function replaceRefLinksWithQuickReply(searchElement, resto_override) {
 				items[i].href = "javascript:false;"
 			}
 			if (enable_report && postid && items[i].getAttribute("processed") == null) {
-				var report = document.createElement("a");
 				var m2 = document.location.href.match(/.*\.4chan\.org\/([0-9a-zA-Z]+)\/.*/i);
-				report.href = "javascript:reppop('http://sys.4chan.org/" + m2[1] + "/imgboard.php?mode=report&no=" + postid + "');return false;";
-				report.style.textDecoration = "none";
-				report.innerHTML = ' <img border="0" src="data:image/png;base64,' + base64_report + '" title="Report Post">';
-				insertAfter(report, items[i]);
+				if (m2) {
+					var report = document.createElement("a");
+					report.href = "javascript:reppop('http://sys.4chan.org/" + m2[1] + "/imgboard.php?mode=report&no=" + postid + "');return false;";
+					report.style.textDecoration = "none";
+					report.innerHTML = ' <img border="0" src="data:image/png;base64,' + base64_report + '" title="Report Post">';
+					insertAfter(report, items[i]);
+				}
 				items[i].setAttribute("processed", "true");
 			}
 			if (enable_sage && items[i].href.toLowerCase() == "mailto:sage" && items[i].getAttribute("processed") == null) {
@@ -199,7 +201,10 @@ function setExpandImageAttributes(a) {
 		if (m == null) {
 			m = a.href.match(/.*4chanarchive\.org\/images\/(.*)/i);
 		}
-		if (m != null) {
+		if (m == null) {
+			m = a.href.match(/.*inb4\.im\/.*\/src\/(.*)/i);
+		}
+		if (m) {
 			if (a.innerHTML.substring(0, 4) == "<img") {
 				if (a.getAttribute("expanded") == null) {
 					a.setAttribute("expanded", "false");
@@ -259,7 +264,7 @@ function setPostAttributes(element, setExpand) {
 							preview.style.padding = "0";
 							preview.style.position = "absolute";
 							
-							if (window.location.href.search("4chanarchive.org") != -1) {
+							if (window.location.href.search("4chan.org") == -1) {
 								var items2 = document.getElementsByTagName("table");
 							} else {
 								var items2 = document.getElementsByClassName("4c4c_reply");
@@ -503,6 +508,7 @@ var enable_expandimages = null;
 var enable_preview = null;
 var enable_fetchreplies = null;
 var enable_autonoko = null;
+var enable_returntotop = null;
 var enable_sage = null;
 var enable_report = null;
 var default_name = null;
@@ -537,6 +543,9 @@ chrome.extension.sendRequest({reqtype: "get-sage"}, function(response) {
 chrome.extension.sendRequest({reqtype: "get-report"}, function(response) {
 	enable_report = response;
 });
+chrome.extension.sendRequest({reqtype: "get-returntotop"}, function(response) {
+	enable_returntotop = response;
+});
 chrome.extension.sendRequest({reqtype: "get-default-name"}, function(response) {
 	default_name = response;
 });
@@ -570,7 +579,7 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 });
 
 function init4chan4chrome(element) {
-	if (enable_quickreply == null || enable_quickreplyiframe == null || enable_expand == null || enable_expandimages == null || enable_preview == null || enable_fetchreplies == null || enable_autonoko == null || enable_sage == null || enable_report == null) {
+	if (enable_quickreply == null || enable_quickreplyiframe == null || enable_expand == null || enable_expandimages == null || enable_preview == null || enable_fetchreplies == null || enable_autonoko == null || enable_sage == null || enable_report == null || enable_returntotop == null) {
 		setTimeout('init4chan4chrome()', 10);
 	} else if (document.forms.length > 0) {
 		var processPage = false;
@@ -614,10 +623,9 @@ function init4chan4chrome(element) {
 			}
 		}
 		
-		var delform = false;
-		if (document.forms.length > 1) {
+		if (document.forms.delform) {
 			var delform = document.forms[1];
-		} else if (window.location.href.search("4chanarchive.org") != -1) {
+		} else {
 			var delform = document.body;
 		}
 		if (processPage && delform) {
@@ -643,6 +651,7 @@ function init4chan4chrome(element) {
 			
 			lastnode = null;
 			threadID = null;
+			lastreply = null;
 			
 			for (var i=0; i < nodes.length; i++) {
 				node = nodes[i];
@@ -652,7 +661,7 @@ function init4chan4chrome(element) {
 				}
 				
 				if (node.nodeName.toLowerCase() == "table" && !node.getAttribute("align")) {
-					if (window.location.href.search("4chanarchive.org") != -1) {
+					if (window.location.href.search("4chan.org") == -1) {
 						var items = node.getElementsByTagName("input");
 						for(var j=0; j < items.length; j++) {
 							if (items[j].type == "checkbox") {
@@ -761,6 +770,17 @@ function init4chan4chrome(element) {
 			}
 			
 			replaceRefLinksWithQuickReply(element, null);
+			
+			if (enable_returntotop) {
+				var m = window.location.href.match(/.*\/res\/[0-9]+.*/i);
+				if (window.location.href.search("4chan.org") != -1 && m && lastreply) {
+					var returntotop = document.createElement("table");
+					returntotop.className = "reply";
+					returntotop.style.marginTop = "1em";
+					returntotop.innerHTML = '<tr onclick="self.scrollTo(0,0);" style="cursor: hand;"><td align="left" style="font-size: 2em;">&#x25B2;</td><td align="center" width="100%" style="font-size: 2em;">Return to Top</td><td align="right" style="font-size: 2em;">&#x25B2;</td></tr>';
+					insertAfter(returntotop, lastreply);
+				}
+			}
 		}
 	}
 }

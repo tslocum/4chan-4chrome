@@ -1,6 +1,6 @@
 {
   "name": "4chan 4chrome",
-  "version": "9001.21",
+  "version": "9001.22",
   "description": "Adds a little extra functionality when browsing 4chan.",
   "permissions": [
     "tabs",
@@ -18,7 +18,7 @@
   "options_page": "options.html",
   "content_scripts": [
     {
-      "matches": ["http://*.4chan.org/*", "http://4chanarchive.org/brchive/*"],
+      "matches": ["http://*.4chan.org/*", "http://4chanarchive.org/brchive/*", "http://inb4.im/4ch/*"],
       "js": ["4chan.js"],
 	  "run_at": "document_end",
 	  "all_frames": true

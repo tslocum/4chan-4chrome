@@ -229,7 +229,12 @@ function setExpandImageAttributes(a) {
 							}
 						}
 					}, false);
-
+					
+					if (expand_all_thumbs) {
+						var evt = document.createEvent("MouseEvents");
+						evt.initMouseEvent("click", true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+						a.dispatchEvent(evt);
+					}
 				}
 			} else {
 				expandImage = a.href;
@@ -501,6 +506,7 @@ var postarea;
 var lastreply = false;
 var last_modified = document.lastModified;
 var created_op_preview = false;
+var expand_all_thumbs = false;
 var enable_quickreply = null;
 var enable_quickreplyiframe = null;
 var enable_expand = null;
@@ -563,6 +569,7 @@ chrome.extension.sendRequest({reqtype: "get-default-password"}, function(respons
 });
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 	if (request.reqtype == "expandall") {
+		expand_all_thumbs = true;
 		var items = document.getElementsByTagName("a");
 		for(var i=0; i < items.length; i++) {
 			if (items[i].getAttribute("expanded") != null) {

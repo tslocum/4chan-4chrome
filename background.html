@@ -66,6 +66,16 @@ chrome.tabs.getSelected(null, function(tab) {
 	lastTabId = tab.id;
 	refreshIcon(tab.id);
 });
+
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-71983-42']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+	var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	ga.src = 'https://ssl.google-analytics.com/ga.js';
+	(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ga);
+})();
 </script>
 i'm 12 years old and what is this?
 </html>

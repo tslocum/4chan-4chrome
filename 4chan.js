@@ -408,10 +408,11 @@ function processLatestRepliesLoop(replies, lastmodified) {
 			replaceRefLinksWithQuickReply(reply);
 			insertAfter(reply, lastreply);
 			lastreply = reply;
+			lastreplyid = lastreply.getAttribute("postID");
 		}
 	}
 	if (replies && replies.length > 0) {
-		setTimeout(processLatestRepliesLoop, 1, replies, lastmodified);
+		setTimeout(processLatestRepliesLoop, 10, replies, lastmodified);
 	} else {
 		last_modified = lastmodified;
 	}
@@ -423,6 +424,7 @@ function processFetchedReplies(replies, lastmodified) {
 		for (var j=0; j < items2.length; j++) {
 			if (items2[j].getAttribute("postID") != null && items2[j].getAttribute("op") == null) {
 				lastreply = items2[j];
+				lastreplyid = lastreply.getAttribute("postID");
 			}
 		}
 	}
@@ -472,7 +474,7 @@ function fetchLatestPosts() {
 							for (var i=0; i < items.length; i++) {
 								setPostAttributes(items[i], true);
 								if (items[i].getAttribute("postID") != null) {
-									var found = false;
+									/*var found = false;
 									var items2 = document.forms[1].getElementsByClassName("4c4c_reply");
 									for (var j=0; j < items2.length; j++) {
 										if (items2[j].getAttribute("postID") != null) {
@@ -482,6 +484,9 @@ function fetchLatestPosts() {
 										}
 									}
 									if (!found) {
+										replies.push(items[i]);
+									}*/
+									if (items[i].getAttribute("postID") > lastreplyid) {
 										replies.push(items[i]);
 									}
 								}
@@ -503,7 +508,9 @@ function fetchLatestPosts() {
 }
 
 var postarea;
+var threads = [];
 var lastreply = false;
+var lastreplyid = 0;
 var last_modified = document.lastModified;
 var created_op_preview = false;
 var expand_all_thumbs = false;
@@ -680,6 +687,7 @@ function init4chan4chrome(element) {
 					replaceRefLinksWithQuickReply(node, threadID);
 					setPostAttributes(node);
 					lastreply = node;
+					lastreplyid = node.getAttribute("postID");
 				}
 				
 				if (node.className && node.className.toLowerCase() == "omittedposts" && enable_expand) {
@@ -742,7 +750,6 @@ function init4chan4chrome(element) {
 				lastnode = node;
 			}
 			
-			var threads = [];
 			var items = delform.innerHTML.split('<br clear="left"><hr>');
 			
 			if (!created_op_preview) {
@@ -770,7 +777,7 @@ function init4chan4chrome(element) {
 				if (m != null) {
 					if (delform.getAttribute("has404d") == null) {
 						delform.setAttribute("has404d", "false");
-						setTimeout('fetchLatestPosts()', 5000);
+						setTimeout('fetchLatestPosts()', 10000);
 					}
 				}
 				enable_fetchreplies = false;

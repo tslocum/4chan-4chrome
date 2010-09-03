@@ -221,7 +221,7 @@ function setExpandImageAttributes(a) {
 							window.open(this.getAttribute("expandImage"), '_blank');
 						} else if (e.which == 1) {
 							if (this.getAttribute("expanded") != "true") {
-								this.innerHTML = '<img style=border: 1px dashed black;min-width: ' + this.getAttribute("thumbWidth") + 'px;min-height: ' + this.getAttribute("thumbHeight") + 'px;" src="' + this.getAttribute("expandImage") + '" border="0" align="left" hspace="20">';
+								this.innerHTML = '<img style="border: 1px dashed black;min-width: ' + this.getAttribute("thumbWidth") + 'px;min-height: ' + this.getAttribute("thumbHeight") + 'px;" src="' + this.getAttribute("expandImage") + '" border="0" align="left" hspace="20">';
 								this.setAttribute("expanded", "true");
 							} else {
 								this.innerHTML = this.getAttribute("expandOriginalHTML")

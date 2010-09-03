@@ -71,7 +71,7 @@ function quickReplyBox(resto, atElement) {
 	}
 	var items3 = quickReplyBox.getElementsByTagName("div");
 	for (var j=0; j < items3.length; j++) {
-		if (items3[j].className != "postblock") {
+		if ((items3[j].className != "postblock") && (items3[j].id != "recaptcha_area") && (items3[j].id != "recaptcha_image") && (items3[j].innerHTML.indexOf("recaptcha") == -1)) {
 			items3[j].parentNode.removeChild(items3[j]);
 		}
 	}
@@ -221,7 +221,7 @@ function setExpandImageAttributes(a) {
 							window.open(this.getAttribute("expandImage"), '_blank');
 						} else if (e.which == 1) {
 							if (this.getAttribute("expanded") != "true") {
-								this.innerHTML = '<img style="background-image: url(\'' + this.getAttribute("thumbSRC") + '\');background-repeat: no-repeat;border: 1px dashed black;min-width: ' + this.getAttribute("thumbWidth") + 'px;min-height: ' + this.getAttribute("thumbHeight") + 'px;" src="' + this.getAttribute("expandImage") + '" border="0" align="left" hspace="20">';
+								this.innerHTML = '<img style=border: 1px dashed black;min-width: ' + this.getAttribute("thumbWidth") + 'px;min-height: ' + this.getAttribute("thumbHeight") + 'px;" src="' + this.getAttribute("expandImage") + '" border="0" align="left" hspace="20">';
 								this.setAttribute("expanded", "true");
 							} else {
 								this.innerHTML = this.getAttribute("expandOriginalHTML")

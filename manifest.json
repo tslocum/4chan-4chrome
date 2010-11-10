@@ -1,6 +1,6 @@
 {
   "name": "4chan 4chrome",
-  "version": "9001.24",
+  "version": "9001.25",
   "description": "Adds a little extra functionality when browsing 4chan.",
   "permissions": [
     "tabs",

@@ -1,5 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"> 
 <html>
+<head>
 <script>
 var lastTabId = null;
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
@@ -66,7 +67,8 @@ chrome.tabs.getSelected(null, function(tab) {
 	lastTabId = tab.id;
 	refreshIcon(tab.id);
 });
-
+</script>
+<script>
 var _gaq = _gaq || [];
 _gaq.push(['_setAccount', 'UA-71983-42']);
 _gaq.push(['_trackPageview']);
@@ -74,8 +76,11 @@ _gaq.push(['_trackPageview']);
 (function() {
 	var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
 	ga.src = 'https://ssl.google-analytics.com/ga.js';
-	(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ga);
+	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
 })();
 </script>
+</head>
+<body>
 i'm 12 years old and what is this?
+</body>
 </html>

@@ -15,6 +15,7 @@
 			document.getElementById("autonoko").checked = localStorage.getItem("autonoko") != "true";
 			document.getElementById("sage").checked = localStorage.getItem("sage") != "true";
 			document.getElementById("report").checked = localStorage.getItem("report") == "true";
+			document.getElementById("threadwatcher").checked = localStorage.getItem("threadwatcher") != "true";
 			document.getElementById("returntotop").checked = localStorage.getItem("returntotop") != "true";
 			document.getElementById("showicon").checked = localStorage.getItem("showicon") != "true";
 			
@@ -50,6 +51,9 @@
 			};
 			document.getElementById("report").onchange = function(event) { 
 				localStorage.setItem("report", this.checked); 
+			};
+			document.getElementById("threadwatcher").onchange = function(event) { 
+				localStorage.setItem("threadwatcher", !this.checked); 
 			};
 			document.getElementById("returntotop").onchange = function(event) { 
 				localStorage.setItem("returntotop", !this.checked); 
@@ -288,6 +292,14 @@
 		<td class="reply entry">
 			<span class="replytitle">Fetch New Replies</span><br>
 			<span class="replytext">Note: Only available when the full thread is viewed (e.g. clicking Reply)</span>
+		</td></tr></table>
+	</label>
+	<label for="threadwatcher">
+		<table><tr><td nowrap class="doubledash">&gt;&gt;</td>
+		<td class="reply"><input type="checkbox" id="threadwatcher"></td>
+		<td class="reply entry">
+			<span class="replytitle">Watch Threads</span><br>
+			<span class="replytext">Bookmark threads for later</span>
 		</td></tr></table>
 	</label>
 	<label for="report">

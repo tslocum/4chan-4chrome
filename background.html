@@ -22,6 +22,12 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 		sendResponse(!(localStorage.getItem("sage") == "true"));
 	} else if (request.reqtype == "get-report") {
 		sendResponse(localStorage.getItem("report") == "true");
+	} else if (request.reqtype == "get-threadwatcher") {
+		sendResponse(!(localStorage.getItem("threadwatcher") == "true"));
+	} else if (request.reqtype == "get-watchedthreads") {
+		sendResponse((localStorage.getItem("watchedthreads") != null) ? JSON.parse(localStorage.getItem("watchedthreads")) : []);
+	} else if (request.reqtype == "set-watchedthreads") {
+		localStorage.setItem("watchedthreads", JSON.stringify(request.watchedthreads));
 	} else if (request.reqtype == "get-returntotop") {
 		sendResponse(!(localStorage.getItem("returntotop") == "true"));
 	} else if (request.reqtype == "get-tabid") {

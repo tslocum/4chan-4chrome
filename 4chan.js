@@ -69,7 +69,7 @@ function updateWatchedThreadNote(note, board, threadid) {
 		var alreadyexists = false;
 		for (var i=0; i < watchedthreads.length; i++) {
 			if (watchedthreads[i][0] == board && watchedthreads[i][1] == threadid) {
-				watchedthreads[i][4] = note;
+				watchedthreads[i][4] = note.replace('"', "").replace("<", "").replace(">", "");
 			}
 		}
 		

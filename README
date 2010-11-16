@@ -1,0 +1,10 @@
+This is an extension for the Google Chrome browser by Trevor Slocum (tslocum@gmail.com)
+
+You can view its listing on the Google Chrome extension gallery:
+https://chrome.google.com/extensions/detail/ncbfnjcklemldbidfoceaffkjofkcomb
+
+4chan_original.js contains the human-readable JavaScript
+4chan.js is the compiled version of this extension's code
+
+It is compiled using Google's Closure Compiler:
+http://code.google.com/closure/compiler/

@@ -20,7 +20,7 @@ function insertAfter(newElement,targetElement) {
 }
 
 function watchThread(threadarray) {
-	chrome.extension.sendRequest({reqtype: "get-watchedthreads"}, function(response) {
+	chrome.extension.sendRequest({"reqtype": "get-watchedthreads"}, function(response) {
 		watchedthreads = response;
 		
 		var alreadyexists = false;
@@ -44,7 +44,7 @@ function watchThread(threadarray) {
 }
 
 function unwatchThread(board, threadid) {
-	chrome.extension.sendRequest({reqtype: "get-watchedthreads"}, function(response) {
+	chrome.extension.sendRequest({"reqtype": "get-watchedthreads"}, function(response) {
 		watchedthreads = response;
 		
 		for (var i=0; i < watchedthreads.length; i++) {
@@ -59,11 +59,11 @@ function unwatchThread(board, threadid) {
 }
 
 function storeWatchedThreads() {
-	chrome.extension.sendRequest({reqtype: "set-watchedthreads", watchedthreads: watchedthreads});
+	chrome.extension.sendRequest({"reqtype": "set-watchedthreads", "watchedthreads": watchedthreads});
 }
 
 function updateWatchedThreadNote(note, board, threadid) {
-	chrome.extension.sendRequest({reqtype: "get-watchedthreads"}, function(response) {
+	chrome.extension.sendRequest({"reqtype": "get-watchedthreads"}, function(response) {
 		watchedthreads = response;
 		
 		var alreadyexists = false;
@@ -78,7 +78,7 @@ function updateWatchedThreadNote(note, board, threadid) {
 }
 
 function refreshThreadWatcherCache() {
-	chrome.extension.sendRequest({reqtype: "get-watchedthreads"}, function(response) {
+	chrome.extension.sendRequest({"reqtype": "get-watchedthreads"}, function(response) {
 		watchedthreads = response;
 		refreshThreadWatcher()
 	});
@@ -436,7 +436,7 @@ function processExpandTables(replies, replies_temp, threadID, spacer, omittedpos
 }
 
 function processExpandTablesFinish(replies, replies_temp, threadID, spacer, omittedposts, tables) {
-	var delform = replies_temp.getElementsByTagName("form")[1];
+	var delform_temp = replies_temp.getElementsByTagName("form")[1];
 	replies_temp.style.display = "none";
 	
 	var items2 = document.getElementsByClassName("4c4c_reply");
@@ -465,8 +465,8 @@ function processExpandTablesFinish(replies, replies_temp, threadID, spacer, omit
 }
 
 function processExpand(replies, replies_temp, threadID, spacer, omittedposts) {
-	var delform = replies_temp.getElementsByTagName("form")[1];
-	var items = delform.getElementsByTagName("table");
+	var delform_expand = replies_temp.getElementsByTagName("form")[1];
+	var items = delform_expand.getElementsByTagName("table");
 	var tables = [];
 	for (var j=0; j < items.length; j++) {
 		tables.push(items[j]);
@@ -616,13 +616,14 @@ function fetchLatestPosts() {
 		};
 		
 		if (document.forms[1].getAttribute("has404d") == "false") {
-			setTimeout('fetchLatestPosts()', 10000);
+			setTimeout(fetchLatestPosts, 10000);
 		}
 	}
 }
 
 var postarea;
 var threads = [];
+var delform = null;
 var lastreply = false;
 var lastreplyid = 0;
 var last_modified = document.lastModified;
@@ -645,55 +646,55 @@ var default_email = null;
 var default_subject = null;
 var default_comment = null;
 var default_password = null;
-chrome.extension.sendRequest({reqtype: "get-quickreply"}, function(response) {
+chrome.extension.sendRequest({"reqtype": "get-quickreply"}, function(response) {
 	enable_quickreply = response;
 });
-chrome.extension.sendRequest({reqtype: "get-quickreplyiframe"}, function(response) {
+chrome.extension.sendRequest({"reqtype": "get-quickreplyiframe"}, function(response) {
 	enable_quickreplyiframe = response;
 });
-chrome.extension.sendRequest({reqtype: "get-expand"}, function(response) {
+chrome.extension.sendRequest({"reqtype": "get-expand"}, function(response) {
 	enable_expand = response;
 });
-chrome.extension.sendRequest({reqtype: "get-expandimages"}, function(response) {
+chrome.extension.sendRequest({"reqtype": "get-expandimages"}, function(response) {
 	enable_expandimages = response;
 });
-chrome.extension.sendRequest({reqtype: "get-preview"}, function(response) {
+chrome.extension.sendRequest({"reqtype": "get-preview"}, function(response) {
 	enable_preview = response;
 });
-chrome.extension.sendRequest({reqtype: "get-fetchreplies"}, function(response) {
+chrome.extension.sendRequest({"reqtype": "get-fetchreplies"}, function(response) {
 	enable_fetchreplies = response;
 });
-chrome.extension.sendRequest({reqtype: "get-autonoko"}, function(response) {
+chrome.extension.sendRequest({"reqtype": "get-autonoko"}, function(response) {
 	enable_autonoko = response;
 });
-chrome.extension.sendRequest({reqtype: "get-sage"}, function(response) {
+chrome.extension.sendRequest({"reqtype": "get-sage"}, function(response) {
 	enable_sage = response;
 });
-chrome.extension.sendRequest({reqtype: "get-report"}, function(response) {
+chrome.extension.sendRequest({"reqtype": "get-report"}, function(response) {
 	enable_report = response;
 });
-chrome.extension.sendRequest({reqtype: "get-threadwatcher"}, function(response) {
+chrome.extension.sendRequest({"reqtype": "get-threadwatcher"}, function(response) {
 	enable_threadwatcher = response;
 });
-chrome.extension.sendRequest({reqtype: "get-watchedthreads"}, function(response) {
+chrome.extension.sendRequest({"reqtype": "get-watchedthreads"}, function(response) {
 	watchedthreads = response;
 });
-chrome.extension.sendRequest({reqtype: "get-returntotop"}, function(response) {
+chrome.extension.sendRequest({"reqtype": "get-returntotop"}, function(response) {
 	enable_returntotop = response;
 });
-chrome.extension.sendRequest({reqtype: "get-default-name"}, function(response) {
+chrome.extension.sendRequest({"reqtype": "get-default-name"}, function(response) {
 	default_name = response;
 });
-chrome.extension.sendRequest({reqtype: "get-default-email"}, function(response) {
+chrome.extension.sendRequest({"reqtype": "get-default-email"}, function(response) {
 	default_email = response;
 });
-chrome.extension.sendRequest({reqtype: "get-default-subject"}, function(response) {
+chrome.extension.sendRequest({"reqtype": "get-default-subject"}, function(response) {
 	default_subject = response;
 });
-chrome.extension.sendRequest({reqtype: "get-default-comment"}, function(response) {
+chrome.extension.sendRequest({"reqtype": "get-default-comment"}, function(response) {
 	default_comment = response;
 });
-chrome.extension.sendRequest({reqtype: "get-default-password"}, function(response) {
+chrome.extension.sendRequest({"reqtype": "get-default-password"}, function(response) {
 	default_password = response;
 });
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
@@ -716,7 +717,7 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 
 function init4chan4chrome(element) {
 	if (enable_quickreply == null || enable_quickreplyiframe == null || enable_expand == null || enable_expandimages == null || enable_preview == null || enable_fetchreplies == null || enable_autonoko == null || enable_sage == null || enable_report == null || enable_threadwatcher == null || watchedthreads == null || enable_returntotop == null) {
-		setTimeout('init4chan4chrome()', 10);
+		setTimeout(init4chan4chrome, 10);
 	} else if (document.forms.length > 0) {
 		var processPage = false;
 		if (!element) {
@@ -782,10 +783,10 @@ function init4chan4chrome(element) {
 			}
 		}
 		
-		if (document.forms.delform) {
-			var delform = document.forms[1];
+		if (document.forms["delform"]) {
+			delform = document.forms[1];
 		} else {
-			var delform = document.body;
+			delform = document.body;
 		}
 		if (processPage && delform) {
 			if (enable_autonoko) {
@@ -847,7 +848,7 @@ function init4chan4chrome(element) {
 					}
 				}
 				
-				if (node.className) {
+				if (enable_threadwatcher && node.className) {
 					if (node.className.toLowerCase() == "filetitle") {
 						watch.setAttribute("postsubject", node.innerText);
 					} else if (node.className.toLowerCase() == "postername") {
@@ -958,7 +959,7 @@ function init4chan4chrome(element) {
 				if (m != null) {
 					if (delform.getAttribute("has404d") == null) {
 						delform.setAttribute("has404d", "false");
-						setTimeout('fetchLatestPosts()', 10000);
+						setTimeout(fetchLatestPosts, 10000);
 					}
 				}
 				enable_fetchreplies = false;
@@ -1009,8 +1010,8 @@ function selectmouse(e) {
 		return false;
 	}
 }
-document.onmousedown=selectmouse;
-document.onmouseup=new Function("isdrag=false");
+document.onmousedown= selectmouse ;
+document.onmouseup = function() {isdrag = false;};
 
 if (document.forms.length == 0) {
 	var m = window.location.href.match(/http\:\/\/.*\.4chan\.org\/.*\#return\=(.*)/i);
@@ -1028,13 +1029,13 @@ if (document.forms.length == 0) {
 }
 
 var disable4c4c = false;
-var m = window.location.href.match(/.*\.4chan\.org\/([0-9a-zA-Z]+)\/.*/i);
+var m = window.location.href.match(/.*\/\/([0-9a-zA-Z]+)\.4chan\.org\/([0-9a-zA-Z]+)\/.*/i);
 if (m != null) {
-	if (m[1] == "f") {
+	if (m[1] == "sys" || m[1] == "dis" || m[2] == "f") {
 		disable4c4c = true;
 	}
 	
 }
 if (!disable4c4c) {
-	setTimeout('init4chan4chrome()', 10);
+	setTimeout(init4chan4chrome, 10);
 }

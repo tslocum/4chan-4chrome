@@ -4,47 +4,32 @@
 <script>
 var lastTabId = null;
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
-	if (request.reqtype == "get-quickreply") {
-		sendResponse(!(localStorage.getItem("quickreply") == "true"));
-	} else if (request.reqtype == "get-quickreplyiframe") {
-		sendResponse(localStorage.getItem("quickreplyiframe") == "true");
-	} else if (request.reqtype == "get-expand") {
-		sendResponse(!(localStorage.getItem("expand") == "true"));
-	} else if (request.reqtype == "get-expandimages") {
-		sendResponse(!(localStorage.getItem("expandimages") == "true"));
-	} else if (request.reqtype == "get-preview") {
-		sendResponse(!(localStorage.getItem("preview") == "true"));
-	} else if (request.reqtype == "get-fetchreplies") {
-		sendResponse(!(localStorage.getItem("fetchreplies") == "true"));
-	} else if (request.reqtype == "get-autonoko") {
-		sendResponse(!(localStorage.getItem("autonoko") == "true"));
-	} else if (request.reqtype == "get-sage") {
-		sendResponse(!(localStorage.getItem("sage") == "true"));
-	} else if (request.reqtype == "get-report") {
-		sendResponse(localStorage.getItem("report") == "true");
-	} else if (request.reqtype == "get-threadwatcher") {
-		sendResponse(!(localStorage.getItem("threadwatcher") == "true"));
+	if (request.reqtype == "get-options") {
+		sendResponse({"quickreply": !(localStorage.getItem("quickreply") == "true"),
+		"quickreplyiframe": localStorage.getItem("quickreply") == "true",
+		"expand": !(localStorage.getItem("expand") == "true"),
+		"expandimages": !(localStorage.getItem("expandimages") == "true"),
+		"preview": !(localStorage.getItem("preview") == "true"),
+		"fetchreplies": !(localStorage.getItem("fetchreplies") == "true"),
+		"autonoko": !(localStorage.getItem("autonoko") == "true"),
+		"sage": !(localStorage.getItem("sage") == "true"),
+		"report": localStorage.getItem("report") == "true",
+		"threadwatcher": !(localStorage.getItem("threadwatcher") == "true"),
+		"watchedthreads": (localStorage.getItem("watchedthreads") != null) ? JSON.parse(localStorage.getItem("watchedthreads")) : [],
+		"returntotop": !(localStorage.getItem("returntotop") == "true"),
+		"default_name": (localStorage.getItem("defaultname") != null) ? localStorage.getItem("defaultname") : "",
+		"default_email": (localStorage.getItem("defaultemail") != null) ? localStorage.getItem("defaultemail") : "",
+		"default_subject": (localStorage.getItem("defaultsubject") != null) ? localStorage.getItem("defaultsubject") : "",
+		"default_comment": (localStorage.getItem("defaultcomment") != null) ? localStorage.getItem("defaultcomment") : "",
+		"default_password": ""});
 	} else if (request.reqtype == "get-watchedthreads") {
 		sendResponse((localStorage.getItem("watchedthreads") != null) ? JSON.parse(localStorage.getItem("watchedthreads")) : []);
 	} else if (request.reqtype == "set-watchedthreads") {
 		localStorage.setItem("watchedthreads", JSON.stringify(request.watchedthreads));
-	} else if (request.reqtype == "get-returntotop") {
-		sendResponse(!(localStorage.getItem("returntotop") == "true"));
 	} else if (request.reqtype == "get-tabid") {
 		chrome.tabs.getSelected(null, function(tab) {
 			sendResponse(tab.id);
 		});
-	} else if (request.reqtype == "get-default-name") {
-		sendResponse((localStorage.getItem("defaultname") != null) ? localStorage.getItem("defaultname") : "");
-	} else if (request.reqtype == "get-default-email") {
-		sendResponse((localStorage.getItem("defaultemail") != null) ? localStorage.getItem("defaultemail") : "");
-	} else if (request.reqtype == "get-default-subject") {
-		sendResponse((localStorage.getItem("defaultsubject") != null) ? localStorage.getItem("defaultsubject") : "");
-	} else if (request.reqtype == "get-default-comment") {
-		sendResponse((localStorage.getItem("defaultcomment") != null) ? localStorage.getItem("defaultcomment") : "");
-	} else if (request.reqtype == "get-default-password") {
-		sendResponse("");
-		//sendResponse((localStorage.getItem("defaultpassword") != null) ? localStorage.getItem("defaultpassword") : "");
 	}
 });
 function refreshIcon(tabId) {

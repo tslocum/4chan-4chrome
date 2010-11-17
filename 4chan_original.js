@@ -12,6 +12,18 @@ function insertAfter(newElement,targetElement) {
 	}
 }
 
+function getElementsByAttribute(attrN, attrV) {
+    var nodes = [];
+    var elems = document.getElementsByTagName('*');
+
+    for (var i = 0; i < elems.length; i += 1) {
+        if (elems[i].hasAttribute(attrN) && elems[i].getAttribute(attrN) == attrV) {
+            nodes.push(elems[i]);
+        }
+    }
+    return nodes;
+}
+
 function watchThread(threadarray) {
 	chrome.extension.sendRequest({'reqtype': 'get-watchedthreads'}, function(response) {
 		watchedthreads = response;
@@ -31,7 +43,6 @@ function watchThread(threadarray) {
 			alert('Added thread No.' + threadarray[1] + ' to watch list.');
 		}
 
-		storeWatchedThreads();
 		refreshThreadWatcher();
 	});
 }
@@ -134,6 +145,48 @@ function refreshThreadWatcher() {
 			}
 		}
 	}
+}
+
+function hideThread(threadid) {
+	chrome.extension.sendRequest({'reqtype': 'get-hiddenthreads'}, function(response) {
+		hiddenthreads = response;
+
+		var m = window.location.href.match(/.*\.4chan\.org\/([0-9a-zA-Z]+)\/.*/i);
+		if (m != null) {
+			var alreadyexists = false;
+			for (var i = 0; i < hiddenthreads.length; i++) {
+				if (hiddenthreads[i][0] == m[1] && hiddenthreads[i][1] == threadid) {
+					alreadyexists = true;
+				}
+			}
+
+			if (!alreadyexists) {
+				hiddenthreads.push([m[1], threadid]);
+				storeHiddenThreads();
+			}
+		}
+	});
+}
+
+function unhideThread(threadid) {
+	chrome.extension.sendRequest({'reqtype': 'get-hiddenthreads'}, function(response) {
+		hiddenthreads = response;
+
+		var m = window.location.href.match(/.*\.4chan\.org\/([0-9a-zA-Z]+)\/.*/i);
+		if (m != null) {
+			for (var i = 0; i < hiddenthreads.length; i++) {
+				if (hiddenthreads[i][0] == m[1] && hiddenthreads[i][1] == threadid) {
+					hiddenthreads.splice(i, 1);
+				}
+			}
+
+			storeHiddenThreads();
+		}
+	});
+}
+
+function storeHiddenThreads() {
+	chrome.extension.sendRequest({'reqtype': 'set-hiddenthreads', 'hiddenthreads': hiddenthreads});
 }
 
 function checkQuickReplyBoxSubmitted(qrbid) {
@@ -483,35 +536,32 @@ function autoFillPostBox(element) {
 	if (!element) {
 		element = document;
 	}
-	if (default_name == null || default_email == null || default_subject == null || default_comment == null || default_password == null) {
-		setTimeout(autoFillPostBox, 10, element);
-	} else {
-		var items3 = element.getElementsByTagName('input');
-		for (var j = 0; j < items3.length; j++) {
-			if (items3[j].name == 'name') {
-				if (default_name != '') {
-					items3[j].value = default_name;
-				}
-			} else if (items3[j].name == 'email') {
-				if (default_email != '') {
-					items3[j].value = default_email;
-				}
-			} else if (items3[j].name == 'sub') {
-				if (default_subject != '') {
-					items3[j].value = default_subject;
-				}
-			} else if (items3[j].name == 'pwd') {
-				if (default_password != '') {
-					items3[j].value = default_password;
-				}
+
+	var items3 = element.getElementsByTagName('input');
+	for (var j = 0; j < items3.length; j++) {
+		if (items3[j].name == 'name') {
+			if (default_name != '') {
+				items3[j].value = default_name;
+			}
+		} else if (items3[j].name == 'email') {
+			if (default_email != '') {
+				items3[j].value = default_email;
+			}
+		} else if (items3[j].name == 'sub') {
+			if (default_subject != '') {
+				items3[j].value = default_subject;
+			}
+		} else if (items3[j].name == 'pwd') {
+			if (default_password != '') {
+				items3[j].value = default_password;
 			}
 		}
-		var items3 = element.getElementsByTagName('textarea');
-		for (var j = 0; j < items3.length; j++) {
-			if (items3[j].name == 'com') {
-				if (items3[j].value == '' && default_comment != '') {
-					items3[j].value = default_comment;
-				}
+	}
+	var items3 = element.getElementsByTagName('textarea');
+	for (var j = 0; j < items3.length; j++) {
+		if (items3[j].name == 'com') {
+			if (items3[j].value == '' && default_comment != '') {
+				items3[j].value = default_comment;
 			}
 		}
 	}
@@ -644,7 +694,9 @@ var enable_returntotop = null;
 var enable_sage = null;
 var enable_report = null;
 var enable_threadwatcher = null;
+var enable_hidethreads = null;
 var watchedthreads = null;
+var hiddenthreads = null;
 var default_name = null;
 var default_email = null;
 var default_subject = null;
@@ -742,6 +794,11 @@ function init4chan4chrome(element) {
 			}
 
 			var nodes = delform.childNodes;
+			var hidethreadid = 'thread' + Math.floor(Math.random() * 1000);
+			var watch = null;
+			if (enable_threadwatcher) {
+				watch = document.createElement('a');
+			}
 
 			lastnode = null;
 			threadID = null;
@@ -749,12 +806,44 @@ function init4chan4chrome(element) {
 
 			for (var i = 0; i < nodes.length; i++) {
 				node = nodes[i];
+				if (node.nodeName.toLowerCase() != 'hr') {
+					if (!node.setAttribute) {
+						var newspan = document.createElement('span');
+						insertAfter(newspan, node);
+						newspan.appendChild(node);
+						node = newspan;
+					}
+
+					node.setAttribute('hidethread', hidethreadid);
+				}
 
 				if (!threadID && node.nodeName.toLowerCase() == 'input' && node.type == 'checkbox') {
 					threadID = node.name;
 
+					if (enable_hidethreads) {
+						var threadhider = document.createElement('a');
+						threadhider.id = 'threadhider' + threadID;
+						threadhider.style.textDecoration = 'none';
+						threadhider.innerHTML = '<img border="0" src="' + chrome.extension.getURL('button_retract.png') + '" title="Hide Thread"> ';
+						threadhider.href = '#';
+						threadhider.setAttribute('onClick', 'javascript:return false;');
+						threadhider.setAttribute('threadID', threadID);
+						threadhider.setAttribute('hidethreadID', hidethreadid);
+
+						threadhider.addEventListener('click', function() {
+							hideThread(this.getAttribute('threadID'));
+							var items = getElementsByAttribute('hidethread', this.getAttribute('hidethreadID'), false);
+							for (var j = 0; j < items.length; j++) {
+								items[j].style.display = 'none';
+							}
+							var unhidethread = document.getElementById('unhide' + this.getAttribute('hidethreadID'));
+							unhidethread.style.display = 'block';
+						}, false);
+
+						insertAfter(threadhider, node);
+					}
+
 					if (enable_threadwatcher) {
-						var watch = document.createElement('a');
 						watch.id = 'watch' + threadID;
 						watch.style.textDecoration = 'none';
 						watch.innerHTML = '<img border="0" src="' + chrome.extension.getURL('button_watch.png') + '" title="Watch Thread"> ';
@@ -861,7 +950,31 @@ function init4chan4chrome(element) {
 				}
 
 				if (node.nodeName.toLowerCase() == 'hr' && lastnode && lastnode.nodeName.toLowerCase() == 'br') {
+					if (enable_hidethreads) {
+						var unhide = document.createElement('span');
+						unhide.innerHTML = '<a href="#" id="triggerunhide' + hidethreadid + '"><img border="0" src="' + chrome.extension.getURL('button_expand.png') + '" title="Un-hide Thread"></a> Thread No.' + threadID + ' is hidden.';
+						unhide.id = 'unhide' + hidethreadid;
+						unhide.style.display = 'none';
+						insertAfter(unhide, lastnode.previousSibling);
+
+						var triggerunhide = document.getElementById('triggerunhide' + hidethreadid);
+						triggerunhide.setAttribute('onClick', 'javascript:return false;');
+						triggerunhide.setAttribute('threadID', threadID);
+						triggerunhide.setAttribute('hidethreadID', hidethreadid);
+						triggerunhide.addEventListener('click', function() {
+							unhideThread(this.getAttribute('threadID'));
+							var items = getElementsByAttribute('hidethread', this.getAttribute('hidethreadID'), false);
+							for (var j = 0; j < items.length; j++) {
+								items[j].style.display = 'block';
+							}
+							var unhidethread = document.getElementById('unhide' + this.getAttribute('hidethreadID'));
+							unhidethread.style.display = 'none';
+						}, false);
+					}
+
 					threadID = null;
+					hidethreadid = 'thread' + Math.floor(Math.random() * 1000);
+					watch = document.createElement('a');
 				}
 				lastnode = node;
 			}
@@ -900,6 +1013,20 @@ function init4chan4chrome(element) {
 			}
 
 			replaceRefLinksWithQuickReply(element, null);
+
+			if (enable_hidethreads) {
+				var m = window.location.href.match(/.*\.4chan\.org\/([0-9a-zA-Z]+)\/.*/i);
+				if (m != null) {
+					for (var i = 0; i < hiddenthreads.length; i++) {
+						if (hiddenthreads[i][0] == m[1]) {
+							var item = document.getElementById('threadhider' + hiddenthreads[i][1]);
+							var evt = document.createEvent('MouseEvents');
+							evt.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+							item.dispatchEvent(evt);
+						}
+					}
+				}
+			}
 
 			if (enable_returntotop) {
 				var m = window.location.href.match(/.*\/res\/[0-9]+.*/i);
@@ -981,7 +1108,9 @@ if (!disable4c4c) {
 		enable_sage = response['sage'];
 		enable_report = response['report'];
 		enable_threadwatcher = response['threadwatcher'];
+		enable_hidethreads = response['hidethreads'];
 		watchedthreads = response['watchedthreads'];
+		hiddenthreads = response['hiddenthreads'];
 		enable_returntotop = response['returntotop'];
 		default_name = response['default_name'];
 		default_email = response['default_email'];

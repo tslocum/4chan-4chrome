@@ -15,7 +15,9 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 		"sage": !(localStorage.getItem("sage") == "true"),
 		"report": localStorage.getItem("report") == "true",
 		"threadwatcher": !(localStorage.getItem("threadwatcher") == "true"),
+		"hidethreads": !(localStorage.getItem("hidethreads") == "true"),
 		"watchedthreads": (localStorage.getItem("watchedthreads") != null) ? JSON.parse(localStorage.getItem("watchedthreads")) : [],
+		"hiddenthreads": (localStorage.getItem("hiddenthreads") != null) ? JSON.parse(localStorage.getItem("hiddenthreads")) : [],
 		"returntotop": !(localStorage.getItem("returntotop") == "true"),
 		"default_name": (localStorage.getItem("defaultname") != null) ? localStorage.getItem("defaultname") : "",
 		"default_email": (localStorage.getItem("defaultemail") != null) ? localStorage.getItem("defaultemail") : "",
@@ -24,8 +26,12 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 		"default_password": ""});
 	} else if (request.reqtype == "get-watchedthreads") {
 		sendResponse((localStorage.getItem("watchedthreads") != null) ? JSON.parse(localStorage.getItem("watchedthreads")) : []);
+	} else if (request.reqtype == "get-hiddenthreads") {
+		sendResponse((localStorage.getItem("hiddenthreads") != null) ? JSON.parse(localStorage.getItem("hiddenthreads")) : []);
 	} else if (request.reqtype == "set-watchedthreads") {
 		localStorage.setItem("watchedthreads", JSON.stringify(request.watchedthreads));
+	} else if (request.reqtype == "set-hiddenthreads") {
+		localStorage.setItem("hiddenthreads", JSON.stringify(request.hiddenthreads));
 	} else if (request.reqtype == "get-tabid") {
 		chrome.tabs.getSelected(null, function(tab) {
 			sendResponse(tab.id);

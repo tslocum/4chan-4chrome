@@ -16,6 +16,7 @@
 			document.getElementById("sage").checked = localStorage.getItem("sage") != "true";
 			document.getElementById("report").checked = localStorage.getItem("report") == "true";
 			document.getElementById("threadwatcher").checked = localStorage.getItem("threadwatcher") != "true";
+			document.getElementById("hidethreads").checked = localStorage.getItem("hidethreads") != "true";
 			document.getElementById("returntotop").checked = localStorage.getItem("returntotop") != "true";
 			document.getElementById("showicon").checked = localStorage.getItem("showicon") != "true";
 			
@@ -54,6 +55,9 @@
 			};
 			document.getElementById("threadwatcher").onchange = function(event) { 
 				localStorage.setItem("threadwatcher", !this.checked); 
+			};
+			document.getElementById("hidethreads").onchange = function(event) { 
+				localStorage.setItem("hidethreads", !this.checked); 
 			};
 			document.getElementById("returntotop").onchange = function(event) { 
 				localStorage.setItem("returntotop", !this.checked); 
@@ -300,6 +304,14 @@
 		<td class="reply entry">
 			<span class="replytitle">Watch Threads</span><br>
 			<span class="replytext">Bookmark threads for later</span>
+		</td></tr></table>
+	</label>
+	<label for="hidethreads">
+		<table><tr><td nowrap class="doubledash">&gt;&gt;</td>
+		<td class="reply"><input type="checkbox" id="hidethreads"></td>
+		<td class="reply entry">
+			<span class="replytitle">Hide Threads</span><br>
+			<span class="replytext">Remove unwanted threads from display</span>
 		</td></tr></table>
 	</label>
 	<label for="report">

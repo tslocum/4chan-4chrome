@@ -319,16 +319,16 @@ function replaceRefLinksWithQuickReply(searchElement, resto_override) {
 						resto = m[1];
 					}
 				}
-				if (items[i].innerText.search('X') != -1) {
-					items[i].innerText = postid;
+				if (items[i].textContent.search('X') != -1) {
+					items[i].textContent = postid;
 				}
 			} else if (items[i].className == 'quotejs') {
 				var m = items[i].href.match(/[.*]?res\/([0-9]+)(?:\.html)?\#q([0-9]+)/i);
 				if (m != null) {
 					resto = m[1];
 					postid = m[2];
-					if (items[i].innerText.search('X') != -1) {
-						items[i].innerText = postid;
+					if (items[i].textContent.search('X') != -1) {
+						items[i].textContent = postid;
 					}
 				}
 			}
@@ -642,18 +642,6 @@ function fetchLatestPosts() {
 							for (var i = 0; i < items.length; i++) {
 								setPostAttributes(items[i], true);
 								if (items[i].getAttribute('postID') != null) {
-									/*var found = false;
-									var items2 = document.forms[1].getElementsByClassName("4c4c_reply");
-									for (var j=0; j < items2.length; j++) {
-										if (items2[j].getAttribute("postID") != null) {
-											if (items[i].getAttribute("postID") == items2[j].getAttribute("postID")) {
-												found = true;
-											}
-										}
-									}
-									if (!found) {
-										replies.push(items[i]);
-									}*/
 									if (items[i].getAttribute('postID') > lastreplyid) {
 										replies.push(items[i]);
 									}
@@ -873,9 +861,9 @@ function init4chan4chrome(element) {
 
 				if (enable_threadwatcher && node.className) {
 					if (node.className.toLowerCase() == 'filetitle') {
-						watch.setAttribute('postsubject', node.innerText);
+						watch.setAttribute('postsubject', node.textContent);
 					} else if (node.className.toLowerCase() == 'postername') {
-						watch.setAttribute('postname', node.innerText);
+						watch.setAttribute('postname', node.textContent);
 					}
 				}
 
@@ -1020,14 +1008,16 @@ function init4chan4chrome(element) {
 					for (var i = 0; i < hiddenthreads.length; i++) {
 						if (hiddenthreads[i][0] == m[1]) {
 							var item = document.getElementById('threadhider' + hiddenthreads[i][1]);
-							var evt = document.createEvent('MouseEvents');
-							evt.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-							item.dispatchEvent(evt);
+							if (item) {
+								var evt = document.createEvent('MouseEvents');
+								evt.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+								item.dispatchEvent(evt);
+							}
 						}
 					}
 				}
 			}
-
+			
 			if (enable_returntotop) {
 				var m = window.location.href.match(/.*\/res\/[0-9]+.*/i);
 				if (window.location.href.search('4chan.org') != -1 && m && lastreply) {
@@ -1109,9 +1099,9 @@ if (!disable4c4c) {
 		enable_report = response['report'];
 		enable_threadwatcher = response['threadwatcher'];
 		enable_hidethreads = response['hidethreads'];
+		enable_returntotop = response['returntotop'];
 		watchedthreads = response['watchedthreads'];
 		hiddenthreads = response['hiddenthreads'];
-		enable_returntotop = response['returntotop'];
 		default_name = response['default_name'];
 		default_email = response['default_email'];
 		default_subject = response['default_subject'];

@@ -6,7 +6,7 @@ var lastTabId = null;
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 	if (request.reqtype == "get-options") {
 		sendResponse({"quickreply": !(localStorage.getItem("quickreply") == "true"),
-		"quickreplyiframe": localStorage.getItem("quickreply") == "true",
+		"quickreplyiframe": localStorage.getItem("quickreplyiframe") == "true",
 		"expand": !(localStorage.getItem("expand") == "true"),
 		"expandimages": !(localStorage.getItem("expandimages") == "true"),
 		"preview": !(localStorage.getItem("preview") == "true"),

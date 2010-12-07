@@ -1,7 +1,8 @@
 {
   "name": "4chan 4chrome",
-  "version": "9001.36",
-  "description": "Adds a little extra functionality when browsing 4chan.",
+  "version": "9001.37",
+  "description": "__MSG_chrome_extension_description__",
+  "default_locale": "en",
   "permissions": [
     "tabs",
     "http://www.4chan.org/"

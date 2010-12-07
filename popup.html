@@ -95,12 +95,17 @@ chrome.extension.sendRequest({reqtype: "get-expandimages"}, function(response) {
 		}
 	}
 });
+function init() {
+  document.getElementById("expandall").textContent = chrome.i18n.getMessage("expand_all_thumbnails");
+  document.getElementById("navigation").textContent = chrome.i18n.getMessage("4chan_navigation");
+  document.getElementById("options").textContent = chrome.i18n.getMessage("4chan_4chrome_options");
+}
 </script>
 </head>
-<body>
-<div class="menuitem" onclick="javascript:expandAll();return false;">Expand All Thumbnails</div>
-<div class="menuitem" onclick="javascript:openNavigation();return false;">4chan Navigation</div>
+<body onload="init()">
+<div class="menuitem" onclick="javascript:expandAll();return false;" id="expandall"></div>
+<div class="menuitem" onclick="javascript:openNavigation();return false;" id="navigation"></div>
 <div class="separator"></div>
-<div class="menuitem" onclick="javascript:openOptions();return false;">4chan 4chrome Options</div>
+<div class="menuitem" onclick="javascript:openOptions();return false;" id="options"></div>
 </body>
 </html>

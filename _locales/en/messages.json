@@ -1,0 +1,209 @@
+{
+	"chrome_extension_description": {
+		"message": "Adds a little extra functionality when browsing 4chan."
+	},
+	"return_to_top": {
+		"message": "Return to Top"
+	},
+	"watch_thread": {
+		"message": "Watch Thread"
+	},
+	"watched_threads": {
+		"message": "Watched Threads"
+	},
+	"no_watched_threads": {
+		"message": "No watched threads."
+	},
+	"thread_already_watched": {
+		"message": "Thread No.$thread$ is already being watched.",
+		"placeholders": {
+			"thread": {
+				"content": "$1",
+				"example": "20244"
+			}
+		}
+	},
+	"thread_now_watched": {
+		"message": "Added thread No.$thread$ to watch list.",
+		"placeholders": {
+			"thread": {
+				"content": "$1",
+				"example": "20244"
+			}
+		}
+	},
+	"stop_watching_thread": {
+		"message": "Stop watching thread No.$thread$?",
+		"placeholders": {
+			"thread": {
+				"content": "$1",
+				"example": "20244"
+			}
+		}
+	},
+	"enter_a_note": {
+		"message": "Enter a note"
+	},
+	"view": {
+		"message": "view"
+	},
+	"delete": {
+		"message": "delete"
+	},
+	"subject": {
+		"message": "Subject"
+	},
+	"author": {
+		"message": "Author"
+	},
+	"note": {
+		"message": "Note"
+	},
+	"expand_thread": {
+		"message": "Expand Thread"
+	},
+	"retract": {
+		"message": "Retract"
+	},
+	"hide_thread": {
+		"message": "Hide Thread"
+	},
+	"unhide_thread": {
+		"message": "Un-Hide Thread"
+	},
+	"thread_is_hidden": {
+		"message": "Thread No.$thread$ is hidden.",
+		"placeholders": {
+			"thread": {
+				"content": "$1",
+				"example": "20244"
+			}
+		}
+	},
+	"thread_expanding": {
+		"message": "Thread No.$thread$ expanding...",
+		"placeholders": {
+			"thread": {
+				"content": "$1",
+				"example": "20244"
+			}
+		}
+	},
+	"thread_expanded": {
+		"message": "Thread No.$thread$ expanded.",
+		"placeholders": {
+			"thread": {
+				"content": "$1",
+				"example": "20244"
+			}
+		}
+	},
+	"thread_retracted": {
+		"message": "Thread No.$thread$ retracted.",
+		"placeholders": {
+			"thread": {
+				"content": "$1",
+				"example": "20244"
+			}
+		}
+	},
+	"thread_404": {
+		"message": "This thread has 404'd"
+	},
+	"refresh": {
+		"message": "Refresh"
+	},
+	"close": {
+		"message": "Close"
+	},
+	"quick_reply": {
+		"message": "Quick Reply"
+	},
+	"report_post": {
+		"message": "Report Post"
+	},
+	"expand_all_thumbnails": {
+		"message": "Expand All Thumbnails"
+	},
+	"4chan_navigation": {
+		"message": "4chan Navigation"
+	},
+	"4chan_4chrome_options": {
+		"message": "4chan 4chrome Options"
+	},
+	"enable_or_disable": {
+		"message": "Enable or disable the features of this extension by using the controls below."
+	},
+	"visit_4chan_4chrome": {
+		"message": "Click to visit 4chan 4chrome on the Google Chrome extensions directory"
+	},
+	"enter_text_above": {
+		"message": "Enter text in the above fields to set their defaults when browsing"
+	},
+	"use_inline_frame": {
+		"message": "Use inline frame"
+	},
+	"thread_expansion": {
+		"message": "Thread Expansion"
+	},
+	"thread_expansion_info": {
+		"message": "Display all replies to a thread without leaving the page"
+	},
+	"image_expansion": {
+		"message": "Image Expansion"
+	},
+	"image_expansion_info": {
+		"message": "Left-click a thumbnail to expand it within the page"
+	},
+	"post_preview": {
+		"message": "Post Preview"
+	},
+	"post_preview_info": {
+		"message": "When hovering over >>####### links, display the post it references"
+	},
+	"fetch_new_replies": {
+		"message": "Fetch New Replies"
+	},
+	"fetch_new_replies_info": {
+		"message": "Note: Only available when the full thread is viewed (e.g. clicking Reply)"
+	},
+	"watch_threads": {
+		"message": "Watch Threads"
+	},
+	"watch_threads_info": {
+		"message": "Bookmark threads for later"
+	},
+	"hide_threads": {
+		"message": "Hide Threads"
+	},
+	"hide_threads_info": {
+		"message": "Remove unwanted threads from display"
+	},
+	"quick_report_post": {
+		"message": "Quick Report Post"
+	},
+	"quick_report_post_info": {
+		"message": "Add a report button to every post"
+	},
+	"highlight_sage_posts": {
+		"message": "Hightlight Sage Posts"
+	},
+	"highlight_sage_posts_info": {
+		"message": "Marks sage posts differently"
+	},
+	"auto_noko": {
+		"message": "Auto Noko"
+	},
+	"auto_noko_info": {
+		"message": "Always behave as if noko was entered in the e-mail field"
+	},
+	"return_to_top_info": {
+		"message": "Adds a link to return to the top of the page"
+	},
+	"show_icon": {
+		"message": "Show Icon"
+	},
+	"show_icon_info": {
+		"message": "Note: This option will not take effect immediately"
+	}
+}

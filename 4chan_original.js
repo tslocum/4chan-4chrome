@@ -36,11 +36,11 @@ function watchThread(threadarray) {
 		}
 
 		if (alreadyexists) {
-			alert('Thread No.' + threadarray[1] + ' is already being watched.');
+			alert(chrome.i18n.getMessage("thread_already_watched", threadarray[1]));
 		} else {
 			watchedthreads.push(threadarray);
 			storeWatchedThreads();
-			alert('Added thread No.' + threadarray[1] + ' to watch list.');
+			alert(chrome.i18n.getMessage("thread_now_watched", threadarray[1]));
 		}
 
 		refreshThreadWatcher();
@@ -104,7 +104,7 @@ function refreshThreadWatcher() {
 	if (m != null) {
 		var thisboard = m[1];
 		watchboxtable = document.getElementById('watchboxtable');
-		watchboxtable.innerHTML = '<tr><td class="postblock" style="border-right: 0px none;">No.</td><td class="postblock" style="border-left: 0px none;border-right: 0px none;">Subject</td><td class="postblock" style="border-left: 0px none;border-right: 0px none;">Author</td><td class="postblock" style="border-left: 0px none;border-right: 0px none;">Note</td><td class="postblock" style="border-left: 0px none;">&nbsp;</td></tr>';
+		watchboxtable.innerHTML = '<tr><td class="postblock" style="border-right: 0px none;">No.</td><td class="postblock" style="border-left: 0px none;border-right: 0px none;">' + chrome.i18n.getMessage("subject") + '</td><td class="postblock" style="border-left: 0px none;border-right: 0px none;">' + chrome.i18n.getMessage("author") + '</td><td class="postblock" style="border-left: 0px none;border-right: 0px none;">' + chrome.i18n.getMessage("note") + '</td><td class="postblock" style="border-left: 0px none;">&nbsp;</td></tr>';
 
 		var watchedthreads_thisboard = [];
 		for (var i = 0; i < watchedthreads.length; i++) {
@@ -115,12 +115,12 @@ function refreshThreadWatcher() {
 
 		if (watchedthreads_thisboard.length == 0) {
 			var wbrow = document.createElement('tr');
-			wbrow.innerHTML = '<td colspan="5" align="center">No watched threads.</td>';
+			wbrow.innerHTML = '<td colspan="5" align="center">' + chrome.i18n.getMessage("no_watched_threads") + '</td>';
 			watchboxtable.appendChild(wbrow);
 		} else {
 			for (var i = 0; i < watchedthreads_thisboard.length; i++) {
 				var wbrow = document.createElement('tr');
-				wbrow.innerHTML = '<td style="padding-left: 3px;padding-right: 3px;">' + watchedthreads_thisboard[i][1] + '</td><td class="filetitle" style="padding-left: 3px;padding-right: 3px;">' + watchedthreads_thisboard[i][2] + '</td><td class="postername" style="padding-left: 3px;padding-right: 3px;">' + watchedthreads_thisboard[i][3] + '</td><td style="padding-left: 3px;padding-right: 3px;"><input type="text" placeholder="Enter a note" size="12" value="' + watchedthreads_thisboard[i][4] + '" id="note' + watchedthreads_thisboard[i][0] + watchedthreads_thisboard[i][1] + '"></td><td style="padding-left: 3px;padding-right: 3px;"><small>[<a href="/' + watchedthreads_thisboard[i][0] + '/res/' + watchedthreads_thisboard[i][1] + '">view</a>] [<a href="#" id="delete' + watchedthreads_thisboard[i][0] + watchedthreads_thisboard[i][1] + '">delete</a>]</small></td>';
+				wbrow.innerHTML = '<td style="padding-left: 3px;padding-right: 3px;">' + watchedthreads_thisboard[i][1] + '</td><td class="filetitle" style="padding-left: 3px;padding-right: 3px;">' + watchedthreads_thisboard[i][2] + '</td><td class="postername" style="padding-left: 3px;padding-right: 3px;">' + watchedthreads_thisboard[i][3] + '</td><td style="padding-left: 3px;padding-right: 3px;"><input type="text" placeholder="' + chrome.i18n.getMessage("enter_a_note") + '" size="12" value="' + watchedthreads_thisboard[i][4] + '" id="note' + watchedthreads_thisboard[i][0] + watchedthreads_thisboard[i][1] + '"></td><td style="padding-left: 3px;padding-right: 3px;"><small>[<a href="/' + watchedthreads_thisboard[i][0] + '/res/' + watchedthreads_thisboard[i][1] + '">' + chrome.i18n.getMessage("view") + '</a>] [<a href="#" id="delete' + watchedthreads_thisboard[i][0] + watchedthreads_thisboard[i][1] + '">' + chrome.i18n.getMessage("delete") + '</a>]</small></td>';
 				watchboxtable.appendChild(wbrow);
 
 				var note = document.getElementById('note' + watchedthreads_thisboard[i][0] + watchedthreads_thisboard[i][1]);
@@ -137,7 +137,7 @@ function refreshThreadWatcher() {
 				deletethread.setAttribute('board', watchedthreads_thisboard[i][0]);
 				deletethread.setAttribute('threadid', watchedthreads_thisboard[i][1]);
 				deletethread.addEventListener('click', function() {
-					var confirm = window.confirm('Stop watching thread No.' + this.getAttribute('threadid') + '?');
+					var confirm = window.confirm(chrome.i18n.getMessage("stop_watching_thread", this.getAttribute('threadid')));
 					if (confirm) {
 						unwatchThread(this.getAttribute('board'), this.getAttribute('threadid'));
 					}
@@ -212,7 +212,7 @@ function quickReplyBox(resto, atElement) {
 	quickReplyBox.style.borderBottom = '1px solid #CCCCCC';
 	quickReplyBox.style.borderLeft = '1px solid #CCCCCC';
 	quickReplyBox.style.borderRight = '1px solid #CCCCCC';
-	quickReplyBox.innerHTML = '<span title="Close" style="float: right;cursor: pointer;font-weight: bold;font-size: 1.1em;padding: 1px;" onclick="javascript:var qr=document.getElementById(\'' + qrbid + '\');qr.parentNode.removeChild(qr);return false;">&nbsp;X&nbsp;</span><div style="text-align: center;cursor: move;padding: 1px;margin-bottom: 10px;" class="postblock">Quick Reply (#' + resto + ')</div>' + postarea;
+	quickReplyBox.innerHTML = '<span title="' + chrome.i18n.getMessage("close") + '" style="float: right;cursor: pointer;font-weight: bold;font-size: 1.1em;padding: 1px;" onclick="javascript:var qr=document.getElementById(\'' + qrbid + '\');qr.parentNode.removeChild(qr);return false;">&nbsp;X&nbsp;</span><div style="text-align: center;cursor: move;padding: 1px;margin-bottom: 10px;" class="postblock">' + chrome.i18n.getMessage("quick_reply") + ' (#' + resto + ')</div>' + postarea;
 	if (enable_quickreplyiframe) {
 		quickReplyBox.innerHTML += '<iframe id="' + qrbid + 'iframe" src="about:blank" style="display: none;min-width:100px;height:50px;margin:0px;padding:0px;"></iframe>';
 	}
@@ -350,7 +350,7 @@ function replaceRefLinksWithQuickReply(searchElement, resto_override) {
 					var report = document.createElement('a');
 					report.href = "javascript:reppop('http://sys.4chan.org/" + m2[1] + '/imgboard.php?mode=report&no=' + postid + "');return false;";
 					report.style.textDecoration = 'none';
-					report.innerHTML = ' <img border="0" src="' + chrome.extension.getURL('button_report.png') + '" title="Report Post">';
+					report.innerHTML = ' <img border="0" src="' + chrome.extension.getURL('button_report.png') + '" title="' + chrome.i18n.getMessage("report_post") + '">';
 					insertAfter(report, items[i]);
 				}
 				items[i].setAttribute('processed', 'true');
@@ -517,8 +517,8 @@ function processExpandTablesFinish(replies, replies_temp, threadID, spacer, omit
 		}
 	}
 
-	spacer.innerHTML = '<img border="0" src="' + chrome.extension.getURL('button_retract.png') + '" title="Retract">&nbsp;';
-	omittedposts.innerHTML = 'Thread No.' + threadID + ' expanded.';
+	spacer.innerHTML = '<img border="0" src="' + chrome.extension.getURL('button_retract.png') + '" title="' + chrome.i18n.getMessage("retract") + '">&nbsp;';
+	omittedposts.innerHTML = chrome.i18n.getMessage("thread_expanded", threadID);
 }
 
 function processExpand(replies, replies_temp, threadID, spacer, omittedposts) {
@@ -630,7 +630,7 @@ function fetchLatestPosts() {
 								document.forms[1].setAttribute('has404d', 'true');
 								var reply_404 = document.createElement('span');
 								reply_404.setAttribute('special', 'true');
-								reply_404.innerHTML = "This thread has 404'd";
+								reply_404.innerHTML = chrome.i18n.getMessage("thread_404");
 								reply_404.style.color = 'red';
 								reply_404.style.fontSize = '2.0em';
 								replies.push(reply_404);
@@ -705,7 +705,7 @@ function init4chan4chrome(element) {
 				watchBox.style.borderBottom = '1px solid #CCCCCC';
 				watchBox.style.borderLeft = '1px solid #CCCCCC';
 				watchBox.style.borderRight = '1px solid #CCCCCC';
-				watchBox.innerHTML = '<span title="Refresh" style="float: right;cursor: pointer;font-weight: bold;font-size: 1.1em;padding: 1px;" id="refreshthreadwatcher">&nbsp;R&nbsp;</span><div style="text-align: center;cursor: move;padding: 1px;margin-bottom: 0px;" class="postblock">Watched Threads</div><table cellpadding="1" cellspacing="0" id="watchboxtable" style="margin: 3px;"></table>';
+				watchBox.innerHTML = '<span title="' + chrome.i18n.getMessage("refresh") + '" style="float: right;cursor: pointer;font-weight: bold;font-size: 1.1em;padding: 1px;" id="refreshthreadwatcher">&nbsp;R&nbsp;</span><div style="text-align: center;cursor: move;padding: 1px;margin-bottom: 0px;" class="postblock">' + chrome.i18n.getMessage("watched_threads") + '</div><table cellpadding="1" cellspacing="0" id="watchboxtable" style="margin: 3px;"></table>';
 				watchBox.className = 'reply';
 				watchBox.style.margin = '0';
 				watchBox.style.padding = '0';
@@ -729,7 +729,7 @@ function init4chan4chrome(element) {
 					var threadID = m[1];
 					var quickReply = document.createElement('a');
 					quickReply.href = '#';
-					quickReply.innerHTML = '<img border="0" src="' + chrome.extension.getURL('button_quickreply.png') + '" title="Quick Reply">';
+					quickReply.innerHTML = '<img border="0" src="' + chrome.extension.getURL('button_quickreply.png') + '" title="' + chrome.i18n.getMessage("quick_reply") + '">';
 					quickReply.setAttribute('onclick', 'return false;');
 					quickReply.setAttribute('threadID', threadID);
 					quickReply.addEventListener('click', function() {
@@ -812,7 +812,7 @@ function init4chan4chrome(element) {
 						var threadhider = document.createElement('a');
 						threadhider.id = 'threadhider' + threadID;
 						threadhider.style.textDecoration = 'none';
-						threadhider.innerHTML = '<img border="0" src="' + chrome.extension.getURL('button_retract.png') + '" title="Hide Thread"> ';
+						threadhider.innerHTML = '<img border="0" src="' + chrome.extension.getURL('button_retract.png') + '" title="' + chrome.i18n.getMessage("hide_thread") + '"> ';
 						threadhider.href = '#';
 						threadhider.setAttribute('onClick', 'javascript:return false;');
 						threadhider.setAttribute('threadID', threadID);
@@ -834,7 +834,7 @@ function init4chan4chrome(element) {
 					if (enable_threadwatcher) {
 						watch.id = 'watch' + threadID;
 						watch.style.textDecoration = 'none';
-						watch.innerHTML = '<img border="0" src="' + chrome.extension.getURL('button_watch.png') + '" title="Watch Thread"> ';
+						watch.innerHTML = '<img border="0" src="' + chrome.extension.getURL('button_watch.png') + '" title="' + chrome.i18n.getMessage("watch_thread") + '"> ';
 						watch.href = '#';
 						watch.setAttribute('onClick', 'javascript:return false;');
 						watch.setAttribute('threadID', threadID);
@@ -886,7 +886,7 @@ function init4chan4chrome(element) {
 				if (node.className && node.className.toLowerCase() == 'omittedposts' && enable_expand) {
 					var expand = document.createElement('a');
 					expand.style.textDecoration = 'none';
-					expand.innerHTML = '<img border="0" src="' + chrome.extension.getURL('button_expand.png') + '" title="Expand Thread">&nbsp;';
+					expand.innerHTML = '<img border="0" src="' + chrome.extension.getURL('button_expand.png') + '" title="' + chrome.i18n.getMessage("expand_thread") + '">&nbsp;';
 					expand.href = '#';
 					expand.setAttribute('onClick', 'javascript:return false;');
 					expand.setAttribute('threadID', threadID);
@@ -905,15 +905,15 @@ function init4chan4chrome(element) {
 						if (this.getAttribute('expanded') == 'true') {
 							document.getElementById('replies' + this.getAttribute('threadID')).parentNode.removeChild(document.getElementById('replies' + this.getAttribute('threadID')));
 							this.innerHTML = this.getAttribute('retracthtml');
-							omittedposts.innerHTML = 'Thread No.' + this.getAttribute('threadID') + ' retracted.<br clear=\"left\">';
+							omittedposts.innerHTML = chrome.i18n.getMessage("thread_retracted", this.getAttribute('threadID')) + '<br clear=\"left\">';
 							this.setAttribute('expanded', 'false');
 						} else {
 							this.setAttribute('retracthtml', this.innerHTML);
-							omittedposts.innerHTML = 'Thread No.' + this.getAttribute('threadID') + ' expanding...';
+							omittedposts.innerHTML = chrome.i18n.getMessage("thread_expanding", this.getAttribute('threadID'));
 							this.style.textDecoration = 'none';
 							this.style.color = '#000000';
 							this.style.fontWeight = 'bold';
-							this.innerHTML = '<img border="0" src="' + chrome.extension.getURL('button_expandwait.png') + '" title="Expanding...">&nbsp;';
+							this.innerHTML = '<img border="0" src="' + chrome.extension.getURL('button_expandwait.png') + '">&nbsp;';
 							var client = new XMLHttpRequest();
 							client.open('GET', 'res/' + this.getAttribute('threadID'), true);
 							client.send();
@@ -929,7 +929,7 @@ function init4chan4chrome(element) {
 										replies_temp.innerHTML = client.responseText;
 										processExpand(replies, replies_temp, this.threadID, this.spacer, this.omittedposts);
 									} else if (client.status == 404) {
-										this.omittedposts.innerHTML = 'Thread No.' + this.threadID + " has 404'd.";
+										this.omittedposts.innerHTML = chrome.i18n.getMessage("thread_404");
 									}
 								}
 							};
@@ -940,7 +940,7 @@ function init4chan4chrome(element) {
 				if (node.nodeName.toLowerCase() == 'hr' && lastnode && lastnode.nodeName.toLowerCase() == 'br') {
 					if (enable_hidethreads) {
 						var unhide = document.createElement('span');
-						unhide.innerHTML = '<a href="#" id="triggerunhide' + hidethreadid + '"><img border="0" src="' + chrome.extension.getURL('button_expand.png') + '" title="Un-hide Thread"></a> Thread No.' + threadID + ' is hidden.';
+						unhide.innerHTML = '<a href="#" id="triggerunhide' + hidethreadid + '"><img border="0" src="' + chrome.extension.getURL('button_expand.png') + '" title="' + chrome.i18n.getMessage("unhide_thread") + '"></a> ' + chrome.i18n.getMessage("thread_is_hidden", threadID);
 						unhide.id = 'unhide' + hidethreadid;
 						unhide.style.display = 'none';
 						insertAfter(unhide, lastnode.previousSibling);
@@ -1024,7 +1024,7 @@ function init4chan4chrome(element) {
 					var returntotop = document.createElement('table');
 					returntotop.className = 'reply';
 					returntotop.style.marginTop = '1em';
-					returntotop.innerHTML = '<tr onclick="self.scrollTo(0,0);" style="cursor: hand;"><td align="left" style="font-size: 2em;">&#x25B2;</td><td align="center" width="100%" style="font-size: 2em;">Return to Top</td><td align="right" style="font-size: 2em;">&#x25B2;</td></tr>';
+					returntotop.innerHTML = '<tr onclick="self.scrollTo(0,0);" style="cursor: hand;"><td align="left" style="font-size: 2em;">&#x25B2;</td><td align="center" width="100%" style="font-size: 2em;">' + chrome.i18n.getMessage("return_to_top") + '</td><td align="right" style="font-size: 2em;">&#x25B2;</td></tr>';
 					insertAfter(returntotop, lastreply);
 				}
 			}

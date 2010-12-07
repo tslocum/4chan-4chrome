@@ -1111,7 +1111,7 @@ if (!disable4c4c) {
 		init4chan4chrome();
 	});
 	chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
-		if (request.reqtype == 'expandall') {
+		if (request["reqtype"] == 'expandall') {
 			expand_all_thumbs = true;
 			var items = document.getElementsByTagName('a');
 			for (var i = 0; i < items.length; i++) {
@@ -1123,7 +1123,7 @@ if (!disable4c4c) {
 					}
 				}
 			}
-		} else if (request.reqtype == 'visiturl') {
+		} else if (request["reqtype"] == 'visiturl') {
 			window.location.href = request.url;
 		}
 	});

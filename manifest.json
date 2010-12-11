@@ -1,6 +1,6 @@
 {
   "name": "4chan 4chrome",
-  "version": "9001.38",
+  "version": "9001.39",
   "description": "__MSG_chrome_extension_description__",
   "default_locale": "en",
   "permissions": [
@@ -8,10 +8,10 @@
     "http://www.4chan.org/"
   ],
   "icons": {
-    "128": "4chan_icon.png"
+    "128": "images/4chan_icon.png"
   },
   "page_action": {
-    "default_icon": "4chan_icon_action.png",
+    "default_icon": "images/4chan_icon_action.png",
     "default_title": "4chan 4chrome",
     "popup": "popup.html"
   },

@@ -1,0 +1,209 @@
+{
+  "image_expansion_info": {
+    "message": "Venstreklikk på et miniatyrbilde for å utvide det inne på siden"
+  },
+  "use_inline_frame": {
+    "message": "Bruk innebygde rammer"
+  },
+  "4chan_4chrome_options": {
+    "message": "4chan 4chrome-innstillinger"
+  },
+  "auto_noko": {
+    "message": "Auto-noko"
+  },
+  "expand_all_thumbnails": {
+    "message": "Utvid alle miniatyrbilder"
+  },
+  "thread_expansion": {
+    "message": "Utviding av tråder"
+  },
+  "thread_expanding": {
+    "placeholders": {
+      "thread": {
+        "example": "20244",
+        "content": "$1"
+      }
+    },
+    "message": "Utvider tråd nr. $thread$..."
+  },
+  "return_to_top": {
+    "message": "Gå til toppen"
+  },
+  "quick_report_post_info": {
+    "message": "Legg til en rapporteringsknapp på alle poster"
+  },
+  "delete": {
+    "message": "slett"
+  },
+  "author": {
+    "message": "Forfatter"
+  },
+  "thread_retracted": {
+    "placeholders": {
+      "thread": {
+        "example": "20244",
+        "content": "$1"
+      }
+    },
+    "message": "Tråd nr. $thread$ er trukket sammen."
+  },
+  "close": {
+    "message": "Lukk"
+  },
+  "watched_threads": {
+    "message": "Overvåkede tråder"
+  },
+  "highlight_sage_posts": {
+    "message": "Uthev poster med sage"
+  },
+  "highlight_sage_posts_info": {
+    "message": "Viser poster med sage i et annet format"
+  },
+  "auto_noko_info": {
+    "message": "Noko blir automatisk satt inn i epostfeltet"
+  },
+  "hide_threads_info": {
+    "message": "Fjern uønskede tråder fra visning"
+  },
+  "chrome_extension_description": {
+    "message": "Legger til litt ekstra funksjonalitet når du surfer på 4chan"
+  },
+  "stop_watching_thread": {
+    "placeholders": {
+      "thread": {
+        "example": "20244",
+        "content": "$1"
+      }
+    },
+    "message": "Avslutt overvåking av tråd nr. $thread$?"
+  },
+  "hide_threads": {
+    "message": "Skjul tråder"
+  },
+  "visit_4chan_4chrome": {
+    "message": "Klikk for å besøke 4chan 4chrome i Googles database for utvidelser"
+  },
+  "watch_threads": {
+    "message": "Overvåk tråder"
+  },
+  "thread_expanded": {
+    "placeholders": {
+      "thread": {
+        "example": "20244",
+        "content": "$1"
+      }
+    },
+    "message": "Utvidet tråd nr. $thread$."
+  },
+  "watch_thread": {
+    "message": "Overvåk tråd"
+  },
+  "post_preview_info": {
+    "message": "Vis posten som det refereres når du holder musepekeren over  >>#######-lenker."
+  },
+  "quick_reply": {
+    "message": "Hurtigsvar"
+  },
+  "return_to_top_info": {
+    "message": "Legger til en lenke som sender deg tilbake til toppen av siden"
+  },
+  "report_post": {
+    "message": "Rapporter post"
+  },
+  "thread_404": {
+    "message": "Denne tråden har 404'd"
+  },
+  "refresh": {
+    "message": "Oppdater"
+  },
+  "quick_report_post": {
+    "message": "Hurtigrapportering"
+  },
+  "retract": {
+    "message": "Trekk sammen"
+  },
+  "unhide_thread": {
+    "message": "Fjern skjuling av tråd"
+  },
+  "enter_a_note": {
+    "message": "Skriv en merknad"
+  },
+  "image_expansion": {
+    "message": "Bildeutviding"
+  },
+  "subject": {
+    "message": "Emne"
+  },
+  "thread_expansion_info": {
+    "message": "Vis alle svar til en tråd uten å forlate siden"
+  },
+  "fetch_new_replies": {
+    "message": "Hent nye svar"
+  },
+  "4chan_navigation": {
+    "message": "4chan-navigasjon"
+  },
+  "expand_thread": {
+    "message": "Utvid tråd"
+  },
+  "note": {
+    "message": "Merk"
+  },
+  "thread_now_watched": {
+    "placeholders": {
+      "thread": {
+        "example": "20244",
+        "content": "$1"
+      }
+    },
+    "message": "Overvåker nå tråd nr. $thread$."
+  },
+  "view": {
+    "message": "vis"
+  },
+  "enter_text_above": {
+    "message": "Skriv inn tekst i feltene over for å sette standardverdier til når du surfer"
+  },
+  "show_icon": {
+    "message": "Vis ikon"
+  },
+  "no_watched_threads": {
+    "message": "Ingen overvåkede tråder."
+  },
+  "hide_thread": {
+    "message": "Skjul tråd"
+  },
+  "watch_threads_info": {
+    "message": "Lagre tråder til senere"
+  },
+  "post_preview": {
+    "message": "Forhåndsvisning av post"
+  },
+  "show_icon_info": {
+    "message": "Merk: Vil ikke tre i kraft med en gang"
+  },
+  "thread_already_watched": {
+    "placeholders": {
+      "thread": {
+        "example": "20244",
+        "content": "$1"
+      }
+    },
+    "message": "Tråd nr. $thread$ overvåkes allerede."
+  },
+  "fetch_new_replies_info": {
+    "message": "Merk: Kun tilgjengelig når du viser hele tråden (dvs. ved å trykke Reply)"
+  },
+  "thread_is_hidden": {
+    "placeholders": {
+      "thread": {
+        "example": "20244",
+        "content": "$1"
+      }
+    },
+    "message": "Tråd nr. $thread$ er skjult."
+  },
+  "enable_or_disable": {
+    "message": "Skru av og på utvidelsens funksjoner med kontrollene under."
+  }
+}

@@ -824,29 +824,6 @@ function init4chan4chrome(element) {
 				if (!threadID && node.nodeName.toLowerCase() == 'input' && node.type == 'checkbox') {
 					threadID = node.name;
 
-					if (enable_hidethreads) {
-						var threadhider = doc.createElement('a');
-						threadhider.id = 'threadhider' + threadID;
-						threadhider.style.textDecoration = 'none';
-						threadhider.innerHTML = '<img border="0" src="' + chrome.extension.getURL('images/button_retract.png') + '" title="' + chrome.i18n.getMessage("hide_thread") + '"> ';
-						threadhider.href = '#';
-						threadhider.setAttribute('onClick', 'javascript:return false;');
-						threadhider.setAttribute('threadID', threadID);
-						threadhider.setAttribute('hidethreadID', hidethreadid);
-
-						threadhider.addEventListener('click', function() {
-							hideThread(this.getAttribute('threadID'));
-							var items = getElementsByAttribute('hidethread', this.getAttribute('hidethreadID'), false);
-							for (var j = 0; j < items.length; j++) {
-								items[j].style.display = 'none';
-							}
-							var unhidethread = doc.getElementById('unhide' + this.getAttribute('hidethreadID'));
-							unhidethread.style.display = 'block';
-						}, false);
-
-						insertAfter(threadhider, node);
-					}
-
 					if (enable_threadwatcher) {
 						watch.id = 'watch' + threadID;
 						watch.style.textDecoration = 'none';
@@ -872,6 +849,29 @@ function init4chan4chrome(element) {
 						}, false);
 
 						insertAfter(watch, node);
+					}
+					
+					if (enable_hidethreads) {
+						var threadhider = doc.createElement('a');
+						threadhider.id = 'threadhider' + threadID;
+						threadhider.style.textDecoration = 'none';
+						threadhider.innerHTML = '<img border="0" src="' + chrome.extension.getURL('images/button_retract.png') + '" title="' + chrome.i18n.getMessage("hide_thread") + '"> ';
+						threadhider.href = '#';
+						threadhider.setAttribute('onClick', 'javascript:return false;');
+						threadhider.setAttribute('threadID', threadID);
+						threadhider.setAttribute('hidethreadID', hidethreadid);
+
+						threadhider.addEventListener('click', function() {
+							hideThread(this.getAttribute('threadID'));
+							var items = getElementsByAttribute('hidethread', this.getAttribute('hidethreadID'), false);
+							for (var j = 0; j < items.length; j++) {
+								items[j].style.display = 'none';
+							}
+							var unhidethread = doc.getElementById('unhide' + this.getAttribute('hidethreadID'));
+							unhidethread.style.display = 'block';
+						}, false);
+
+						insertAfter(threadhider, node);
 					}
 				}
 

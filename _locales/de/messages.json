@@ -1,0 +1,209 @@
+{
+  "image_expansion_info": {
+    "message": "Linksklick auf ein Vorschaubild vergrößert es innerhalb der Seite"
+  },
+  "use_inline_frame": {
+    "message": "Benutze Inlineframe"
+  },
+  "4chan_4chrome_options": {
+    "message": "4chan 4chrome Optionen"
+  },
+  "auto_noko": {
+    "message": "Auto-Noko"
+  },
+  "expand_all_thumbnails": {
+    "message": "Alle Vorschaubilder vergrößern"
+  },
+  "thread_expansion": {
+    "message": "Ausklappung des Threads"
+  },
+  "thread_expanding": {
+    "placeholders": {
+      "thread": {
+        "example": "20244",
+        "content": "$1"
+      }
+    },
+    "message": "Klappe Thread Nr.$thread$ aus..."
+  },
+  "return_to_top": {
+    "message": "Zum Anfang scrollen"
+  },
+  "quick_report_post_info": {
+    "message": "Füge einen Meldebutton an jeden Post an"
+  },
+  "delete": {
+    "message": "löschen"
+  },
+  "author": {
+    "message": "Autor"
+  },
+  "thread_retracted": {
+    "placeholders": {
+      "thread": {
+        "example": "20244",
+        "content": "$1"
+      }
+    },
+    "message": "Thread Nr.$thread$ wurde zurückgezogen."
+  },
+  "close": {
+    "message": "Schließen"
+  },
+  "watched_threads": {
+    "message": "Beobachtete Threads"
+  },
+  "highlight_sage_posts": {
+    "message": "Hebe 'Sage'-Posts hervor"
+  },
+  "highlight_sage_posts_info": {
+    "message": "Stellt 'Sage'-Posts anders dar"
+  },
+  "auto_noko_info": {
+    "message": "Jedes Mal so verhalten, als wäre 'noko' im E-Mail-Feld eingegeben."
+  },
+  "hide_threads_info": {
+    "message": "Entferne ungewünschte Threads von der Anzeige"
+  },
+  "chrome_extension_description": {
+    "message": "Fügt ein paar weitere Funktionen ein, während man auf 4chan surft."
+  },
+  "stop_watching_thread": {
+    "placeholders": {
+      "thread": {
+        "example": "20244",
+        "content": "$1"
+      }
+    },
+    "message": "Thread Nr.$thread$ nicht mehr beobachten?"
+  },
+  "hide_threads": {
+    "message": "Threads verstecken"
+  },
+  "visit_4chan_4chrome": {
+    "message": "Anklicken, um 4chan 4chrome in der Google Chrome Erweiterungsgalerie zu besuchen"
+  },
+  "watch_threads": {
+    "message": "Beobachte Threads"
+  },
+  "thread_expanded": {
+    "placeholders": {
+      "thread": {
+        "example": "20244",
+        "content": "$1"
+      }
+    },
+    "message": "Thread Nr.$thread$ ausgeklappt."
+  },
+  "watch_thread": {
+    "message": "Beobachte Thread"
+  },
+  "post_preview_info": {
+    "message": "Stelle die Referenz des Posts beim Überfahren von >>#######-Links mit der Maus dar"
+  },
+  "quick_reply": {
+    "message": "Schnellantwort"
+  },
+  "return_to_top_info": {
+    "message": "Fügt einen Link ein, um an den Anfang zu scrollen"
+  },
+  "report_post": {
+    "message": "Post melden"
+  },
+  "thread_404": {
+    "message": "Dieser Thread existiert nicht mehr"
+  },
+  "refresh": {
+    "message": "Aktualisieren"
+  },
+  "quick_report_post": {
+    "message": "Post-Schnellmeldung"
+  },
+  "retract": {
+    "message": "Zurücknehmen"
+  },
+  "unhide_thread": {
+    "message": "Thread wieder einblenden"
+  },
+  "enter_a_note": {
+    "message": "Notiz eingeben"
+  },
+  "image_expansion": {
+    "message": "Bildvergrößerung"
+  },
+  "subject": {
+    "message": "Betreff"
+  },
+  "thread_expansion_info": {
+    "message": "Zeige alle Antworten auf einen Thread ohne die Seite zu verlassen"
+  },
+  "fetch_new_replies": {
+    "message": "Neue Antworten holen"
+  },
+  "4chan_navigation": {
+    "message": "4chan Navigation"
+  },
+  "expand_thread": {
+    "message": "Thread aufklappen"
+  },
+  "note": {
+    "message": "Hinweis"
+  },
+  "thread_now_watched": {
+    "placeholders": {
+      "thread": {
+        "example": "20244",
+        "content": "$1"
+      }
+    },
+    "message": "Thread Nr.$thread$ wurde zur Beobachtungsliste hinzugefügt."
+  },
+  "view": {
+    "message": "ansehen"
+  },
+  "enter_text_above": {
+    "message": "Text in die oberen Felder eingeben, um ihre Standardwerte beim Surfen zu setzen"
+  },
+  "show_icon": {
+    "message": "Icon anzeigen"
+  },
+  "no_watched_threads": {
+    "message": "Keine beobachteten Threads"
+  },
+  "hide_thread": {
+    "message": "Thread verstecken"
+  },
+  "watch_threads_info": {
+    "message": "Speichere Threads für später"
+  },
+  "post_preview": {
+    "message": "Postvorschau"
+  },
+  "show_icon_info": {
+    "message": "Hinweis: Diese Einstellung wird nicht sofort wirksam sein"
+  },
+  "thread_already_watched": {
+    "placeholders": {
+      "thread": {
+        "example": "20244",
+        "content": "$1"
+      }
+    },
+    "message": "Thread Nr.$thread$ wird bereits beobachtet."
+  },
+  "fetch_new_replies_info": {
+    "message": "Hinweis: Nur möglich, wenn der ganze Thread angesehen wird (z.B. durch Klicken auf 'Reply')"
+  },
+  "thread_is_hidden": {
+    "placeholders": {
+      "thread": {
+        "example": "20244",
+        "content": "$1"
+      }
+    },
+    "message": "Thread Nr.$thread$ is versteckt."
+  },
+  "enable_or_disable": {
+    "message": "Aktiviere oder deaktiviere Eigenschaften dieser Erweiterung durch das Benutzen folgender Bedienelemente."
+  }
+}

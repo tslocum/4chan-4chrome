@@ -69,7 +69,7 @@
 		}
 	</style>
 </head>
-<body onload="initControls();">
+<body>
 	<h1 style="text-align: center;"><span id="header" style="cursor: pointer;" onclick="javascript:window.location.href='https://chrome.google.com/webstore/detail/ncbfnjcklemldbidfoceaffkjofkcomb'">4chan 4chrome</span></h1>
 	<br>
 	<table align="center" cellpadding=1 cellspacing=1> 
@@ -197,6 +197,14 @@
 			<span class="replytext" id="returntotopdesc"></span>
 		</td></tr></table>
 	</label>
+  <label for="quickbrowse">
+		<table><tr><td nowrap class="doubledash">&gt;&gt;</td>
+		<td class="reply"><input type="checkbox" id="quickbrowse"></td>
+		<td class="reply entry">
+			<span class="replytitle" id="quickbrowsetext"></span><br>
+			<span class="replytext" id="quickbrowsedesc"></span>
+		</td></tr></table>
+	</label>
 	<label for="showicon">
 		<table><tr><td nowrap class="doubledash">&gt;&gt;</td>
 		<td class="reply"><input type="checkbox" id="showicon"></td>
@@ -296,6 +304,8 @@
     document.getElementById("autonokodesc").textContent = chrome.i18n.getMessage("auto_noko_info");
     document.getElementById("returntotoptext").textContent = chrome.i18n.getMessage("return_to_top");
     document.getElementById("returntotopdesc").textContent = chrome.i18n.getMessage("return_to_top_info");
+    document.getElementById("quickbrowsetext").textContent = chrome.i18n.getMessage("quick_browse");
+    document.getElementById("quickbrowsedesc").textContent = chrome.i18n.getMessage("quick_browse_info");
     document.getElementById("showicontext").textContent = chrome.i18n.getMessage("show_icon");
     document.getElementById("showicondesc").textContent = chrome.i18n.getMessage("show_icon_info");
     
@@ -311,6 +321,7 @@
     document.getElementById("threadwatcher").checked = localStorage.getItem("threadwatcher") != "true";
     document.getElementById("hidethreads").checked = localStorage.getItem("hidethreads") != "true";
     document.getElementById("returntotop").checked = localStorage.getItem("returntotop") != "true";
+    document.getElementById("quickbrowse").checked = localStorage.getItem("quickbrowse") != "true";
     document.getElementById("showicon").checked = localStorage.getItem("showicon") != "true";
     
     document.getElementById("name").value = (localStorage.getItem("defaultname") != null) ? localStorage.getItem("defaultname") : "";
@@ -354,6 +365,9 @@
     };
     document.getElementById("returntotop").onchange = function(event) { 
       localStorage.setItem("returntotop", !this.checked); 
+    };
+    document.getElementById("quickbrowse").onchange = function(event) { 
+      localStorage.setItem("quickbrowse", !this.checked); 
     };
     document.getElementById("showicon").onchange = function(event) { 
       localStorage.setItem("showicon", !this.checked); 

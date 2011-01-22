@@ -1,6 +1,6 @@
 {
   "name": "4chan 4chrome",
-  "version": "9001.45",
+  "version": "9001.46",
   "description": "__MSG_chrome_extension_description__",
   "default_locale": "en",
   "permissions": [

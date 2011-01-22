@@ -205,5 +205,14 @@
 	},
 	"show_icon_info": {
 		"message": "Note: This option will not take effect immediately"
+	},
+	"quick_browse": {
+		"message": "Quick Browse"
+	},
+	"quick_browse_info": {
+		"message": "Adds a link to go directly to new threads"
+	},
+	"browse_new_threads": {
+		"message": "Browse New Threads"
 	}
 }

@@ -687,6 +687,7 @@ var enable_preview = null;
 var enable_fetchreplies = null;
 var enable_autonoko = null;
 var enable_returntotop = null;
+var enable_quickbrowse = null;
 var enable_sage = null;
 var enable_report = null;
 var enable_threadwatcher = null;
@@ -732,6 +733,11 @@ function init4chan4chrome(element) {
 					refreshThreadWatcherCache();
 				}, false);
 			}
+		}
+		scrolltotopthread = false;
+		var m = win.location.href.match(/http\:\/\/.*\.4chan\.org\/.*\?browse/i);
+		if (enable_quickbrowse && m != null) {
+			scrolltotopthread = true;
 		}
 		var items = element.getElementsByTagName('a');
 		for (var i = 0; i < items.length; i++) {
@@ -807,6 +813,8 @@ function init4chan4chrome(element) {
 			lastnode = null;
 			threadID = null;
 			lastreply = null;
+			topthread = false;
+			lasthr = null;
 
 			for (var i = 0; i < nodes.length; i++) {
 				node = nodes[i];
@@ -819,6 +827,13 @@ function init4chan4chrome(element) {
 					}
 
 					node.setAttribute('hidethread', hidethreadid);
+				}
+				
+				if (!topthread) {
+					topthread = node;
+					if (scrolltotopthread) {
+						window.scrollTo(0, topthread.offsetTop);
+					}
 				}
 
 				if (!threadID && node.nodeName.toLowerCase() == 'input' && node.type == 'checkbox') {
@@ -899,7 +914,7 @@ function init4chan4chrome(element) {
 					lastreplyid = node.getAttribute('postID');
 				}
 
-				if (node.className && node.className.toLowerCase() == 'omittedposts' && enable_expand) {
+				if (enable_expand && node.className && node.className.toLowerCase() == 'omittedposts') {
 					var expand = doc.createElement('a');
 					expand.style.textDecoration = 'none';
 					expand.innerHTML = '<img border="0" src="' + chrome.extension.getURL('images/button_expand.png') + '" title="' + chrome.i18n.getMessage("expand_thread") + '">&nbsp;';
@@ -951,6 +966,18 @@ function init4chan4chrome(element) {
 						}
 					}, false);
 				}
+				
+				if (enable_quickbrowse && node.className && node.className.toLowerCase() == 'pages') {
+					var items = node.getElementsByTagName('a');
+					for (var j = 0; j < items.length; j++) {
+						items[j].href += "?browse";
+					}
+					
+					var items = node.getElementsByTagName('form');
+					for (var j = 0; j < items.length; j++) {
+						items[j].action += "?browse";
+					}
+				}
 
 				if (node.nodeName.toLowerCase() == 'hr' && lastnode && lastnode.nodeName.toLowerCase() == 'br') {
 					if (enable_hidethreads) {
@@ -975,6 +1002,7 @@ function init4chan4chrome(element) {
 						}, false);
 					}
 
+					lasthr = node;
 					threadID = null;
 					hidethreadid = 'thread' + Math.floor(Math.random() * 1000);
 					watch = doc.createElement('a');
@@ -1035,12 +1063,29 @@ function init4chan4chrome(element) {
 			
 			if (enable_returntotop) {
 				var m = full_url.match(/.*\/res\/[0-9]+.*/i);
-				if (full_url.search('4chan.org') != -1 && m && lastreply) {
+				if (full_url.search('4chan.org') != -1 && m) {
 					var returntotop = doc.createElement('table');
 					returntotop.className = 'reply';
-					returntotop.style.marginTop = '1em';
+					returntotop.style.clear = 'both';
 					returntotop.innerHTML = '<tr onclick="self.scrollTo(0,0);" style="cursor: hand;"><td align="left" style="font-size: 2em;">&#x25B2;</td><td align="center" width="100%" style="font-size: 2em;">' + chrome.i18n.getMessage("return_to_top") + '</td><td align="right" style="font-size: 2em;">&#x25B2;</td></tr>';
-					insertAfter(returntotop, lastreply);
+					insertAfter(returntotop, lasthr);
+				}
+			}
+			
+			if (enable_quickbrowse) {
+				var m = win.location.href.match(/(^.*)\/res\/[0-9]+.*/i);
+				if (m == null) {
+					var quickbrowse = doc.createElement('table');
+					quickbrowse.className = 'reply';
+					quickbrowse.style.clear = 'both';
+					quickbrowse.innerHTML = '<tr style="cursor: hand;"><td align="left" style="font-size: 2em;">&#x25B2;</td><td align="center" width="100%" style="font-size: 2em;">' + chrome.i18n.getMessage("browse_new_threads") + '</td><td align="right" style="font-size: 2em;">&#x25B2;</td></tr>';
+					quickbrowse.addEventListener('click', function() {
+						var m2 = win.location.href.match(/http\:\/\/(.*)\.4chan\.org\/(.*)\/.*/i);
+						if (m2 != null) {
+							window.location = "http://" + m2[1] + ".4chan.org/" + m2[2] + "/?browse";
+						}
+					}, false);
+					insertAfter(quickbrowse, lasthr);
 				}
 			}
 		}
@@ -1077,8 +1122,6 @@ function selectmouse(e) {
 }
 
 function onLoad() {
-	/* doc.onmousedown = selectmouse;
-	doc.onmouseup = function() {isdrag = false;}; */
 	doc.addEventListener("mousedown", selectmouse, false);
 	doc.addEventListener("mouseup", function() {isdrag = false;}, false);
 	last_modified = doc.lastModified;
@@ -1097,7 +1140,7 @@ function onLoad() {
 			}
 		}
 	}
-
+	
 	var disable4c4c = false;
 	full_url = win.location.href;
 	var m = full_url.match(/.*\/\/([0-9a-zA-Z]+)\.4chan\.org\/([0-9a-zA-Z]+)\/.*/i);
@@ -1121,6 +1164,7 @@ function onLoad() {
 			enable_threadwatcher = response['threadwatcher'];
 			enable_hidethreads = response['hidethreads'];
 			enable_returntotop = response['returntotop'];
+			enable_quickbrowse = response['quickbrowse'];
 			watchedthreads = response['watchedthreads'];
 			hiddenthreads = response['hiddenthreads'];
 			default_name = response['default_name'];

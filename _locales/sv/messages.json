@@ -1,57 +1,60 @@
 {
-  "image_expansion_info": {
-    "message": "Vänsterklicka på en miniatyrbild för att expandera den inuti sidan"
-  },
-  "use_inline_frame": {
-    "message": "Använd inline-frame"
-  },
   "4chan_4chrome_options": {
     "message": "4chan 4chrome Inställningar"
   },
-  "auto_noko": {
-    "message": "Auto Noko"
-  },
-  "expand_all_thumbnails": {
-    "message": "Expandera Alla Miniatyrbilderna"
-  },
-  "thread_expansion": {
-    "message": "Trådexpandering"
-  },
-  "thread_expanding": {
-    "placeholders": {
-      "thread": {
-        "example": "20244",
-        "content": "$1"
-      }
-    },
-    "message": "Tråd num.$thread$ expanderas..."
-  },
-  "return_to_top": {
-    "message": "Återgå till toppen"
-  },
-  "quick_report_post_info": {
-    "message": "Lägg till en rapporter-knapp till varje post"
-  },
-  "delete": {
-    "message": "radera"
+  "4chan_navigation": {
+    "message": "4chan Navigering"
   },
   "author": {
     "message": "Författare"
   },
-  "thread_retracted": {
-    "placeholders": {
-      "thread": {
-        "example": "20244",
-        "content": "$1"
-      }
-    },
-    "message": "Tråd num.$thread$ har dragits in."
+  "auto_noko": {
+    "message": "Auto Noko"
+  },
+  "auto_noko_info": {
+    "message": "Fungera alltid som om noko skrivades i emailfältet"
+  },
+  "browse_new_threads": {
+    "message": null
+  },
+  "chrome_extension_description": {
+    "message": "Lägger till lite extra fuktionalitet när 4chan surfas."
   },
   "close": {
     "message": "Stäng"
   },
-  "watched_threads": {
-    "message": "Övervakade trådar"
+  "delete": {
+    "message": "radera"
+  },
+  "enable_or_disable": {
+    "message": "Slå på eller stäng av den här utökningens funktioner med att använda de följande kontroller."
+  },
+  "enter_a_note": {
+    "message": "Skriv en anteckning"
+  },
+  "enter_text_above": {
+    "message": "Skriv text i de ovanstådende fält för att ställa in sina förvalde värden när du surfar"
+  },
+  "expand_all_thumbnails": {
+    "message": "Expandera Alla Miniatyrbilderna"
+  },
+  "expand_thread": {
+    "message": "Expandera Tråden"
+  },
+  "fetch_new_replies": {
+    "message": "Hämta Nya Svar"
+  },
+  "fetch_new_replies_info": {
+    "message": "Obs: tillgänglig bara när hela tråden visas (när Reply klickas)"
+  },
+  "hide_thread": {
+    "message": "Göm Tråden"
+  },
+  "hide_threads": {
+    "message": "Gömma Trådar"
+  },
+  "hide_threads_info": {
+    "message": "Ta bort oönskade trådar från visning"
   },
   "highlight_sage_posts": {
     "message": "Framhäv Sageposter"
@@ -59,151 +62,157 @@
   "highlight_sage_posts_info": {
     "message": "Märker sageposter annorlunda"
   },
-  "auto_noko_info": {
-    "message": "Fungera alltid som om noko skrivades i emailfältet"
-  },
-  "hide_threads_info": {
-    "message": "Ta bort oönskade trådar från visning"
-  },
-  "chrome_extension_description": {
-    "message": "Lägger till lite extra fuktionalitet när 4chan surfas."
-  },
-  "stop_watching_thread": {
-    "placeholders": {
-      "thread": {
-        "example": "20244",
-        "content": "$1"
-      }
-    },
-    "message": "Sluta övervaka tråd num.$thread$?"
-  },
-  "hide_threads": {
-    "message": "Gömma Trådar"
-  },
-  "visit_4chan_4chrome": {
-    "message": "Klicka för att hälsa på 4chan 4Chrome på den Google Chrome utökningsregister"
-  },
-  "watch_threads": {
-    "message": "Övervaka Trådar"
-  },
-  "thread_expanded": {
-    "placeholders": {
-      "thread": {
-        "example": "20244",
-        "content": "$1"
-      }
-    },
-    "message": "Tråd num.$thread$ är expanderad."
-  },
-  "watch_thread": {
-    "message": "Övervaka tråden"
-  },
-  "post_preview_info": {
-    "message": "När musen står på >>####### länkar, ska den hänvisade posten visas"
-  },
-  "quick_reply": {
-    "message": "Snabbsvar"
-  },
-  "return_to_top_info": {
-    "message": "Lägger till en länk för att återgå till sidans topp"
-  },
-  "report_post": {
-    "message": "Rapporter Posten"
-  },
-  "thread_404": {
-    "message": "Denna tråd har 404:t"
-  },
-  "refresh": {
-    "message": "Uppdatera"
-  },
-  "quick_report_post": {
-    "message": "Snabbrapporter Posten"
-  },
-  "retract": {
-    "message": "Dra In"
-  },
-  "unhide_thread": {
-    "message": "Visa Tråden"
-  },
-  "enter_a_note": {
-    "message": "Skriv en anteckning"
-  },
   "image_expansion": {
     "message": "Bildexpandering"
   },
-  "subject": {
-    "message": "Ämne"
-  },
-  "thread_expansion_info": {
-    "message": "Visa alla svar till en tråd utan att lämna sidan"
-  },
-  "fetch_new_replies": {
-    "message": "Hämta Nya Svar"
-  },
-  "4chan_navigation": {
-    "message": "4chan Navigering"
-  },
-  "expand_thread": {
-    "message": "Expandera Tråden"
-  },
-  "note": {
-    "message": "Anteckning"
-  },
-  "thread_now_watched": {
-    "placeholders": {
-      "thread": {
-        "example": "20244",
-        "content": "$1"
-      }
-    },
-    "message": "Lade tråd num.$thread$ till övervakningslistan."
-  },
-  "view": {
-    "message": "visa"
-  },
-  "enter_text_above": {
-    "message": "Skriv text i de ovanstådende fält för att ställa in sina förvalde värden när du surfar"
-  },
-  "show_icon": {
-    "message": "Visa Ikon"
+  "image_expansion_info": {
+    "message": "Vänsterklicka på en miniatyrbild för att expandera den inuti sidan"
   },
   "no_watched_threads": {
     "message": "Inga trådar övervakas."
   },
-  "hide_thread": {
-    "message": "Göm Tråden"
-  },
-  "watch_threads_info": {
-    "message": "Bokmärk trådar till senare"
+  "note": {
+    "message": "Anteckning"
   },
   "post_preview": {
     "message": "Postförhandsvisning"
   },
+  "post_preview_info": {
+    "message": "När musen står på >>####### länkar, ska den hänvisade posten visas"
+  },
+  "quick_browse": {
+    "message": null
+  },
+  "quick_browse_info": {
+    "message": null
+  },
+  "quick_reply": {
+    "message": "Snabbsvar"
+  },
+  "quick_report_post": {
+    "message": "Snabbrapporter Posten"
+  },
+  "quick_report_post_info": {
+    "message": "Lägg till en rapporter-knapp till varje post"
+  },
+  "refresh": {
+    "message": "Uppdatera"
+  },
+  "report_post": {
+    "message": "Rapporter Posten"
+  },
+  "retract": {
+    "message": "Dra In"
+  },
+  "return_to_top": {
+    "message": "Återgå till toppen"
+  },
+  "return_to_top_info": {
+    "message": "Lägger till en länk för att återgå till sidans topp"
+  },
+  "show_icon": {
+    "message": "Visa Ikon"
+  },
+  "stop_watching_thread": {
+    "placeholders": {
+      "thread": {
+        "content": "$1",
+        "example": "20244"
+      }
+    },
+    "message": "Sluta övervaka tråd num.$thread$?"
+  },
   "show_icon_info": {
     "message": "Obs: den här inställningen tar inte effekt genast."
+  },
+  "subject": {
+    "message": "Ämne"
   },
   "thread_already_watched": {
     "placeholders": {
       "thread": {
-        "example": "20244",
-        "content": "$1"
+        "content": "$1",
+        "example": "20244"
       }
     },
     "message": "Tråd num.$thread$ redan övervakas."
   },
-  "fetch_new_replies_info": {
-    "message": "Obs: tillgänglig bara när hela tråden visas (när Reply klickas)"
+  "thread_404": {
+    "message": "Denna tråd har 404:t"
+  },
+  "thread_expanded": {
+    "placeholders": {
+      "thread": {
+        "content": "$1",
+        "example": "20244"
+      }
+    },
+    "message": "Tråd num.$thread$ är expanderad."
+  },
+  "thread_expanding": {
+    "placeholders": {
+      "thread": {
+        "content": "$1",
+        "example": "20244"
+      }
+    },
+    "message": "Tråd num.$thread$ expanderas..."
+  },
+  "thread_expansion": {
+    "message": "Trådexpandering"
   },
   "thread_is_hidden": {
     "placeholders": {
       "thread": {
-        "example": "20244",
-        "content": "$1"
+        "content": "$1",
+        "example": "20244"
       }
     },
     "message": "Tråd num.$thread$ är gömd."
   },
-  "enable_or_disable": {
-    "message": "Slå på eller stäng av den här utökningens funktioner med att använda de följande kontroller."
+  "thread_expansion_info": {
+    "message": "Visa alla svar till en tråd utan att lämna sidan"
+  },
+  "thread_now_watched": {
+    "placeholders": {
+      "thread": {
+        "content": "$1",
+        "example": "20244"
+      }
+    },
+    "message": "Lade tråd num.$thread$ till övervakningslistan."
+  },
+  "thread_retracted": {
+    "placeholders": {
+      "thread": {
+        "content": "$1",
+        "example": "20244"
+      }
+    },
+    "message": "Tråd num.$thread$ har dragits in."
+  },
+  "unhide_thread": {
+    "message": "Visa Tråden"
+  },
+  "use_inline_frame": {
+    "message": "Använd inline-frame"
+  },
+  "view": {
+    "message": "visa"
+  },
+  "visit_4chan_4chrome": {
+    "message": "Klicka för att hälsa på 4chan 4Chrome på den Google Chrome utökningsregister"
+  },
+  "watch_thread": {
+    "message": "Övervaka tråden"
+  },
+  "watch_threads": {
+    "message": "Övervaka Trådar"
+  },
+  "watch_threads_info": {
+    "message": "Bokmärk trådar till senare"
+  },
+  "watched_threads": {
+    "message": "Övervakade trådar"
   }
 }

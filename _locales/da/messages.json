@@ -1,57 +1,60 @@
 {
-  "image_expansion_info": {
-    "message": "Venstre-klik en thumbnail for at udvidde den på siden"
-  },
-  "use_inline_frame": {
-    "message": "Brug indbyggede rammer"
-  },
   "4chan_4chrome_options": {
     "message": "4chan 4chrome indstillinger"
   },
-  "auto_noko": {
-    "message": "Auto Noko"
-  },
-  "expand_all_thumbnails": {
-    "message": "Udvid alle thumbnails"
-  },
-  "thread_expansion": {
-    "message": "Tråd udviddelse"
-  },
-  "thread_expanding": {
-    "placeholders": {
-      "thread": {
-        "example": "20244",
-        "content": "$1"
-      }
-    },
-    "message": "Tråd No.$thread$ udvidder..."
-  },
-  "return_to_top": {
-    "message": "Til toppen"
-  },
-  "quick_report_post_info": {
-    "message": "Tilføj en anmeld knap til hver post"
-  },
-  "delete": {
-    "message": "Slet"
+  "4chan_navigation": {
+    "message": "4chan Navigation"
   },
   "author": {
     "message": "Forfatter"
   },
-  "thread_retracted": {
-    "placeholders": {
-      "thread": {
-        "example": "20244",
-        "content": "$1"
-      }
-    },
-    "message": "Tråd No.$thread$ blev tilbagetrukket."
+  "auto_noko": {
+    "message": "Auto Noko"
+  },
+  "auto_noko_info": {
+    "message": "Gå altid ud fra at noko blev indtastet i email feltet"
+  },
+  "browse_new_threads": {
+    "message": null
+  },
+  "chrome_extension_description": {
+    "message": "Tilføjer lidt ekstra funktionalitet når du browser 4chan."
   },
   "close": {
     "message": "Luk"
   },
-  "watched_threads": {
-    "message": "Sete tråde"
+  "delete": {
+    "message": "Slet"
+  },
+  "enable_or_disable": {
+    "message": "Slå en funktionalitet fra denne udviddelse til og fra i indstillinger herunder."
+  },
+  "enter_a_note": {
+    "message": "Tilføj en note"
+  },
+  "enter_text_above": {
+    "message": "Indsæt text i de ovenstående felter for at sætte dem til standard når du browser"
+  },
+  "expand_all_thumbnails": {
+    "message": "Udvid alle thumbnails"
+  },
+  "expand_thread": {
+    "message": "Udvid tråd"
+  },
+  "fetch_new_replies": {
+    "message": "Fremvis nye svar"
+  },
+  "fetch_new_replies_info": {
+    "message": "Note: Kun muligt når man ser den fulde tråd (f.eks. når man trykker Svar)"
+  },
+  "hide_thread": {
+    "message": "Skjul tråd"
+  },
+  "hide_threads": {
+    "message": "Gem tråde"
+  },
+  "hide_threads_info": {
+    "message": "Fjern uønskede posts fra siden"
   },
   "highlight_sage_posts": {
     "message": "Oplys Sage Posts"
@@ -59,151 +62,157 @@
   "highlight_sage_posts_info": {
     "message": "Markerer sage posts forskelligt"
   },
-  "auto_noko_info": {
-    "message": "Gå altid ud fra at noko blev indtastet i email feltet"
-  },
-  "hide_threads_info": {
-    "message": "Fjern uønskede posts fra siden"
-  },
-  "chrome_extension_description": {
-    "message": "Tilføjer lidt ekstra funktionalitet når du browser 4chan."
-  },
-  "stop_watching_thread": {
-    "placeholders": {
-      "thread": {
-        "example": "20244",
-        "content": "$1"
-      }
-    },
-    "message": "Stop med at se tråd No.$thread$?"
-  },
-  "hide_threads": {
-    "message": "Gem tråde"
-  },
-  "visit_4chan_4chrome": {
-    "message": "Klik her for at besøge 4chan 4chrome i Google Chrome udviddelsesmappe"
-  },
-  "watch_threads": {
-    "message": "Se tråde"
-  },
-  "thread_expanded": {
-    "placeholders": {
-      "thread": {
-        "example": "20244",
-        "content": "$1"
-      }
-    },
-    "message": "Tråd No.$thread$ blev udviddet."
-  },
-  "watch_thread": {
-    "message": "Se tråd"
-  },
-  "post_preview_info": {
-    "message": "Når man kører musen over >>####### links, vis posten den refererer til"
-  },
-  "quick_reply": {
-    "message": "Hurtigt svar"
-  },
-  "return_to_top_info": {
-    "message": "Tilføjer et link, til at gå til toppen af siden"
-  },
-  "report_post": {
-    "message": "Anmeld post"
-  },
-  "thread_404": {
-    "message": "Denne tråd er 404'd"
-  },
-  "refresh": {
-    "message": "Opfrisk"
-  },
-  "quick_report_post": {
-    "message": "Hurtig anmeld post"
-  },
-  "retract": {
-    "message": "Tilbagetræk"
-  },
-  "unhide_thread": {
-    "message": "Fremvis tråd igen"
-  },
-  "enter_a_note": {
-    "message": "Tilføj en note"
-  },
   "image_expansion": {
     "message": "Billede udviddels"
   },
-  "subject": {
-    "message": "Emne"
-  },
-  "thread_expansion_info": {
-    "message": "Vis alle svar til en tråd uden at forlade siden"
-  },
-  "fetch_new_replies": {
-    "message": "Fremvis nye svar"
-  },
-  "4chan_navigation": {
-    "message": "4chan Navigation"
-  },
-  "expand_thread": {
-    "message": "Udvid tråd"
-  },
-  "note": {
-    "message": "Note"
-  },
-  "thread_now_watched": {
-    "placeholders": {
-      "thread": {
-        "example": "20244",
-        "content": "$1"
-      }
-    },
-    "message": "Tilføjet tråd No.$thread$ til watch-listen."
-  },
-  "view": {
-    "message": "Se"
-  },
-  "enter_text_above": {
-    "message": "Indsæt text i de ovenstående felter for at sætte dem til standard når du browser"
-  },
-  "show_icon": {
-    "message": "Vis ikon"
+  "image_expansion_info": {
+    "message": "Venstre-klik en thumbnail for at udvidde den på siden"
   },
   "no_watched_threads": {
     "message": "Ingen sete tråde."
   },
-  "hide_thread": {
-    "message": "Skjul tråd"
-  },
-  "watch_threads_info": {
-    "message": "Bogmærk tråd for senere"
+  "note": {
+    "message": "Note"
   },
   "post_preview": {
     "message": "Post prøve"
   },
+  "post_preview_info": {
+    "message": "Når man kører musen over >>####### links, vis posten den refererer til"
+  },
+  "quick_browse": {
+    "message": null
+  },
+  "quick_browse_info": {
+    "message": null
+  },
+  "quick_reply": {
+    "message": "Hurtigt svar"
+  },
+  "quick_report_post": {
+    "message": "Hurtig anmeld post"
+  },
+  "quick_report_post_info": {
+    "message": "Tilføj en anmeld knap til hver post"
+  },
+  "refresh": {
+    "message": "Opfrisk"
+  },
+  "report_post": {
+    "message": "Anmeld post"
+  },
+  "retract": {
+    "message": "Tilbagetræk"
+  },
+  "return_to_top": {
+    "message": "Til toppen"
+  },
+  "return_to_top_info": {
+    "message": "Tilføjer et link, til at gå til toppen af siden"
+  },
+  "show_icon": {
+    "message": "Vis ikon"
+  },
+  "stop_watching_thread": {
+    "placeholders": {
+      "thread": {
+        "content": "$1",
+        "example": "20244"
+      }
+    },
+    "message": "Stop med at se tråd No.$thread$?"
+  },
   "show_icon_info": {
     "message": "Note: Denne ændring er ikke effektiv med det samme"
+  },
+  "subject": {
+    "message": "Emne"
   },
   "thread_already_watched": {
     "placeholders": {
       "thread": {
-        "example": "20244",
-        "content": "$1"
+        "content": "$1",
+        "example": "20244"
       }
     },
     "message": "Tråd No.$thread$ bliver allerede set."
   },
-  "fetch_new_replies_info": {
-    "message": "Note: Kun muligt når man ser den fulde tråd (f.eks. når man trykker Svar)"
+  "thread_404": {
+    "message": "Denne tråd er 404'd"
+  },
+  "thread_expanded": {
+    "placeholders": {
+      "thread": {
+        "content": "$1",
+        "example": "20244"
+      }
+    },
+    "message": "Tråd No.$thread$ blev udviddet."
+  },
+  "thread_expanding": {
+    "placeholders": {
+      "thread": {
+        "content": "$1",
+        "example": "20244"
+      }
+    },
+    "message": "Tråd No.$thread$ udvidder..."
+  },
+  "thread_expansion": {
+    "message": "Tråd udviddelse"
   },
   "thread_is_hidden": {
     "placeholders": {
       "thread": {
-        "example": "20244",
-        "content": "$1"
+        "content": "$1",
+        "example": "20244"
       }
     },
     "message": "Tråd No.$thread$ er skjult."
   },
-  "enable_or_disable": {
-    "message": "Slå en funktionalitet fra denne udviddelse til og fra i indstillinger herunder."
+  "thread_expansion_info": {
+    "message": "Vis alle svar til en tråd uden at forlade siden"
+  },
+  "thread_now_watched": {
+    "placeholders": {
+      "thread": {
+        "content": "$1",
+        "example": "20244"
+      }
+    },
+    "message": "Tilføjet tråd No.$thread$ til watch-listen."
+  },
+  "thread_retracted": {
+    "placeholders": {
+      "thread": {
+        "content": "$1",
+        "example": "20244"
+      }
+    },
+    "message": "Tråd No.$thread$ blev tilbagetrukket."
+  },
+  "unhide_thread": {
+    "message": "Fremvis tråd igen"
+  },
+  "use_inline_frame": {
+    "message": "Brug indbyggede rammer"
+  },
+  "view": {
+    "message": "Se"
+  },
+  "visit_4chan_4chrome": {
+    "message": "Klik her for at besøge 4chan 4chrome i Google Chrome udviddelsesmappe"
+  },
+  "watch_thread": {
+    "message": "Se tråd"
+  },
+  "watch_threads": {
+    "message": "Se tråde"
+  },
+  "watch_threads_info": {
+    "message": "Bogmærk tråd for senere"
+  },
+  "watched_threads": {
+    "message": "Sete tråde"
   }
 }

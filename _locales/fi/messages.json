@@ -1,0 +1,218 @@
+{
+  "4chan_4chrome_options": {
+    "message": "4chan 4chrome Asetukset"
+  },
+  "4chan_navigation": {
+    "message": "4chan Navigointi"
+  },
+  "author": {
+    "message": "Tekijä"
+  },
+  "auto_noko": {
+    "message": "Auto Noko"
+  },
+  "auto_noko_info": {
+    "message": "Käyttäydy aina kuin noko olisi kirjoitettu e-mail kenttään"
+  },
+  "browse_new_threads": {
+    "message": "Selaa uusia keskusteluja"
+  },
+  "chrome_extension_description": {
+    "message": "Lisää vähän toiminnallisuutta selattaessa 4chania"
+  },
+  "close": {
+    "message": "Sulje"
+  },
+  "delete": {
+    "message": "Poista"
+  },
+  "enable_or_disable": {
+    "message": "Ota käyttöön tai poista käytöstä tämän laajennuksen ominaisuudet käyttämällä alla olevia säätöjä."
+  },
+  "enter_a_note": {
+    "message": "Syötä muistiinpano"
+  },
+  "enter_text_above": {
+    "message": "Syötä teksti yllä oleviin kenttiin asettakksesi niiden oletusarvot selattaessa."
+  },
+  "expand_all_thumbnails": {
+    "message": "Laajenna kaikki pikkukuvat"
+  },
+  "expand_thread": {
+    "message": "Laajenna Keskustelu"
+  },
+  "fetch_new_replies": {
+    "message": "Hae uudet Vastaukset"
+  },
+  "fetch_new_replies_info": {
+    "message": "Huom: Käytettävissä vain, kun koko keskustelu on näkyvissä (esim. klikkaamalla Vastaa)"
+  },
+  "hide_thread": {
+    "message": "Piilota Keskustelu"
+  },
+  "hide_threads": {
+    "message": "Piilota Keskustelut"
+  },
+  "hide_threads_info": {
+    "message": "Poista ei-toivotut keskustelut näytöstä"
+  },
+  "highlight_sage_posts": {
+    "message": "Korosta sage viestit"
+  },
+  "highlight_sage_posts_info": {
+    "message": "Merkitse sage viestit erilailla"
+  },
+  "image_expansion": {
+    "message": "Kuvien laajennus"
+  },
+  "image_expansion_info": {
+    "message": "Klikkaa hiiren vasemmalla painikkeella laajentaaksesi sen sivun sisällä"
+  },
+  "no_watched_threads": {
+    "message": "Ei katseltuja keskusteluja"
+  },
+  "note": {
+    "message": "Muistiinpano"
+  },
+  "post_preview": {
+    "message": "Viestin Esikatselu"
+  },
+  "post_preview_info": {
+    "message": "Kun viet hiiren >>####### -linkkien yli, näytä viesti johon se viittaa"
+  },
+  "quick_browse": {
+    "message": "Nopea Selaus"
+  },
+  "quick_browse_info": {
+    "message": "Lisää linkin mennäksesi suoraan uusiin keskusteluihin"
+  },
+  "quick_reply": {
+    "message": "Nopea Vastaus"
+  },
+  "quick_report_post": {
+    "message": "Nopea viestin ilmianto"
+  },
+  "quick_report_post_info": {
+    "message": "Lisää ilmianto-painike jokaiseen viestiin"
+  },
+  "refresh": {
+    "message": "Päivitä"
+  },
+  "report_post": {
+    "message": "Ilmianna viesti"
+  },
+  "retract": {
+    "message": "Vedä sisään"
+  },
+  "return_to_top": {
+    "message": "Palaa sivun alkuun"
+  },
+  "return_to_top_info": {
+    "message": "Lisää linkin palataksesi sivun alkuun"
+  },
+  "show_icon": {
+    "message": "Näytä kuvake"
+  },
+  "stop_watching_thread": {
+    "placeholders": {
+      "thread": {
+        "content": "$1",
+        "example": "20244"
+      }
+    },
+    "message": "Lopeta keskustelun No.$thread$ tarkkailu"
+  },
+  "show_icon_info": {
+    "message": "Huom: Tämä vaihtoehto ei tule voimaan heti"
+  },
+  "subject": {
+    "message": "Aihe"
+  },
+  "thread_already_watched": {
+    "placeholders": {
+      "thread": {
+        "content": "$1",
+        "example": "20244"
+      }
+    },
+    "message": "Keskustelua No.$thread$ katsellaan jo."
+  },
+  "thread_404": {
+    "message": "Tämä keskustelu on mennyt 404"
+  },
+  "thread_expanded": {
+    "placeholders": {
+      "thread": {
+        "content": "$1",
+        "example": "20244"
+      }
+    },
+    "message": "Keskustelu No.$thread$ laajennettu."
+  },
+  "thread_expanding": {
+    "placeholders": {
+      "thread": {
+        "content": "$1",
+        "example": "20244"
+      }
+    },
+    "message": "Keskustelu No.$thread$ laajenee..."
+  },
+  "thread_expansion": {
+    "message": "Keskustelun laajennus"
+  },
+  "thread_is_hidden": {
+    "placeholders": {
+      "thread": {
+        "content": "$1",
+        "example": "20244"
+      }
+    },
+    "message": "Keskustelu No.$thread$ on piilotettu."
+  },
+  "thread_expansion_info": {
+    "message": "Näytä kaikki vastaukset keskusteluun poistumatta sivulta"
+  },
+  "thread_now_watched": {
+    "placeholders": {
+      "thread": {
+        "content": "$1",
+        "example": "20244"
+      }
+    },
+    "message": "Keskustelu No.$thread$ on lisättu katseltujen luetteloon."
+  },
+  "thread_retracted": {
+    "placeholders": {
+      "thread": {
+        "content": "$1",
+        "example": "20244"
+      }
+    },
+    "message": "Keskustelu No.$thread$ vedetty sisään."
+  },
+  "unhide_thread": {
+    "message": "Näytä piilotettu keskustelu"
+  },
+  "use_inline_frame": {
+    "message": "Käytä rivin sisäistä reunusta"
+  },
+  "view": {
+    "message": "Näytä"
+  },
+  "visit_4chan_4chrome": {
+    "message": "Klikkaa vieraillaksesi 4chan 4chrome:a Google Chromen laajennukset hakemistossa"
+  },
+  "watch_thread": {
+    "message": "Katsele Keskustelua"
+  },
+  "watch_threads": {
+    "message": "Katsele Keskusteluja"
+  },
+  "watch_threads_info": {
+    "message": "Lisää keskustelut kirjainmerkkeihin myöhempää varten"
+  },
+  "watched_threads": {
+    "message": "Katsellut keskustelut"
+  }
+}

@@ -1,0 +1,218 @@
+{
+  "4chan_4chrome_options": {
+    "message": "4chan 4chrome Opties"
+  },
+  "4chan_navigation": {
+    "message": "4chan Navigatie"
+  },
+  "author": {
+    "message": "Auteur"
+  },
+  "auto_noko": {
+    "message": "Auto Noko"
+  },
+  "auto_noko_info": {
+    "message": "Permanente noko-optie"
+  },
+  "browse_new_threads": {
+    "message": "Browse Nieuwe Threads"
+  },
+  "chrome_extension_description": {
+    "message": "Handige opties die het browsen van 4chan verbeteren"
+  },
+  "close": {
+    "message": "Sluiten"
+  },
+  "delete": {
+    "message": "verwijderen"
+  },
+  "enable_or_disable": {
+    "message": "Schakel de functies hieronder in of uit door ze aan te vinken."
+  },
+  "enter_a_note": {
+    "message": "Voeg een notitie toe"
+  },
+  "enter_text_above": {
+    "message": "Voer tekst in in de bovenstaande velden om de standaardinstellingen te gebruiken tijdens het browsen"
+  },
+  "expand_all_thumbnails": {
+    "message": "Vergroot Alle Thumbnails"
+  },
+  "expand_thread": {
+    "message": "Vouw thread uit"
+  },
+  "fetch_new_replies": {
+    "message": "Laad nieuwe reacties"
+  },
+  "fetch_new_replies_info": {
+    "message": "Opmerking: Alleen beschikbaar als de volledige thread wordt bekeken (bijv. door op Reply te klikken)"
+  },
+  "hide_thread": {
+    "message": "Verberg thread"
+  },
+  "hide_threads": {
+    "message": "Verberg threads"
+  },
+  "hide_threads_info": {
+    "message": "Verwijder ongewenste threads van het scherm"
+  },
+  "highlight_sage_posts": {
+    "message": "Markeer Sage Reacties"
+  },
+  "highlight_sage_posts_info": {
+    "message": "Markeer sage posts anders"
+  },
+  "image_expansion": {
+    "message": "Fotoververgroting"
+  },
+  "image_expansion_info": {
+    "message": "Klik met de linkermuisknop op een thumbnail om deze te vergroten op dezelfde pagina"
+  },
+  "no_watched_threads": {
+    "message": "Geen gevolgde threads."
+  },
+  "note": {
+    "message": "Opmerking"
+  },
+  "post_preview": {
+    "message": "Post Preview"
+  },
+  "post_preview_info": {
+    "message": "Toon posts waar >>####### links naar verwijzen bij muis-over"
+  },
+  "quick_browse": {
+    "message": "Quick Browse"
+  },
+  "quick_browse_info": {
+    "message": "Voegt een link toe om direct naar nieuwe threads te gaan"
+  },
+  "quick_reply": {
+    "message": "Quick Reply"
+  },
+  "quick_report_post": {
+    "message": "Quick Report Post"
+  },
+  "quick_report_post_info": {
+    "message": "Voeg een report knop toe aan elke post"
+  },
+  "refresh": {
+    "message": "Refresh"
+  },
+  "report_post": {
+    "message": "Report Post"
+  },
+  "retract": {
+    "message": "Minimaliseer"
+  },
+  "return_to_top": {
+    "message": "Ga terug naar top"
+  },
+  "return_to_top_info": {
+    "message": "Voegt een link toe om terug te keren naar de bovenkant van de pagina"
+  },
+  "show_icon": {
+    "message": "Toon Icoon"
+  },
+  "stop_watching_thread": {
+    "placeholders": {
+      "thread": {
+        "content": "$1",
+        "example": "20244"
+      }
+    },
+    "message": "Stop met volgen No.$thread$?"
+  },
+  "show_icon_info": {
+    "message": "Opmerking: Deze optie treed niet direct in werking"
+  },
+  "subject": {
+    "message": "Onderwerp"
+  },
+  "thread_already_watched": {
+    "placeholders": {
+      "thread": {
+        "content": "$1",
+        "example": "20244"
+      }
+    },
+    "message": "Thread No.$thread$? volg je al."
+  },
+  "thread_404": {
+    "message": "Deze thread is 404'd"
+  },
+  "thread_expanded": {
+    "placeholders": {
+      "thread": {
+        "content": "$1",
+        "example": "20244"
+      }
+    },
+    "message": "Thread No.$thread$? is geladen."
+  },
+  "thread_expanding": {
+    "placeholders": {
+      "thread": {
+        "content": "$1",
+        "example": "20244"
+      }
+    },
+    "message": "Thread No.$thread$? is aan het laden..."
+  },
+  "thread_expansion": {
+    "message": "Thread Expansie"
+  },
+  "thread_is_hidden": {
+    "placeholders": {
+      "thread": {
+        "content": "$1",
+        "example": "20244"
+      }
+    },
+    "message": "Thread No.$thread$? is verborgen."
+  },
+  "thread_expansion_info": {
+    "message": "Toon alle replies van een thread zonder de pagina te verlaten"
+  },
+  "thread_now_watched": {
+    "placeholders": {
+      "thread": {
+        "content": "$1",
+        "example": "20244"
+      }
+    },
+    "message": "Thread No.$thread$? toegevoegd aan de volg-lijst."
+  },
+  "thread_retracted": {
+    "placeholders": {
+      "thread": {
+        "content": "$1",
+        "example": "20244"
+      }
+    },
+    "message": "Thread No.$thread$? geminimaliseerd. "
+  },
+  "unhide_thread": {
+    "message": "Un-Hide Thread"
+  },
+  "use_inline_frame": {
+    "message": "Gebruik inline frame"
+  },
+  "view": {
+    "message": "bekijk"
+  },
+  "visit_4chan_4chrome": {
+    "message": "Klik om 4chan 4chrome's pagina op de Google Chrome extensies website te bekijken"
+  },
+  "watch_thread": {
+    "message": "Bekijk Thread"
+  },
+  "watch_threads": {
+    "message": "Bekijk Threads"
+  },
+  "watch_threads_info": {
+    "message": "Bookmark threads"
+  },
+  "watched_threads": {
+    "message": "Gevolgde Threads"
+  }
+}

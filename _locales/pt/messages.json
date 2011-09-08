@@ -1,0 +1,218 @@
+{
+  "4chan_4chrome_options": {
+    "message": "Opções 4chan 4chrome"
+  },
+  "4chan_navigation": {
+    "message": "Navegação 4chan"
+  },
+  "author": {
+    "message": "Autor"
+  },
+  "auto_noko": {
+    "message": "Noko automático"
+  },
+  "auto_noko_info": {
+    "message": "Atua como se noko estivesse sempre colocado no campo email"
+  },
+  "browse_new_threads": {
+    "message": "Visualizar novas threads"
+  },
+  "chrome_extension_description": {
+    "message": "Adicione pequenas funcionalidades extras para a navegação no 4chan"
+  },
+  "close": {
+    "message": "Fechar"
+  },
+  "delete": {
+    "message": "excluir"
+  },
+  "enable_or_disable": {
+    "message": "Ative ou desative as opções desta extensão usando os controles abaixo."
+  },
+  "enter_a_note": {
+    "message": "Adicione uma observação"
+  },
+  "enter_text_above": {
+    "message": "Adicione o texto nos campos acima para usá-los como padrão na navegação"
+  },
+  "expand_all_thumbnails": {
+    "message": "Expandir todos os Thumbnails"
+  },
+  "expand_thread": {
+    "message": "Expandir Thread"
+  },
+  "fetch_new_replies": {
+    "message": "Carregar Novos Replies"
+  },
+  "fetch_new_replies_info": {
+    "message": "Observação: Somente disponível quando se está visualizando toda a thread (Ex: clicando em Reply)"
+  },
+  "hide_thread": {
+    "message": "Ocultar thread"
+  },
+  "hide_threads": {
+    "message": "Ocultar threads"
+  },
+  "hide_threads_info": {
+    "message": "Retira threads indesejadas da visualização"
+  },
+  "highlight_sage_posts": {
+    "message": "Destacar posts com sage"
+  },
+  "highlight_sage_posts_info": {
+    "message": "Diferenciar posts com sage"
+  },
+  "image_expansion": {
+    "message": "Expansor de imagens"
+  },
+  "image_expansion_info": {
+    "message": "Clique com o botão esquerdo sobre um thumbnail para expandí-la na própria página"
+  },
+  "no_watched_threads": {
+    "message": "Sem acompanhamento de threads"
+  },
+  "note": {
+    "message": "Observação"
+  },
+  "post_preview": {
+    "message": "Pré-visualização de post"
+  },
+  "post_preview_info": {
+    "message": "Quando passar o mouse sobre links >>#######,  mostra a que post ele se refere"
+  },
+  "quick_browse": {
+    "message": "Navegação Rápida"
+  },
+  "quick_browse_info": {
+    "message": "Adicionar um link para ir diretamente à threads novas."
+  },
+  "quick_reply": {
+    "message": "Reply rápido"
+  },
+  "quick_report_post": {
+    "message": "Reportar Post Rápido"
+  },
+  "quick_report_post_info": {
+    "message": "Adiciona o botão reportar à todos os posts"
+  },
+  "refresh": {
+    "message": "Atualizar"
+  },
+  "report_post": {
+    "message": "Reportar Post"
+  },
+  "retract": {
+    "message": "Retraír"
+  },
+  "return_to_top": {
+    "message": "Retornar Ao Topo"
+  },
+  "return_to_top_info": {
+    "message": "Adiciona um link para retornar ao topo da página"
+  },
+  "show_icon": {
+    "message": "Mostrar ícone"
+  },
+  "stop_watching_thread": {
+    "placeholders": {
+      "thread": {
+        "content": "$1",
+        "example": "20244"
+      }
+    },
+    "message": "Interromper o acompanhamento da thread No.$thread$?"
+  },
+  "show_icon_info": {
+    "message": "Observação: Essa opção não começará a funcionar imediatamente"
+  },
+  "subject": {
+    "message": "Assunto"
+  },
+  "thread_already_watched": {
+    "placeholders": {
+      "thread": {
+        "content": "$1",
+        "example": "20244"
+      }
+    },
+    "message": "Thread No.$thread$ já está sendo acompanhada"
+  },
+  "thread_404": {
+    "message": "Essa thread sofreu 404"
+  },
+  "thread_expanded": {
+    "placeholders": {
+      "thread": {
+        "content": "$1",
+        "example": "20244"
+      }
+    },
+    "message": "Thread No.$thread$ expandida"
+  },
+  "thread_expanding": {
+    "placeholders": {
+      "thread": {
+        "content": "$1",
+        "example": "20244"
+      }
+    },
+    "message": "Expandindo Thread No.$thread$ ..."
+  },
+  "thread_expansion": {
+    "message": "Expandir Thread"
+  },
+  "thread_is_hidden": {
+    "placeholders": {
+      "thread": {
+        "content": "$1",
+        "example": "20244"
+      }
+    },
+    "message": "Thread No.$thread$ está oculta."
+  },
+  "thread_expansion_info": {
+    "message": "Exibe todos os replys à uma thread sem sair da página"
+  },
+  "thread_now_watched": {
+    "placeholders": {
+      "thread": {
+        "content": "$1",
+        "example": "20244"
+      }
+    },
+    "message": "Thread No.$thread$ adicionada à lista de acompanhamento"
+  },
+  "thread_retracted": {
+    "placeholders": {
+      "thread": {
+        "content": "$1",
+        "example": "20244"
+      }
+    },
+    "message": "Thread No.$thread$ retraída"
+  },
+  "unhide_thread": {
+    "message": "Desocultar Thread"
+  },
+  "use_inline_frame": {
+    "message": "Usar inline frame"
+  },
+  "view": {
+    "message": "mostrar"
+  },
+  "visit_4chan_4chrome": {
+    "message": "Clique para ir à pagina do 4chan 4chrome no diretório de extensões do Google Chrome"
+  },
+  "watch_thread": {
+    "message": "Acompanhar Thread"
+  },
+  "watch_threads": {
+    "message": "Acompanhar Threads"
+  },
+  "watch_threads_info": {
+    "message": "Marcar threads para acompanhar depois"
+  },
+  "watched_threads": {
+    "message": "Threads Sendo Acompanhadas"
+  }
+}

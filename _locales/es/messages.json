@@ -1,0 +1,218 @@
+{
+  "4chan_4chrome_options": {
+    "message": "Opciones 4chan 4chrome"
+  },
+  "4chan_navigation": {
+    "message": "Navegación en 4chan"
+  },
+  "author": {
+    "message": "Autor"
+  },
+  "auto_noko": {
+    "message": "Auto Noko"
+  },
+  "auto_noko_info": {
+    "message": "Siempre funcionar como si Noko hubiera sido ingresado en el campo de correo."
+  },
+  "browse_new_threads": {
+    "message": "Navegar nuevos hilos"
+  },
+  "chrome_extension_description": {
+    "message": "Añade funcionalidad extra al navegar por 4chan."
+  },
+  "close": {
+    "message": "Cerrar"
+  },
+  "delete": {
+    "message": "Borrar"
+  },
+  "enable_or_disable": {
+    "message": "Activar o desactivar las características de esta aplicación mediante el uso de los controles a continuación."
+  },
+  "enter_a_note": {
+    "message": "Ingresar una nota"
+  },
+  "enter_text_above": {
+    "message": "Introduzca el texto en los campos anteriores para establecer los valores predeterminados cuando se navega"
+  },
+  "expand_all_thumbnails": {
+    "message": "Ampliar todas las miniaturas"
+  },
+  "expand_thread": {
+    "message": "Ampliar Tema"
+  },
+  "fetch_new_replies": {
+    "message": "Buscar nuevas respuestas"
+  },
+  "fetch_new_replies_info": {
+    "message": "Nota: Sólo está disponible cuando el hilo se ve completo (Ej: haciendo clic en Responder)"
+  },
+  "hide_thread": {
+    "message": "Ocultar hilo"
+  },
+  "hide_threads": {
+    "message": "Ocultar hilos"
+  },
+  "hide_threads_info": {
+    "message": "Eliminar las discusiones no deseadas de la pantalla"
+  },
+  "highlight_sage_posts": {
+    "message": "Destacar posts de Sage"
+  },
+  "highlight_sage_posts_info": {
+    "message": "Marcar posts sage diferentemente"
+  },
+  "image_expansion": {
+    "message": "Expansión de imagen"
+  },
+  "image_expansion_info": {
+    "message": "Haga clic izquierdo en una miniatura para expandir dentro de la página"
+  },
+  "no_watched_threads": {
+    "message": "Hilos no vistos."
+  },
+  "note": {
+    "message": "Nota"
+  },
+  "post_preview": {
+    "message": "Vista previa de post"
+  },
+  "post_preview_info": {
+    "message": "Al pasar sobre enlaces de referencia >>#######, mostrar post al que alude"
+  },
+  "quick_browse": {
+    "message": "Navegación rápida"
+  },
+  "quick_browse_info": {
+    "message": "Añadir un enlace para ir directamente a hilos nuevos"
+  },
+  "quick_reply": {
+    "message": "Respuesta rápida"
+  },
+  "quick_report_post": {
+    "message": "Reportar post rápido"
+  },
+  "quick_report_post_info": {
+    "message": "Agregar un botón de reporte a cada post."
+  },
+  "refresh": {
+    "message": "Recargar"
+  },
+  "report_post": {
+    "message": "Reportar post"
+  },
+  "retract": {
+    "message": "Retraer"
+  },
+  "return_to_top": {
+    "message": "Volver arriba"
+  },
+  "return_to_top_info": {
+    "message": "Agregar un enlace para volver a la parte superior de la página"
+  },
+  "show_icon": {
+    "message": "Mostrar icono"
+  },
+  "stop_watching_thread": {
+    "placeholders": {
+      "thread": {
+        "content": "$1",
+        "example": "20244"
+      }
+    },
+    "message": "Dejar de ver hilo No.$thread$?"
+  },
+  "show_icon_info": {
+    "message": "Nota: Esta opción no tendrá efecto inmediato"
+  },
+  "subject": {
+    "message": "Tema"
+  },
+  "thread_already_watched": {
+    "placeholders": {
+      "thread": {
+        "content": "$1",
+        "example": "20244"
+      }
+    },
+    "message": "Hilo No.$thread$ ya está siendo obsevado."
+  },
+  "thread_404": {
+    "message": "Este hilo fue 404ado"
+  },
+  "thread_expanded": {
+    "placeholders": {
+      "thread": {
+        "content": "$1",
+        "example": "20244"
+      }
+    },
+    "message": "Hilo No.$thread$ ampliado."
+  },
+  "thread_expanding": {
+    "placeholders": {
+      "thread": {
+        "content": "$1",
+        "example": "20244"
+      }
+    },
+    "message": "Expandiendo hilo No.$thread$"
+  },
+  "thread_expansion": {
+    "message": "Expansión de tema"
+  },
+  "thread_is_hidden": {
+    "placeholders": {
+      "thread": {
+        "content": "$1",
+        "example": "20244"
+      }
+    },
+    "message": "Hilo No.$thread$ está oculto."
+  },
+  "thread_expansion_info": {
+    "message": "Mostrar todas las respuestas de un hilo sin dejar la página"
+  },
+  "thread_now_watched": {
+    "placeholders": {
+      "thread": {
+        "content": "$1",
+        "example": "20244"
+      }
+    },
+    "message": "Añadido hilo No.$thread$ a lista de seguimiento."
+  },
+  "thread_retracted": {
+    "placeholders": {
+      "thread": {
+        "content": "$1",
+        "example": "20244"
+      }
+    },
+    "message": "Hilo. No.$thread$ retraído."
+  },
+  "unhide_thread": {
+    "message": "Hilo no oculto"
+  },
+  "use_inline_frame": {
+    "message": "Usar marco en línea."
+  },
+  "view": {
+    "message": "Ver"
+  },
+  "visit_4chan_4chrome": {
+    "message": "Clic para visitar 4chan 4chrome en el directorio de extensiones de Google Chrome"
+  },
+  "watch_thread": {
+    "message": "Ver hilo"
+  },
+  "watch_threads": {
+    "message": "Ver hilos"
+  },
+  "watch_threads_info": {
+    "message": "Marcar hilos para después"
+  },
+  "watched_threads": {
+    "message": "Hilos vistos"
+  }
+}

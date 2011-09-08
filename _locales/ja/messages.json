@@ -1,0 +1,218 @@
+{
+  "4chan_4chrome_options": {
+    "message": "4chan 4chromeの設定"
+  },
+  "4chan_navigation": {
+    "message": "4chanナビ"
+  },
+  "author": {
+    "message": "作成者"
+  },
+  "auto_noko": {
+    "message": "自動ノコ"
+  },
+  "auto_noko_info": {
+    "message": "いつもEメールフィルドに「ノコ」をいります"
+  },
+  "browse_new_threads": {
+    "message": "新しいスレをブラウズ"
+  },
+  "chrome_extension_description": {
+    "message": "4chanのブラウズ体験にちょっとだけの機能を追加します"
+  },
+  "close": {
+    "message": "閉じる"
+  },
+  "delete": {
+    "message": "削除"
+  },
+  "enable_or_disable": {
+    "message": "次のコントロールでこの拡張の機能を有効または無効できます。"
+  },
+  "enter_a_note": {
+    "message": "ノートを加える"
+  },
+  "enter_text_above": {
+    "message": "Enter text in the above fields to set their defaults when browsing"
+  },
+  "expand_all_thumbnails": {
+    "message": "すべてのサムネイルを展開"
+  },
+  "expand_thread": {
+    "message": "スレを展開"
+  },
+  "fetch_new_replies": {
+    "message": "新しいレスのフェッチ"
+  },
+  "fetch_new_replies_info": {
+    "message": "Note: Only available when the full thread is viewed (e.g. clicking Reply)"
+  },
+  "hide_thread": {
+    "message": "スレを隠す"
+  },
+  "hide_threads": {
+    "message": "スレを隠す"
+  },
+  "hide_threads_info": {
+    "message": "不要のスレを非表示"
+  },
+  "highlight_sage_posts": {
+    "message": "さげのレスをマーカーで塗る"
+  },
+  "highlight_sage_posts_info": {
+    "message": "さげのレスをマーカーで塗る"
+  },
+  "image_expansion": {
+    "message": "画像の展開"
+  },
+  "image_expansion_info": {
+    "message": "サムネイルをクリックしてページ内で展開する"
+  },
+  "no_watched_threads": {
+    "message": "観察スレありません"
+  },
+  "note": {
+    "message": "ノート"
+  },
+  "post_preview": {
+    "message": "レスのプレビュー"
+  },
+  "post_preview_info": {
+    "message": "When hovering over >>####### links, display the post it references"
+  },
+  "quick_browse": {
+    "message": "クイックブラウズ"
+  },
+  "quick_browse_info": {
+    "message": "Adds a link to go directly to new threads"
+  },
+  "quick_reply": {
+    "message": "クイック返事"
+  },
+  "quick_report_post": {
+    "message": "クイック通報"
+  },
+  "quick_report_post_info": {
+    "message": "各レスに通報ボタンを追加"
+  },
+  "refresh": {
+    "message": "再読み込む"
+  },
+  "report_post": {
+    "message": "レスの通報"
+  },
+  "retract": {
+    "message": "撤回"
+  },
+  "return_to_top": {
+    "message": "TOPに戻る"
+  },
+  "return_to_top_info": {
+    "message": "「TOPに戻る」のリンクを追加"
+  },
+  "show_icon": {
+    "message": "アイコンの表示"
+  },
+  "stop_watching_thread": {
+    "placeholders": {
+      "thread": {
+        "content": "$1",
+        "example": "20244"
+      }
+    },
+    "message": "スレ$thread$の観察を中止する？"
+  },
+  "show_icon_info": {
+    "message": "Note: This option will not take effect immediately"
+  },
+  "subject": {
+    "message": "題名"
+  },
+  "thread_already_watched": {
+    "placeholders": {
+      "thread": {
+        "content": "$1",
+        "example": "20244"
+      }
+    },
+    "message": "スレ$thread$はもう観察中のまま"
+  },
+  "thread_404": {
+    "message": "This thread has 404'd"
+  },
+  "thread_expanded": {
+    "placeholders": {
+      "thread": {
+        "content": "$1",
+        "example": "20244"
+      }
+    },
+    "message": "スレ$thread$を展開した"
+  },
+  "thread_expanding": {
+    "placeholders": {
+      "thread": {
+        "content": "$1",
+        "example": "20244"
+      }
+    },
+    "message": "スレ$thread$の展開中…"
+  },
+  "thread_expansion": {
+    "message": "スレ展開"
+  },
+  "thread_is_hidden": {
+    "placeholders": {
+      "thread": {
+        "content": "$1",
+        "example": "20244"
+      }
+    },
+    "message": "スレ$thread$は非表示のまま"
+  },
+  "thread_expansion_info": {
+    "message": "Display all replies to a thread without leaving the page"
+  },
+  "thread_now_watched": {
+    "placeholders": {
+      "thread": {
+        "content": "$1",
+        "example": "20244"
+      }
+    },
+    "message": "Added thread No.$thread$ to watch list."
+  },
+  "thread_retracted": {
+    "placeholders": {
+      "thread": {
+        "content": "$1",
+        "example": "20244"
+      }
+    },
+    "message": "スレ$thread$を観察した"
+  },
+  "unhide_thread": {
+    "message": "スレを表示"
+  },
+  "use_inline_frame": {
+    "message": "インラインフレームの使用"
+  },
+  "view": {
+    "message": "表示"
+  },
+  "visit_4chan_4chrome": {
+    "message": "Click to visit 4chan 4chrome on the Google Chrome extensions directory"
+  },
+  "watch_thread": {
+    "message": "スレを観察"
+  },
+  "watch_threads": {
+    "message": "スレを観察"
+  },
+  "watch_threads_info": {
+    "message": "Bookmark threads for later"
+  },
+  "watched_threads": {
+    "message": "観察スレ"
+  }
+}

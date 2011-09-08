@@ -1,84 +1,84 @@
 {
   "4chan_4chrome_options": {
-    "message": "4chan 4chrome indstillinger"
+    "message": "Préférences pour 4chan 4chrome"
   },
   "4chan_navigation": {
-    "message": "4chan Navigation"
+    "message": "Navigation sur 4chan"
   },
   "author": {
-    "message": "Forfatter"
+    "message": "Auteur"
   },
   "auto_noko": {
     "message": "Auto Noko"
   },
   "auto_noko_info": {
-    "message": "Gå altid ud fra at noko blev indtastet i email feltet"
+    "message": "Toujours faire comme si Noko était dans le champ email"
   },
   "browse_new_threads": {
     "message": "Browse New Threads"
   },
   "chrome_extension_description": {
-    "message": "Tilføjer lidt ekstra funktionalitet når du browser 4chan."
+    "message": "Ajoute de nouvelles fonctionnalités à 4chan"
   },
   "close": {
-    "message": "Luk"
+    "message": "Fermer"
   },
   "delete": {
-    "message": "Slet"
+    "message": "Effacer"
   },
   "enable_or_disable": {
-    "message": "Slå en funktionalitet fra denne udviddelse til og fra i indstillinger herunder."
+    "message": "Activez ou désactivez les fonctionnalités de cette extension en utilisant les contrôles ci-dessous"
   },
   "enter_a_note": {
-    "message": "Tilføj en note"
+    "message": "Entrez une note"
   },
   "enter_text_above": {
-    "message": "Indsæt text i de ovenstående felter for at sætte dem til standard når du browser"
+    "message": "Entrez un texte par défaut dans les champs ci dessus pour la navigation"
   },
   "expand_all_thumbnails": {
-    "message": "Udvid alle thumbnails"
+    "message": "Étendre tous les aperçus"
   },
   "expand_thread": {
-    "message": "Udvid tråd"
+    "message": "Étendre le thread"
   },
   "fetch_new_replies": {
-    "message": "Fremvis nye svar"
+    "message": "Récupérer les nouvelles réponses"
   },
   "fetch_new_replies_info": {
-    "message": "Note: Kun muligt når man ser den fulde tråd (f.eks. når man trykker Svar)"
+    "message": "Note: Disponible que lorsque le thread est vu en mode reply "
   },
   "hide_thread": {
-    "message": "Skjul tråd"
+    "message": "Cacher le thread"
   },
   "hide_threads": {
-    "message": "Gem tråde"
+    "message": "Cacher les threads"
   },
   "hide_threads_info": {
-    "message": "Fjern uønskede posts fra siden"
+    "message": "Retirer les threads indésirés de l'affichage"
   },
   "highlight_sage_posts": {
-    "message": "Oplys Sage Posts"
+    "message": "Surligner les posts en mode Sage"
   },
   "highlight_sage_posts_info": {
-    "message": "Markerer sage posts forskelligt"
+    "message": "Afficher les posts en Sage differemment"
   },
   "image_expansion": {
-    "message": "Billede udviddels"
+    "message": "Étendre les images"
   },
   "image_expansion_info": {
-    "message": "Venstre-klik en thumbnail for at udvidde den på siden"
+    "message": "Clic gauche pour étendre les images directement dans la page"
   },
   "no_watched_threads": {
-    "message": "Ingen sete tråde."
+    "message": "Pas de thread surveillés"
   },
   "note": {
     "message": "Note"
   },
   "post_preview": {
-    "message": "Post prøve"
+    "message": "Aperçu de post"
   },
   "post_preview_info": {
-    "message": "Når man kører musen over >>####### links, vis posten den refererer til"
+    "message": "Quand la souris passe au dessus des liens type >>######, afficher le post référencé"
   },
   "quick_browse": {
     "message": "Quick Browse"
@@ -87,31 +87,31 @@
     "message": "Adds a link to go directly to new threads"
   },
   "quick_reply": {
-    "message": "Hurtigt svar"
+    "message": "Réponse rapide"
   },
   "quick_report_post": {
-    "message": "Hurtig anmeld post"
+    "message": "Quick Report Post"
   },
   "quick_report_post_info": {
-    "message": "Tilføj en anmeld knap til hver post"
+    "message": "Add a report button to every post"
   },
   "refresh": {
-    "message": "Opfrisk"
+    "message": "Refresh"
   },
   "report_post": {
-    "message": "Anmeld post"
+    "message": "Report Post"
   },
   "retract": {
-    "message": "Tilbagetræk"
+    "message": "Retract"
   },
   "return_to_top": {
-    "message": "Til toppen"
+    "message": "Return to Top"
   },
   "return_to_top_info": {
-    "message": "Tilføjer et link, til at gå til toppen af siden"
+    "message": "Adds a link to return to the top of the page"
   },
   "show_icon": {
-    "message": "Vis ikon"
+    "message": "Show Icon"
   },
   "stop_watching_thread": {
     "placeholders": {
@@ -120,13 +120,13 @@
         "example": "20244"
       }
     },
-    "message": "Stop med at se tråd No.$thread$?"
+    "message": "Stop watching thread No.$thread$?"
   },
   "show_icon_info": {
-    "message": "Note: Denne ændring er ikke effektiv med det samme"
+    "message": "Note: This option will not take effect immediately"
   },
   "subject": {
-    "message": "Emne"
+    "message": "Subject"
   },
   "thread_already_watched": {
     "placeholders": {
@@ -135,10 +135,10 @@
         "example": "20244"
       }
     },
-    "message": "Tråd No.$thread$ bliver allerede set."
+    "message": "Thread No.$thread$ is already being watched."
   },
   "thread_404": {
-    "message": "Denne tråd er 404'd"
+    "message": "This thread has 404'd"
   },
   "thread_expanded": {
     "placeholders": {
@@ -147,7 +147,7 @@
         "example": "20244"
       }
     },
-    "message": "Tråd No.$thread$ blev udviddet."
+    "message": "Thread No.$thread$ expanded."
   },
   "thread_expanding": {
     "placeholders": {
@@ -156,10 +156,10 @@
         "example": "20244"
       }
     },
-    "message": "Tråd No.$thread$ udvidder..."
+    "message": "Thread No.$thread$ expanding..."
   },
   "thread_expansion": {
-    "message": "Tråd udviddelse"
+    "message": "Thread Expansion"
   },
   "thread_is_hidden": {
     "placeholders": {
@@ -168,10 +168,10 @@
         "example": "20244"
       }
     },
-    "message": "Tråd No.$thread$ er skjult."
+    "message": "Thread No.$thread$ is hidden."
   },
   "thread_expansion_info": {
-    "message": "Vis alle svar til en tråd uden at forlade siden"
+    "message": "Display all replies to a thread without leaving the page"
   },
   "thread_now_watched": {
     "placeholders": {
@@ -180,7 +180,7 @@
         "example": "20244"
       }
     },
-    "message": "Tilføjet tråd No.$thread$ til watch-listen."
+    "message": "Added thread No.$thread$ to watch list."
   },
   "thread_retracted": {
     "placeholders": {
@@ -189,30 +189,30 @@
         "example": "20244"
       }
     },
-    "message": "Tråd No.$thread$ blev tilbagetrukket."
+    "message": "Thread No.$thread$ retracted."
   },
   "unhide_thread": {
-    "message": "Fremvis tråd igen"
+    "message": "Un-Hide Thread"
   },
   "use_inline_frame": {
-    "message": "Brug indbyggede rammer"
+    "message": "Use inline frame"
   },
   "view": {
-    "message": "Se"
+    "message": "view"
   },
   "visit_4chan_4chrome": {
-    "message": "Klik her for at besøge 4chan 4chrome i Google Chrome udviddelsesmappe"
+    "message": "Click to visit 4chan 4chrome on the Google Chrome extensions directory"
   },
   "watch_thread": {
-    "message": "Se tråd"
+    "message": "Watch Thread"
   },
   "watch_threads": {
-    "message": "Se tråde"
+    "message": "Watch Threads"
   },
   "watch_threads_info": {
-    "message": "Bogmærk tråd for senere"
+    "message": "Bookmark threads for later"
   },
   "watched_threads": {
-    "message": "Sete tråde"
+    "message": "Watched Threads"
   }
 }

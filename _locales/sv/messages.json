@@ -15,7 +15,7 @@
     "message": "Fungera alltid som om noko skrivades i emailfältet"
   },
   "browse_new_threads": {
-    "message": null
+    "message": "Browse New Threads"
   },
   "chrome_extension_description": {
     "message": "Lägger till lite extra fuktionalitet när 4chan surfas."
@@ -81,10 +81,10 @@
     "message": "När musen står på >>####### länkar, ska den hänvisade posten visas"
   },
   "quick_browse": {
-    "message": null
+    "message": "Quick Browse"
   },
   "quick_browse_info": {
-    "message": null
+    "message": "Adds a link to go directly to new threads"
   },
   "quick_reply": {
     "message": "Snabbsvar"

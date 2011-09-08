@@ -15,7 +15,7 @@
     "message": "Jedes Mal so verhalten, als wäre 'noko' im E-Mail-Feld eingegeben."
   },
   "browse_new_threads": {
-    "message": null
+    "message": "Browse New Threads"
   },
   "chrome_extension_description": {
     "message": "Fügt ein paar weitere Funktionen ein, während man auf 4chan surft."
@@ -81,10 +81,10 @@
     "message": "Stelle die Referenz des Posts beim Überfahren von >>#######-Links mit der Maus dar"
   },
   "quick_browse": {
-    "message": null
+    "message": "Quick Browse"
   },
   "quick_browse_info": {
-    "message": null
+    "message": "Adds a link to go directly to new threads"
   },
   "quick_reply": {
     "message": "Schnellantwort"

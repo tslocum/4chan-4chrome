@@ -70,8 +70,15 @@
 	</style>
 </head>
 <body>
-	<h1 style="text-align: center;"><span id="header" style="cursor: pointer;" onclick="javascript:window.location.href='https://chrome.google.com/webstore/detail/ncbfnjcklemldbidfoceaffkjofkcomb'">4chan 4chrome</span></h1>
-	<br>
+	<h1 style="text-align: center;"><span id="header" style="cursor: pointer;" onclick="javascript:window.location.href='http://4chan4chrome.tslocum.com'">4chan 4chrome</span></h1>
+	<div style="text-align: center;">
+		<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+			<input type="hidden" name="cmd" value="_s-xclick">
+			<input type="hidden" name="hosted_button_id" value="2Y9HWZNA59MCG">
+			<input type="image" src="https://www.paypal.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+			<img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
+		</form>
+	</div>
 	<table align="center" cellpadding=1 cellspacing=1> 
 	<tr><td></td><td class="postblock" align="left"><b>Name</b></td><td><input class=inputtext type=text id=name size="28"><span id="tdname"></span></td></tr> 
 	<tr><td></td><td class="postblock" align="left"><b>E-mail</b></td><td><input class=inputtext type=text id=email size="28"><span id="tdemail"></span></td></tr> 
@@ -84,7 +91,7 @@
 		<tr>
 			<td class="rules">
 				<li id="entertextabove"></li>
-        <li>Want to run your own imageboard?  Use <a href="http://goo.gl/SuIQ5" target="_blank"><b>TinyIB</b></a></li>
+				<li>Want to run your own imageboard?  Use <a href="http://goo.gl/SuIQ5" target="_blank"><b>TinyIB</b></a></li>
 			</td>
 		</tr>
 	</table>
@@ -98,16 +105,8 @@
 		<span style="font-weight: 800;"><span style="color: #CC1105;">4chan 4chrome Options</span> <span style="color: #117743;">Anonymous</span></span> <span id="date"></span> <a href="#">No.</a><a href="#"><span name="stamp"></span></a>
 	</label>
 	<blockquote>
-    <iframe src="http://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fchrome.google.com%2Fwebstore%2Fdetail%2Fncbfnjcklemldbidfoceaffkjofkcomb&amp;layout=standard&amp;show_faces=false&amp;width=450&amp;action=like&amp;colorscheme=light&amp;height=35" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:450px; height:35px;" allowTransparency="true"></iframe>
-    <br>
-		<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
-		<input type="hidden" name="cmd" value="_s-xclick">
-		<input type="hidden" name="hosted_button_id" value="2Y9HWZNA59MCG">
-		<input type="image" src="https://www.paypal.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-		<img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
-		</form>
-		<br>
-		<span id="enableordisable"></span>
+	<span id="enableordisable"></span><br>
+	<iframe src="http://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fchrome.google.com%2Fwebstore%2Fdetail%2Fncbfnjcklemldbidfoceaffkjofkcomb&amp;layout=standard&amp;show_faces=false&amp;width=450&amp;action=like&amp;colorscheme=light&amp;height=30" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:450px; height:30px;margin: 0px;margin-top: 7px;" allowTransparency="true"></iframe>
 	</blockquote>
 	<label for="quickreply">
 		<table><tr><td nowrap class="doubledash">&gt;&gt;</td>
@@ -277,7 +276,7 @@
 			r: function() { return this.toString(); },
 			U: function() { return this.getTime() / 1000; }
 		};
-    
+	
     document.title = chrome.i18n.getMessage("4chan_4chrome_options");
     document.getElementById("header").title = chrome.i18n.getMessage("visit_4chan_4chrome");
     document.getElementById("enableordisable").textContent = chrome.i18n.getMessage("enable_or_disable");

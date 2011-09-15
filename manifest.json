@@ -2,7 +2,7 @@
    "background_page": "background.html",
    "content_scripts": [ {
       "all_frames": true,
-      "js": [ "4chan.js" ],
+      "js": [ "jquery.js", "4chan.js" ],
       "matches": [ "http://*.4chan.org/*", "http://4chanarchive.org/brchive/*", "http://inb4.im/4ch/*" ],
       "run_at": "document_end"
    } ],
@@ -19,5 +19,5 @@
       "popup": "popup.html"
    },
    "permissions": [ "tabs", "http://www.4chan.org/" ],
-   "version": "9001.49"
+   "version": "9001.50"
 }

@@ -14,7 +14,7 @@ function insertAfter(newElement,targetElement) {
 
 function getElementsByAttribute(attrN, attrV) {
     var nodes = [];
-    var elems = doc.getElementsByTagName('*');
+    var elems = document.getElementsByTagName('*');
 
     for (var i = 0; i < elems.length; i += 1) {
         if (elems[i].hasAttribute(attrN) && elems[i].getAttribute(attrN) == attrV) {
@@ -103,7 +103,7 @@ function refreshThreadWatcher() {
 	var m = full_url.match(/.*\.4chan\.org\/([0-9a-zA-Z]+)\/.*/i);
 	if (m != null) {
 		var thisboard = m[1];
-		watchboxtable = doc.getElementById('watchboxtable');
+		watchboxtable = document.getElementById('watchboxtable');
 		watchboxtable.innerHTML = '<tr><td class="postblock" style="border-right: 0px none;">No.</td><td class="postblock" style="border-left: 0px none;border-right: 0px none;">' + chrome.i18n.getMessage("subject") + '</td><td class="postblock" style="border-left: 0px none;border-right: 0px none;">' + chrome.i18n.getMessage("author") + '</td><td class="postblock" style="border-left: 0px none;border-right: 0px none;">' + chrome.i18n.getMessage("note") + '</td><td class="postblock" style="border-left: 0px none;">&nbsp;</td></tr>';
 
 		var watchedthreads_thisboard = [];
@@ -114,32 +114,32 @@ function refreshThreadWatcher() {
 		}
 
 		if (watchedthreads_thisboard.length == 0) {
-			var wbrow = doc.createElement('tr');
+			var wbrow = document.createElement('tr');
 			wbrow.innerHTML = '<td colspan="5" align="center">' + chrome.i18n.getMessage("no_watched_threads") + '</td>';
 			watchboxtable.appendChild(wbrow);
 		} else {
 			for (var i = 0; i < watchedthreads_thisboard.length; i++) {
-				var wbrow = doc.createElement('tr');
+				var wbrow = document.createElement('tr');
 				wbrow.innerHTML = '<td style="padding-left: 3px;padding-right: 3px;">' + watchedthreads_thisboard[i][1] + '</td><td class="filetitle" style="padding-left: 3px;padding-right: 3px;">' + watchedthreads_thisboard[i][2] + '</td><td class="postername" style="padding-left: 3px;padding-right: 3px;">' + watchedthreads_thisboard[i][3] + '</td><td style="padding-left: 3px;padding-right: 3px;"><input type="text" placeholder="' + chrome.i18n.getMessage("enter_a_note") + '" size="12" value="' + watchedthreads_thisboard[i][4] + '" id="note' + watchedthreads_thisboard[i][0] + watchedthreads_thisboard[i][1] + '"></td><td style="padding-left: 3px;padding-right: 3px;"><small>[<a href="/' + watchedthreads_thisboard[i][0] + '/res/' + watchedthreads_thisboard[i][1] + '">' + chrome.i18n.getMessage("view") + '</a>] [<a href="#" id="delete' + watchedthreads_thisboard[i][0] + watchedthreads_thisboard[i][1] + '">' + chrome.i18n.getMessage("delete") + '</a>]</small></td>';
 				watchboxtable.appendChild(wbrow);
 
-				var note = doc.getElementById('note' + watchedthreads_thisboard[i][0] + watchedthreads_thisboard[i][1]);
+				var note = document.getElementById('note' + watchedthreads_thisboard[i][0] + watchedthreads_thisboard[i][1]);
 				note.setAttribute('board', watchedthreads_thisboard[i][0]);
 				note.setAttribute('threadid', watchedthreads_thisboard[i][1]);
 				note.onchange = function(event) {
-					updateWatchedThreadNote(this.value, this.getAttribute('board'), this.getAttribute('threadid'));
+					updateWatchedThreadNote(this.value, $(this).attr('board'), $(this).attr('threadid'));
 				};
 				note.onkeyup = function(event) {
-					updateWatchedThreadNote(this.value, this.getAttribute('board'), this.getAttribute('threadid'));
+					updateWatchedThreadNote(this.value, $(this).attr('board'), $(this).attr('threadid'));
 				};
 
-				var deletethread = doc.getElementById('delete' + watchedthreads_thisboard[i][0] + watchedthreads_thisboard[i][1]);
+				var deletethread = document.getElementById('delete' + watchedthreads_thisboard[i][0] + watchedthreads_thisboard[i][1]);
 				deletethread.setAttribute('board', watchedthreads_thisboard[i][0]);
 				deletethread.setAttribute('threadid', watchedthreads_thisboard[i][1]);
 				deletethread.addEventListener('click', function() {
-					var confirm = win.confirm(chrome.i18n.getMessage("stop_watching_thread", this.getAttribute('threadid')));
+					var confirm = window.confirm(chrome.i18n.getMessage("stop_watching_thread", $(this).attr('threadid')));
 					if (confirm) {
-						unwatchThread(this.getAttribute('board'), this.getAttribute('threadid'));
+						unwatchThread($(this).attr('board'), $(this).attr('threadid'));
 					}
 				}, false);
 			}
@@ -190,7 +190,7 @@ function storeHiddenThreads() {
 }
 
 function checkQuickReplyBoxSubmitted(qrbid) {
-	var qrb = doc.getElementById(qrbid);
+	var qrb = document.getElementById(qrbid);
 	var qrb_iframe = qrb.getElementsByTagName('iframe')[0];
 	if (qrb_iframe.src.search('Updating page.') != -1) {
 		closeQuickReplyBox(qrbid);
@@ -200,12 +200,12 @@ function checkQuickReplyBoxSubmitted(qrbid) {
 }
 
 function closeQuickReplyBox(qrbid) {
-	var qrb = doc.getElementById(qrbid);
+	var qrb = document.getElementById(qrbid);
 	qrb.parentNode.removeChild(qrb);
 }
 
 function quickReplyBox(resto, atElement) {
-	var quickReplyBox = doc.createElement('div');
+	var quickReplyBox = document.createElement('div');
 	var qrbid = 'qr' + Math.floor(Math.random() * 1000);
 	quickReplyBox.id = qrbid;
 	quickReplyBox.style.borderTop = '0px none';
@@ -224,7 +224,7 @@ function quickReplyBox(resto, atElement) {
 	var offsetTop = atElement.offsetTop;
 	var obj = atElement;
 	while (obj.offsetParent) {
-		if (obj == doc.getElementsByTagName('body')[0]) {
+		if (obj == document.getElementsByTagName('body')[0]) {
 			break;
 		} else {
 			offsetLeft += obj.offsetParent.offsetLeft;
@@ -263,9 +263,9 @@ function quickReplyBox(resto, atElement) {
 				items3[j].setAttribute('submitted', 'false');
 				items3[j].setAttribute('qrbid', qrbid);
 				items3[j].addEventListener('click', function() {
-					doc.getElementById(this.getAttribute('qrbid') + 'iframe').style.display = 'block';
-					doc.getElementById(this.getAttribute('qrbid') + 'form').submit();
-					/*if (this.getAttribute("submitted") == "false") {
+					document.getElementById($(this).attr('qrbid') + 'iframe').css('display', 'block');
+					document.getElementById($(this).attr('qrbid') + 'form').submit();
+					/*if ($(this).attr("submitted") == "false") {
 						setTimeout(checkQuickReplyBoxSubmitted, 200, qrbid);
 						this.setAttribute("submitted", "true");
 					}*/
@@ -278,7 +278,7 @@ function quickReplyBox(resto, atElement) {
 
 	// Set resto
 	firstinput = quickReplyBox.getElementsByTagName('input')[0];
-	var resto_input = doc.createElement('input');
+	var resto_input = document.createElement('input');
 	resto_input.name = 'resto';
 	resto_input.value = resto;
 	resto_input.type = 'hidden';
@@ -286,10 +286,10 @@ function quickReplyBox(resto, atElement) {
 
 	autoFillPostBox(quickReplyBox);
 	
-	qrbclose = doc.getElementById("close" + qrbid);
+	qrbclose = document.getElementById("close" + qrbid);
 	qrbclose.setAttribute("qrbid", qrbid);
 	qrbclose.addEventListener('click', function() {
-		closeQuickReplyBox(this.getAttribute("qrbid"));
+		closeQuickReplyBox($(this).attr("qrbid"));
 	}, false);
 
 	return quickReplyBox;
@@ -310,13 +310,16 @@ function quickReplyQuote(resto, postid, atElement) {
 function replaceRefLinksWithQuickReply(searchElement, resto_override) {
 	if (enable_quickreply || enable_report || enable_sage) {
 		if (!searchElement) {
-			searchElement = doc;
+			searchElement = document;
 		}
-		var items = searchElement.getElementsByTagName('a');
-		for (var i = 0; i < items.length; i++) {
+		
+		$('a', searchElement).each(function() {
 			var postid = null;
 			var resto = resto_override;
-			var m = items[i].href.match(/.*quote\(\'([0-9]+)\'\)/i);
+			var m = null;
+			if ($(this).attr('href')) {
+				m = $(this).attr('href').match(/.*quote\(\'([0-9]+)\'\)/i);
+			}
 			if (m != null) {
 				postid = m[1];
 				if (!resto) {
@@ -325,50 +328,48 @@ function replaceRefLinksWithQuickReply(searchElement, resto_override) {
 						resto = m[1];
 					}
 				}
-				if (items[i].textContent.search('X') != -1) {
-					items[i].textContent = postid;
+				if ($(this).text().search('X') != -1) {
+					$(this).text(postid);
 				}
-			} else if (items[i].className == 'quotejs') {
-				var m = items[i].href.match(/[.*]?res\/([0-9]+)(?:\.html)?\#q([0-9]+)/i);
+			} else if ($(this).hasClass('quotejs')) {
+				var m = $(this).attr('href').match(/[.*]?res\/([0-9]+)(?:\.html)?\#q([0-9]+)/i);
 				if (m != null) {
 					resto = m[1];
 					postid = m[2];
-					if (items[i].textContent.search('X') != -1) {
-						items[i].textContent = postid;
+					if ($(this).text().search('X') != -1) {
+						$(this).text(postid);
 					}
 				}
 			}
-			if (enable_quickreply && postid && resto && items[i].href != 'javascript:return false;') {
-				items[i].setAttribute('postID', postid);
-				items[i].setAttribute('threadID', resto);
-				items[i].setAttribute('thisElement', items[i]);
-				items[i].setAttribute('isQuickReply', 'true');
-				if (enable_quickreply) {
-					items[i].addEventListener('click', function() {
-						quickReplyQuote(this.getAttribute('threadID'), this.getAttribute('postID'), this.parentNode);
-					}, false);
+			if (enable_quickreply && postid && resto && $(this).attr('href') != 'javascript:return false;') {
+				$(this).attr('postID', postid).attr('threadID', resto).attr('thisElement', this);
+				if (enable_quickreply && $(this).attr('isQuickReply') != 'true') {
+					$(this).attr('isQuickReply', 'true');
+					$(this).click(function() {
+						quickReplyQuote($(this).attr('threadID'), $(this).attr('postID'), this.parentNode);
+						return false;
+					});
 				}
-				items[i].href = 'javascript:false;';
 			}
-			if (enable_report && postid && items[i].getAttribute('processed') == null) {
-				var m2 = doc.location.href.match(/.*\.4chan\.org\/([0-9a-zA-Z]+)\/.*/i);
+			if (enable_report && postid && $(this).attr('processed') == null) {
+				var m2 = document.location.href.match(/.*\.4chan\.org\/([0-9a-zA-Z]+)\/.*/i);
 				if (m2) {
-					var report = doc.createElement('a');
+					var report = document.createElement('a');
 					report.href = "javascript:void(reppop('http://sys.4chan.org/" + m2[1] + '/imgboard.php?mode=report&no=' + postid + "'));";
 					report.style.textDecoration = 'none';
 					report.innerHTML = ' <img border="0" src="' + chrome.extension.getURL('images/button_report.png') + '" title="' + chrome.i18n.getMessage("report_post") + '">';
-					insertAfter(report, items[i]);
+					insertAfter(report, $(this));
 				}
-				items[i].setAttribute('processed', 'true');
+				$(this).attr('processed', 'true');
 			}
-			if (enable_sage && items[i].href.toLowerCase() == 'mailto:sage' && items[i].getAttribute('processed') == null) {
-				items[i].innerHTML = '&nbsp;' + items[i].innerHTML + '&nbsp;';
-				items[i].style.textDecoration = 'none';
-				items[i].style.background = "url('" + chrome.extension.getURL('images/sage.png') + "')";
-				items[i].style.backgroundRepeat = 'repeat';
-				items[i].setAttribute('processed', 'true');
+			if (enable_sage && $(this).attr('href') && $(this).attr('href').toLowerCase() == 'mailto:sage' && $(this).attr('processed') == null) {
+				$(this).html('&nbsp;' + $(this).html() + '&nbsp;')
+					.css('textDecoration', 'none')
+					.css('background-image', "url('" + chrome.extension.getURL('images/sage.png') + "')")
+					.css('backgroundRepeat', 'repeat')
+					.attr('processed', 'true');
 			}
-		}
+		});
 	}
 }
 
@@ -383,34 +384,31 @@ function setExpandImageAttributes(a) {
 		}
 		if (m) {
 			if (a.innerHTML.substring(0, 4) == '<img') {
-				if (a.getAttribute('expanded') == null) {
-					a.setAttribute('expanded', 'false');
-					a.setAttribute('expandImage', expandImage);
-					a.setAttribute('expandOriginalHTML', a.innerHTML);
-					a.setAttribute('onClick', 'javascript:return false;');
-					img = a.getElementsByTagName('img')[0];
-					a.setAttribute('thumbSRC', img.getAttribute('src'));
-					a.setAttribute('thumbWidth', img.getAttribute('width'));
-					a.setAttribute('thumbHeight', img.getAttribute('height'));
-					a.target = '_self';
-					a.addEventListener('click', function(e) {;
+				if ($(a).attr('expanded') == undefined) {
+					img = $('img', a).first();
+					$(a).attr('expanded', 'false')
+						.attr('expandImage', expandImage)
+						.attr('expandOriginalHTML', $(a).html())
+						.attr('thumbSRC', img.attr('src'))
+						.attr('thumbWidth', img.attr('width'))
+						.attr('thumbHeight', img.attr('height')) ;
+					$(a).click(function(e) {
 						if (e.which == 2) {
-							win.open(this.getAttribute('expandImage'), '_blank');
-						} else if (e.which == 1) {
-							if (this.getAttribute('expanded') != 'true') {
-								this.innerHTML = '<img style="border: 0px none;min-width: ' + this.getAttribute('thumbWidth') + 'px;min-height: ' + this.getAttribute('thumbHeight') + 'px;" src="' + this.getAttribute('expandImage') + '" border="0" align="left" hspace="20">';
-								this.setAttribute('expanded', 'true');
+							window.open($(this).attr('expandImage'), '_blank');
+						} else if (e.which == 1 || e.which == undefined) {
+							if ($(this).attr('expanded') != 'true') {
+								$(this).html('<img style="border: 0px none;min-width: ' + $(this).attr('thumbWidth') + 'px;min-height: ' + $(this).attr('thumbHeight') + 'px;" src="' + $(this).attr('expandImage') + '" border="0" align="left" hspace="20">');
+								$(this).attr('expanded', 'true');
 							} else {
-								this.innerHTML = this.getAttribute('expandOriginalHTML');
-								this.setAttribute('expanded', 'false');
+								$(this).html($(this).attr('expandOriginalHTML'));
+								$(this).attr('expanded', 'false');
 							}
 						}
-					}, false);
+						return false;
+					});
 
 					if (expand_all_thumbs) {
-						var evt = doc.createEvent('MouseEvents');
-						evt.initMouseEvent('click', true, true, win, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-						a.dispatchEvent(evt);
+						$(a).click();
 					}
 				}
 			} else {
@@ -421,64 +419,59 @@ function setExpandImageAttributes(a) {
 }
 
 function setPostAttributes(element, setExpand) {
-	var items = element.getElementsByTagName('a');
 	var expandImage;
-	for (var j = 0; j < items.length; j++) {
-		var m = items[j].href.match(/.*\/[0-9]+(?:\.html)?#([0-9]+)/i);
-		if (m == null) {
-			var m = items[j].href.match(/\#([0-9]+)/i);
+	$('a', element).each(function() {
+		var m = null;
+		if ($(this).attr('href')) {
+			m = $(this).attr('href').match(/.*\/[0-9]+(?:\.html)?#([0-9]+)/i);
+		}
+		if (m == null && $(this).attr('href')) {
+			var m = $(this).attr('href').match(/\#([0-9]+)/i);
 		}
 		if (m != null) {
-			if (items[j].innerHTML == 'No.') {
-				element.setAttribute('postID', m[1]);
-				element.className = '4c4c_reply';
-			} else if (enable_preview && items[j].getAttribute('refID') == null) {
-				var m2 = items[j].innerHTML.match(/^\&gt\;\&gt\;[0-9]+/i);
+			if ($(this).html() == 'No.') {
+				$(element).attr('postID', m[1]).addClass('4c4c_reply');
+			} else if (enable_preview && $(this).attr('refID') == undefined) {
+				var m2 = $(this).html().match(/^\&gt\;\&gt\;[0-9]+/i);
 				if (m2 != null) {
-					items[j].setAttribute('refID', m[1]);
-					items[j].addEventListener('mousemove', function(e) {
-						var preview = doc.getElementById('ref' + this.getAttribute('refID'));
+					$(this).attr('refID', m[1]);
+					$(this).bind('mousemove', function(e) {
+						var preview = document.getElementById('ref' + $(this).attr('refID'));
 						if (!preview) {
-							var preview = doc.createElement('div');
-							preview.id = 'ref' + this.getAttribute('refID');
+							var preview = document.createElement('div');
+							preview.id = 'ref' + $(this).attr('refID');
 							preview.className = 'reply';
 							preview.style.margin = '0';
 							preview.style.padding = '0';
 							preview.style.position = 'absolute';
 
 							if (full_url.search('4chan.org') == -1) {
-								var items2 = doc.getElementsByTagName('table');
+								var selectorsearch = 'table';
 							} else {
-								var items2 = doc.getElementsByClassName('4c4c_reply');
+								var selectorsearch = '.4c4c_reply';
 							}
-							for (var i = 0; i < items2.length; i++) {
-								var postid = items2[i].getAttribute('postID');
-								if (postid && postid == this.getAttribute('refID')) {
-									preview.innerHTML = items2[i].innerHTML;
-									if (items2[i].getAttribute('op') == 'true') {
-										preview.className = 'postblock';
-										preview.innerHTML = '<div style="position: absolute;right: 0px;top: 0px;font-size: 1.5em;margin: 0px;padding: 1px;" class="unkfunc">OP</div>' + preview.innerHTML;
-									}
+							var refpost = $(selectorsearch + '[postID="' + $(this).attr('refID') + '"]').first();
+							if (refpost) {
+								$(preview).html(refpost.html());
+								if (refpost.attr('op') == 'true') {
+									$(preview).addClass('postblock');
+									$(preview).html('<div style="position: absolute;right: 0px;top: 0px;font-size: 1.5em;margin: 0px;padding: 1px;" class="unkfunc">OP</div>' + $(preview).html());
 								}
 							}
 
 							insertAfter(preview, this);
 						}
-						preview.style.left = e.clientX + doc.body.scrollLeft + doc.documentElement.scrollLeft + 25;
-						preview.style.top = e.clientY + doc.body.scrollTop + doc.documentElement.scrollTop + 10;
-					}, false);
-					items[j].addEventListener('mouseout', function() {
-						var preview = doc.getElementById('ref' + this.getAttribute('refID'));
-						if (preview) {
-							preview.parentNode.removeChild(preview);
-						}
-					}, false);
+						$(preview).css('left', e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft + 25).css('top', e.clientY + document.body.scrollTop + document.documentElement.scrollTop + 10);
+					});
+					$(this).bind('mouseout', function() {
+						$('#ref' + $(this).attr('refID')).remove();
+					});
 				}
 			}
 		} else if (setExpand) {
-			setExpandImageAttributes(items[j]);
+			setExpandImageAttributes(this);
 		}
-	}
+	});
 }
 
 function processExpandTables(replies, replies_temp, threadID, spacer, omittedposts, items, tables) {
@@ -502,38 +495,29 @@ function processExpandTablesFinish(replies, replies_temp, threadID, spacer, omit
 	var delform_temp = replies_temp.getElementsByTagName('form')[1];
 	replies_temp.style.display = 'none';
 
-	var items2 = doc.getElementsByClassName('4c4c_reply');
-	for (var i = 0; i < items2.length; i++) {
-		if (items2[i].getAttribute('threadID') == threadID) {
-			items2[i].style.display = 'none';
-		}
-	}
+	$('.4c4c_reply[threadID="' + threadID + '"]').hide();
 
-	var items2 = replies.getElementsByTagName('table');
-	for (var i = 0; i < items2.length; i++) {
-		setPostAttributes(items2[i], true);
-	}
+	$('table', replies).each(function() {
+		setPostAttributes(this, true);
+	});
 
 	replaceRefLinksWithQuickReply(replies, threadID);
 
-	var items2 = doc.getElementsByTagName('span');
-	for (var i = 0; i < items2.length; i++) {
-		if (items2[i].id == 'omittedposts' + threadID) {
-			insertAfter(replies, items2[i]);
+	$('span[id^="omittedposts"]').each(function() {
+		if (this.id == 'omittedposts' + threadID) {
+			insertAfter(replies, this);
 		}
-	}
+	});
 
-	spacer.innerHTML = '<img border="0" src="' + chrome.extension.getURL('images/button_retract.png') + '" title="' + chrome.i18n.getMessage("retract") + '">&nbsp;';
-	omittedposts.innerHTML = chrome.i18n.getMessage("thread_expanded", threadID);
+	$(spacer).html('<img border="0" src="' + chrome.extension.getURL('images/button_retract.png') + '" title="' + chrome.i18n.getMessage("retract") + '">&nbsp;');
+	$(omittedposts).html(chrome.i18n.getMessage("thread_expanded", threadID));
 }
 
 function processExpand(replies, replies_temp, threadID, spacer, omittedposts) {
-	var delform_expand = replies_temp.getElementsByTagName('form')[1];
-	var items = delform_expand.getElementsByTagName('table');
 	var tables = [];
-	for (var j = 0; j < items.length; j++) {
-		tables.push(items[j]);
-	}
+	$('table', $(replies_temp.getElementsByTagName('form')[1])).each(function() {
+		tables.push(this);
+	});
 	replies.id = 'replies' + threadID;
 	processExpandTables(replies, replies_temp, threadID, spacer, omittedposts, tables);
 }
@@ -573,7 +557,7 @@ function autoFillPostBox(element) {
 	}
 }
 
-function processLatestRepliesLoop(replies, lastmodified) {
+function processLatestRepliesLoop(replies) {
 	var reply = false;
 	if (replies && replies.length > 0) {
 		reply = replies.shift();
@@ -586,27 +570,24 @@ function processLatestRepliesLoop(replies, lastmodified) {
 		}
 	}
 	if (replies && replies.length > 0) {
-		setTimeout(processLatestRepliesLoop, 10, replies, lastmodified);
-	} else {
-		last_modified = lastmodified;
+		setTimeout(processLatestRepliesLoop, 10, replies);
 	}
 }
 
-function processFetchedReplies(replies, lastmodified) {
+function processFetchedReplies(replies) {
 	if (!lastreply) {
-		var items2 = doc.forms[1].getElementsByClassName('4c4c_reply');
-		for (var j = 0; j < items2.length; j++) {
-			if (items2[j].getAttribute('postID') != null && items2[j].getAttribute('op') == null) {
-				lastreply = items2[j];
-				lastreplyid = lastreply.getAttribute('postID');
+		$('.4c4c_reply', document.forms[1]).each(function() {
+			if ($(this).attr('postID') && $(this).attr('op') == undefined) {
+				lastreply = this;
+				lastreplyid = $(this).attr('postID');
 			}
-		}
+		});
 	}
 	if (!lastreply) {
-		lastreply = doc.forms[1].getElementsByTagName('blockquote')[0];
+		lastreply = $('blockquote', document.forms[1]).first();
 	}
 
-	processLatestRepliesLoop(replies, lastmodified);
+	processLatestRepliesLoop(replies);
 }
 
 function fetchLatestPosts() {
@@ -617,53 +598,36 @@ function fetchLatestPosts() {
 	}
 
 	if (threadID) {
-		var client = new XMLHttpRequest();
-		client.open('HEAD', base_url + 'res/' + threadID, true);
-		client.send();
-		client.threadID = threadID;
-		client.onreadystatechange = function() {
-			if (client.readyState == 4) {
-				if (last_modified && (client.status == 404 || client.getResponseHeader('Last-Modified') != last_modified)) {
-					var client2 = new XMLHttpRequest();
-					client2.open('GET', base_url + 'res/' + client.threadID, true);
-					client2.send();
-					client2.threadID = client.threadID;
-					client2.onreadystatechange = function() {
+		$.ajax({
+			url: base_url + 'res/' + threadID,
+			ifModified: true,
+			success: function(data) {
+				var replies = [];
+				var replies_temp = document.createElement('span');
+				replies_temp.innerHTML = data;
+				$('table', replies_temp).each(function() {
+					setPostAttributes(this, true);
+					if ($(this).attr('postID') > lastreplyid) {
+						replies.push(this);
+					}
+				});
+				processFetchedReplies(replies);
+			},
+			statusCode: {
+				404: function() {
+					if ($(document.forms[1]).attr('has404d') == 'false') {
 						var replies = [];
-						replies.length = 0;
-						if (client2.status == 404) {
-							if (doc.forms[1].getAttribute('has404d') == 'false') {
-								doc.forms[1].setAttribute('has404d', 'true');
-								var reply_404 = doc.createElement('span');
-								reply_404.setAttribute('special', 'true');
-								reply_404.innerHTML = chrome.i18n.getMessage("thread_404");
-								reply_404.style.color = 'red';
-								reply_404.style.fontSize = '2.0em';
-								replies.push(reply_404);
-							}
-						} else if (client2.status == 200) {
-							var replies_temp = doc.createElement('span');
-							replies_temp.innerHTML = client2.responseText;
-							var items = replies_temp.getElementsByTagName('table');
-							for (var i = 0; i < items.length; i++) {
-								setPostAttributes(items[i], true);
-								if (items[i].getAttribute('postID') != null) {
-									if (items[i].getAttribute('postID') > lastreplyid) {
-										replies.push(items[i]);
-									}
-								}
-							}
-						}
-						if (replies.length > 0) {
-							last_modified = false;
-							processFetchedReplies(replies, client2.getResponseHeader('Last-Modified'));
-						}
+						$(document.forms[1]).attr('has404d', 'true');
+						var reply_404 = document.createElement('span');
+						$(reply_404).attr('special', 'true').css('color', 'red').css('fontSize', '2.0em').html(chrome.i18n.getMessage("thread_404"));
+						replies.push(reply_404);
+						processFetchedReplies(replies);
 					}
 				}
 			}
-		};
+		});
 
-		if (doc.forms[1].getAttribute('has404d') == 'false') {
+		if ($(document.forms[1]).attr('has404d') == 'false') {
 			setTimeout(fetchLatestPosts, 10000);
 		}
 	}
@@ -705,14 +669,14 @@ if ((typeof gBrowser) != "undefined") {
 }
 
 function init4chan4chrome(element) {
-	if (doc.forms.length > 0) {
+	if (document.forms.length > 0) {
 		var processPage = false;
 		if (!element) {
-			element = doc;
+			element = document;
 			processPage = true;
 
-			if (enable_threadwatcher && win.location.href.search('4chan.org') != -1) {
-				var watchBox = doc.createElement('div');
+			if (enable_threadwatcher && document.location.href.search('4chan.org') != -1) {
+				var watchBox = document.createElement('div');
 				watchBox.id = 'threadwatcher';
 				watchBox.style.borderTop = '0px none';
 				watchBox.style.borderBottom = '1px solid #CCCCCC';
@@ -726,26 +690,28 @@ function init4chan4chrome(element) {
 				watchBox.style.left = '10';
 				watchBox.style.top = '25';
 
-				insertAfter(watchBox, doc.getElementsByTagName('table')[0]);
+				insertAfter(watchBox, document.getElementsByTagName('table')[0]);
 				refreshThreadWatcher();
 
-				doc.getElementById('refreshthreadwatcher').addEventListener('click', function() {
+				document.getElementById('refreshthreadwatcher').addEventListener('click', function() {
 					refreshThreadWatcherCache();
 				}, false);
 			}
 		}
 		scrolltotopthread = false;
-		var m = win.location.href.match(/http\:\/\/.*\.4chan\.org\/.*\?browse/i);
+		var m = window.location.href.match(/http\:\/\/.*\.4chan\.org\/.*\?browse/i);
 		if (enable_quickbrowse && m != null) {
 			scrolltotopthread = true;
 		}
-		var items = element.getElementsByTagName('a');
-		for (var i = 0; i < items.length; i++) {
-			if (items[i].innerHTML == 'Reply' && enable_quickreply) {
-				var m = items[i].href.match(/.*\/([0-9]+)(?:\.html)?/i);
+		$('a', element).each(function() {
+			if ($(this).html() == 'Reply' && enable_quickreply) {
+				var m = null;
+				if ($(this).attr('href')) {
+					var m = $(this).attr('href').match(/.*\/([0-9]+)(?:\.html)?/i);
+				}
 				if (m != null) {
 					var threadID = m[1];
-					var quickReply = doc.createElement('a');
+					var quickReply = document.createElement('a');
 					quickReply.href = 'javascript:false;';
 					quickReply.innerHTML = '<img border="0" src="' + chrome.extension.getURL('images/button_quickreply.png') + '" title="' + chrome.i18n.getMessage("quick_reply") + '">';
 					quickReply.setAttribute('onclick', 'return false;');
@@ -753,61 +719,55 @@ function init4chan4chrome(element) {
 					quickReply.addEventListener('click', function() {
 						var items2 = element.getElementsByTagName('input');
 						for (var i = 0; i < items2.length; i++) {
-							if (items2[i].name.search(this.getAttribute('threadID')) != -1) {
-								quickReplyBox(this.getAttribute('threadID'), items2[i]);
+							if (items2[i].name.search($(this).attr('threadID')) != -1) {
+								quickReplyBox($(this).attr('threadID'), items2[i]);
 							}
 						}
 					}, false);
 
-					items[i].parentNode.innerHTML += '<span id="spacer' + threadID + '">&nbsp;</span>';
+					this.parentNode.innerHTML += '<span id="spacer' + threadID + '">&nbsp;</span>';
 					var spacer = element.getElementById('spacer' + threadID);
 					insertAfter(quickReply, spacer);
 				}
-			} else if (items[i].innerHTML == 'No.') {
-				var m = items[i].href.match(/.*\/([0-9]+)(?:\.html)?\#([0-9]+)/i);
+			} else if ($(this).html() == 'No.') {
+				var m = null;
+				if ($(this).attr('href')) {
+					var m = $(this).attr('href').match(/.*\/([0-9]+)(?:\.html)?\#([0-9]+)/i);
+				}
 				if (m != null) {
 					if (m[1] == m[2]) {
-						items[i].name = m[1];
+						$(this).attr('name', m[1]);
 					}
 				}
 			} else {
-				setExpandImageAttributes(items[i]);
+				setExpandImageAttributes(this);
 			}
-		}
+		});
 
-		if (firefox) {
-			delform = doc.forms[1];
+		if (document.forms['delform']) {
+			delform = document.forms[1];
 		} else {
-			if (doc.forms['delform']) {
-				delform = doc.forms[1];
-			} else {
-				delform = doc.body;
-			}
+			delform = document.body;
 		}
 		if (processPage && delform) {
 			if (enable_autonoko) {
-				var m = win.location.href.match(/(^.*)\/res\/[0-9]+.*/i);
+				var m = window.location.href.match(/(^.*)\/res\/[0-9]+.*/i);
 				if (m == null) {
-					var m = win.location.href.match(/(^.*)\//i);
+					var m = window.location.href.match(/(^.*)\//i);
 				}
 				if (m != null) {
-					doc.forms[0].action += '#return=' + encodeURI(m[1]);
+					document.forms[0].action += '#return=' + encodeURI(m[1]);
 				}
 			}
 
-			var items = doc.getElementsByTagName('div');
-			for (var i = 0; i < items.length; i++) {
-				if (items[i].className == 'postarea') {
-					postarea = items[i].innerHTML;
-					autoFillPostBox(doc);
-				}
-			}
+			postarea = $('.postarea').first().html();
+			autoFillPostBox(document);
 
 			var nodes = delform.childNodes;
 			var hidethreadid = 'thread' + Math.floor(Math.random() * 1000);
 			var watch = null;
 			if (enable_threadwatcher) {
-				watch = doc.createElement('a');
+				watch = document.createElement('a');
 			}
 
 			lastnode = null;
@@ -820,7 +780,7 @@ function init4chan4chrome(element) {
 				node = nodes[i];
 				if (node.nodeName.toLowerCase() != 'hr') {
 					if (!node.setAttribute) {
-						var newspan = doc.createElement('span');
+						var newspan = document.createElement('span');
 						insertAfter(newspan, node);
 						newspan.appendChild(node);
 						node = newspan;
@@ -850,15 +810,15 @@ function init4chan4chrome(element) {
 						watch.addEventListener('click', function() {
 							var m = full_url.match(/.*\.4chan\.org\/([0-9a-zA-Z]+)\/.*/i);
 							if (m != null) {
-								var threadsubject = this.getAttribute('postsubject');
+								var threadsubject = $(this).attr('postsubject');
 								if (threadsubject == '') {
 									threadsubject = '&nbsp;';
 								}
-								var threadauthor = this.getAttribute('postname');
+								var threadauthor = $(this).attr('postname');
 								if (threadauthor == '') {
 									threadauthor = '&nbsp;';
 								}
-								var threadarray = [m[1], this.getAttribute('threadID'), threadsubject, threadauthor, ''];
+								var threadarray = [m[1], $(this).attr('threadID'), threadsubject, threadauthor, ''];
 								watchThread(threadarray);
 							}
 						}, false);
@@ -867,24 +827,19 @@ function init4chan4chrome(element) {
 					}
 					
 					if (enable_hidethreads) {
-						var threadhider = doc.createElement('a');
+						var threadhider = document.createElement('a');
 						threadhider.id = 'threadhider' + threadID;
 						threadhider.style.textDecoration = 'none';
 						threadhider.innerHTML = '<img border="0" src="' + chrome.extension.getURL('images/button_retract.png') + '" title="' + chrome.i18n.getMessage("hide_thread") + '"> ';
 						threadhider.href = '#';
-						threadhider.setAttribute('onClick', 'javascript:return false;');
-						threadhider.setAttribute('threadID', threadID);
-						threadhider.setAttribute('hidethreadID', hidethreadid);
+						$(threadhider).attr('threadID', threadID).attr('hidethreadID', hidethreadid);
 
-						threadhider.addEventListener('click', function() {
-							hideThread(this.getAttribute('threadID'));
-							var items = getElementsByAttribute('hidethread', this.getAttribute('hidethreadID'), false);
-							for (var j = 0; j < items.length; j++) {
-								items[j].style.display = 'none';
-							}
-							var unhidethread = doc.getElementById('unhide' + this.getAttribute('hidethreadID'));
-							unhidethread.style.display = 'block';
-						}, false);
+						$(threadhider).click(function() {
+							hideThread($(this).attr('threadID'));
+							$('[hidethread="' + $(this).attr('hidethreadID') + '"]').hide();
+							$('#unhide' + $(this).attr('hidethreadID')).show();
+							return false;
+						});
 
 						insertAfter(threadhider, node);
 					}
@@ -915,56 +870,71 @@ function init4chan4chrome(element) {
 				}
 
 				if (enable_expand && node.className && node.className.toLowerCase() == 'omittedposts') {
-					var expand = doc.createElement('a');
-					expand.style.textDecoration = 'none';
-					expand.innerHTML = '<img border="0" src="' + chrome.extension.getURL('images/button_expand.png') + '" title="' + chrome.i18n.getMessage("expand_thread") + '">&nbsp;';
-					expand.href = '#';
-					expand.setAttribute('onClick', 'javascript:return false;');
-					expand.setAttribute('threadID', threadID);
-
-					node.innerHTML = '<span id="spacer2' + threadID + '"></span><span id="omittedposts' + threadID + '">' + node.innerHTML + '</span>';
-					var spacer = doc.getElementById('spacer2' + threadID);
-					spacer.parentNode.insertBefore(expand, spacer);
-					var omittedposts = doc.getElementById('omittedposts' + threadID);
+					var expand = document.createElement('a');
+					$(expand).attr('href', '#').attr('threadID', threadID).attr('expanded', 'false').css('textDecoration', 'none');
+					$(expand).html('<img border="0" src="' + chrome.extension.getURL('images/button_expand.png') + '" title="' + chrome.i18n.getMessage("expand_thread") + '">&nbsp;');
+					$(node).attr('threadID', threadID).html('<span id="spacer2' + threadID + '"></span><span id="omittedposts' + threadID + '">' + node.innerHTML + '</span>');
 					
-					node.setAttribute('threadID', threadID);
-					expand.setAttribute('threadID', threadID);
-					expand.setAttribute('expanded', 'false');
-					expand.addEventListener('click', function() {
-						var omittedposts = doc.getElementById('omittedposts' + this.getAttribute('threadID'));
-						if (this.getAttribute('expanded') == 'true') {
-							doc.getElementById('replies' + this.getAttribute('threadID')).parentNode.removeChild(doc.getElementById('replies' + this.getAttribute('threadID')));
-							this.innerHTML = this.getAttribute('retracthtml');
-							omittedposts.innerHTML = chrome.i18n.getMessage("thread_retracted", this.getAttribute('threadID')) + '<br clear=\"left\">';
-							this.setAttribute('expanded', 'false');
+					var spacer = document.getElementById('spacer2' + threadID);
+					spacer.parentNode.insertBefore(expand, spacer);
+					var omittedposts = document.getElementById('omittedposts' + threadID);
+					
+					$(expand).click(function() {
+						var omittedposts = $('#omittedposts' + $(this).attr('threadID'));
+						if ($(this).attr('expanded') == 'true') {
+							document.getElementById('replies' + $(this).attr('threadID')).parentNode.removeChild(document.getElementById('replies' + $(this).attr('threadID')));
+							$(this).html($(this).attr('retracthtml'));
+							omittedposts.html(chrome.i18n.getMessage("thread_retracted", $(this).attr('threadID')) + '<br clear=\"left\">');
+							$(this).attr('expanded', 'false');
 						} else {
-							this.setAttribute('retracthtml', this.innerHTML);
-							omittedposts.innerHTML = chrome.i18n.getMessage("thread_expanding", this.getAttribute('threadID'));
+							$(this).attr('retracthtml', $(this).html());
+							omittedposts.html(chrome.i18n.getMessage("thread_expanding", $(this).attr('threadID')));
 							this.style.textDecoration = 'none';
 							this.style.color = '#000000';
 							this.style.fontWeight = 'bold';
-							this.innerHTML = '<img border="0" src="' + chrome.extension.getURL('images/button_expandwait.png') + '">&nbsp;';
+							$(this).html('<img border="0" src="' + chrome.extension.getURL('images/button_expandwait.png') + '">&nbsp;');
+							/*$.ajax({
+								url: base_url + 'res/' + $(this).attr('threadID'),
+								cache: false,
+								success: function(data) {
+									var m = this.url.match(); TODO
+									var replies = document.createElement('span');
+									var replies_temp = document.createElement('span');
+									$(replies_temp).html(data);
+									processExpand(replies, replies_temp, m[1], this, $('#omittedposts' + m[1]));
+								},
+								statusCode: {
+									404: function() {
+										this.omittedposts.innerHTML = chrome.i18n.getMessage("thread_404");
+									}
+								},
+								error: function() {
+									var m = this.url.match(); TODO
+									$('#omittedposts' + m[1]).text(chrome.i18n.getMessage("thread_404"));
+								}
+							});*/
 							var client = new XMLHttpRequest();
-							client.open('GET', base_url + 'res/' + this.getAttribute('threadID'), true);
+							client.open('GET', base_url + 'res/' + $(this).attr('threadID'), true);
 							client.send();
-							client.threadID = this.getAttribute('threadID');
+							client.threadID = $(this).attr('threadID');
 							client.spacer = this;
 							client.omittedposts = omittedposts;
 							client.onreadystatechange = function() {
 								if (client.readyState == 4) {
 									if (client.status == 200) {
-										this.spacer.setAttribute('expanded', 'true');
-										var replies = doc.createElement('span');
-										var replies_temp = doc.createElement('span');
+										$(this.spacer).attr('expanded', 'true');
+										var replies = document.createElement('span');
+										var replies_temp = document.createElement('span');
 										replies_temp.innerHTML = client.responseText;
 										processExpand(replies, replies_temp, this.threadID, this.spacer, this.omittedposts);
 									} else if (client.status == 404) {
-										this.omittedposts.innerHTML = chrome.i18n.getMessage("thread_404");
+										$(this.omittedposts).html(chrome.i18n.getMessage("thread_404"));
 									}
 								}
 							};
 						}
-					}, false);
+						return false;
+					});
 				}
 				
 				if (enable_quickbrowse && node.className && node.className.toLowerCase() == 'pages') {
@@ -981,31 +951,26 @@ function init4chan4chrome(element) {
 
 				if (node.nodeName.toLowerCase() == 'hr' && lastnode && lastnode.nodeName.toLowerCase() == 'br') {
 					if (enable_hidethreads) {
-						var unhide = doc.createElement('span');
+						var unhide = document.createElement('span');
 						unhide.innerHTML = '<a href="#" id="triggerunhide' + hidethreadid + '"><img border="0" src="' + chrome.extension.getURL('images/button_expand.png') + '" title="' + chrome.i18n.getMessage("unhide_thread") + '"></a> ' + chrome.i18n.getMessage("thread_is_hidden", threadID);
 						unhide.id = 'unhide' + hidethreadid;
 						unhide.style.display = 'none';
 						insertAfter(unhide, lastnode.previousSibling);
 
-						var triggerunhide = doc.getElementById('triggerunhide' + hidethreadid);
-						triggerunhide.setAttribute('onClick', 'javascript:return false;');
-						triggerunhide.setAttribute('threadID', threadID);
-						triggerunhide.setAttribute('hidethreadID', hidethreadid);
-						triggerunhide.addEventListener('click', function() {
-							unhideThread(this.getAttribute('threadID'));
-							var items = getElementsByAttribute('hidethread', this.getAttribute('hidethreadID'), false);
-							for (var j = 0; j < items.length; j++) {
-								items[j].style.display = 'block';
-							}
-							var unhidethread = doc.getElementById('unhide' + this.getAttribute('hidethreadID'));
-							unhidethread.style.display = 'none';
-						}, false);
+						var triggerunhide = document.getElementById('triggerunhide' + hidethreadid);
+						$(triggerunhide).attr('threadID', threadID).attr('hidethreadID', hidethreadid);
+						$(triggerunhide).click(function() {
+							unhideThread($(this).attr('threadID'));
+							$('[hidethread="' + $(this).attr('hidethreadID') + '"]').show();
+							$('#unhide' + $(this).attr('hidethreadID')).hide();
+							return false;
+						});
 					}
 
 					lasthr = node;
 					threadID = null;
 					hidethreadid = 'thread' + Math.floor(Math.random() * 1000);
-					watch = doc.createElement('a');
+					watch = document.createElement('a');
 				}
 				lastnode = node;
 			}
@@ -1016,7 +981,7 @@ function init4chan4chrome(element) {
 				for (var i = 0; i < items.length; i++) {
 					var m = items[i].match(/.*\<input type\=\"checkbox\" name\=\"([0-9]+)\".*/i);
 					if (m != null) {
-						var table = doc.createElement('table');
+						var table = document.createElement('table');
 						table.innerHTML = items[i].split('</blockquote>')[0] + '</blockquote>';
 						var hr_split = table.innerHTML.split('<hr>');
 						if (hr_split.length > 0) {
@@ -1035,8 +1000,8 @@ function init4chan4chrome(element) {
 			if (enable_fetchreplies) {
 				var m = full_url.match(/.*\/res\/[0-9]+.*/i);
 				if (m != null) {
-					if (delform.getAttribute('has404d') == null) {
-						delform.setAttribute('has404d', 'false');
+					if ($(delform).attr('has404d') == undefined) {
+						$(delform).attr('has404d', 'false');
 						setTimeout(fetchLatestPosts, 10000);
 					}
 				}
@@ -1050,12 +1015,7 @@ function init4chan4chrome(element) {
 				if (m != null) {
 					for (var i = 0; i < hiddenthreads.length; i++) {
 						if (hiddenthreads[i][0] == m[1]) {
-							var item = doc.getElementById('threadhider' + hiddenthreads[i][1]);
-							if (item) {
-								var evt = doc.createEvent('MouseEvents');
-								evt.initMouseEvent('click', true, true, win, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-								item.dispatchEvent(evt);
-							}
+							$('#threadhider' + hiddenthreads[i][1]).click();
 						}
 					}
 				}
@@ -1064,7 +1024,7 @@ function init4chan4chrome(element) {
 			if (enable_returntotop) {
 				var m = full_url.match(/.*\/res\/[0-9]+.*/i);
 				if (full_url.search('4chan.org') != -1 && m) {
-					var returntotop = doc.createElement('table');
+					var returntotop = document.createElement('table');
 					returntotop.className = 'reply';
 					returntotop.style.clear = 'both';
 					returntotop.innerHTML = '<tr onclick="self.scrollTo(0,0);" style="cursor: hand;"><td align="left" style="font-size: 2em;">&#x25B2;</td><td align="center" width="100%" style="font-size: 2em;">' + chrome.i18n.getMessage("return_to_top") + '</td><td align="right" style="font-size: 2em;">&#x25B2;</td></tr>';
@@ -1073,14 +1033,14 @@ function init4chan4chrome(element) {
 			}
 			
 			if (enable_quickbrowse) {
-				var m = win.location.href.match(/(^.*)\/res\/[0-9]+.*/i);
+				var m = window.location.href.match(/(^.*)\/res\/[0-9]+.*/i);
 				if (m == null) {
-					var quickbrowse = doc.createElement('table');
+					var quickbrowse = document.createElement('table');
 					quickbrowse.className = 'reply';
 					quickbrowse.style.clear = 'both';
 					quickbrowse.innerHTML = '<tr style="cursor: hand;"><td align="left" style="font-size: 2em;">&#x25B2;</td><td align="center" width="100%" style="font-size: 2em;">' + chrome.i18n.getMessage("browse_new_threads") + '</td><td align="right" style="font-size: 2em;">&#x25B2;</td></tr>';
 					quickbrowse.addEventListener('click', function() {
-						var m2 = win.location.href.match(/http\:\/\/(.*)\.4chan\.org\/(.*)\/.*/i);
+						var m2 = window.location.href.match(/http\:\/\/(.*)\.4chan\.org\/(.*)\/.*/i);
 						if (m2 != null) {
 							window.location = "http://" + m2[1] + ".4chan.org/" + m2[2] + "/?browse";
 						}
@@ -1116,106 +1076,82 @@ function selectmouse(e) {
 		ty = parseInt(dobj.style.top + 0, 10);
 		x = e.clientX;
 		y = e.clientY;
-		doc.onmousemove = movemouse;
+		document.onmousemove = movemouse;
 		return false;
 	}
 }
 
-function onLoad() {
-	doc.addEventListener("mousedown", selectmouse, false);
-	doc.addEventListener("mouseup", function() {isdrag = false;}, false);
-	last_modified = doc.lastModified;
+document.addEventListener("mousedown", selectmouse, false);
+document.addEventListener("mouseup", function() {isdrag = false;}, false);
+last_modified = document.lastModified;
 
-	if (doc.forms.length == 0) {
-		var m = win.location.href.match(/http\:\/\/.*\.4chan\.org\/.*\#return\=(.*)/i);
-		if (m != null) {
-			if (doc.body.innerHTML.search('<\!-- thread\:') > -1 && doc.body.innerHTML.search('<\!-- thread\:') < 500) {
-				var m2 = doc.body.innerHTML.match(/\.*<\!-- thread\:([0-9]+),no\:([0-9]+) --\>.*/i);
-				if (m2 != null) {
-					if (m2[1] == 0) {
-						m2[1] = m2[2];
-					}
-					win.location = decodeURI(m[1]) + '/res/' + m2[1] + '#' + m2[2];
-				}
-			}
-		}
-	}
-	
-	var disable4c4c = false;
-	full_url = win.location.href;
-	var m = full_url.match(/.*\/\/([0-9a-zA-Z]+)\.4chan\.org\/([0-9a-zA-Z]+)\/.*/i);
+if (document.forms.length == 0) {
+	var m = window.location.href.match(/http\:\/\/.*\.4chan\.org\/.*\#return\=(.*)/i);
 	if (m != null) {
-		if (m[1] == 'sys' || m[1] == 'dis' || m[2] == 'f') {
-			disable4c4c = true;
-		}
-		base_url = "http://" + m[1] + ".4chan.org/" + m[2] + "/";
-	}
-	if (!disable4c4c) {
-		chrome.extension.sendRequest({'reqtype': 'get-options'}, function(response) {
-			enable_quickreply = response['quickreply'];
-			enable_quickreplyiframe = response['quickreplyiframe'];
-			enable_expand = response['expand'];
-			enable_expandimages = response['expandimages'];
-			enable_preview = response['preview'];
-			enable_fetchreplies = response['fetchreplies'];
-			enable_autonoko = response['autonoko'];
-			enable_sage = response['sage'];
-			enable_report = response['report'];
-			enable_threadwatcher = response['threadwatcher'];
-			enable_hidethreads = response['hidethreads'];
-			enable_returntotop = response['returntotop'];
-			enable_quickbrowse = response['quickbrowse'];
-			watchedthreads = response['watchedthreads'];
-			hiddenthreads = response['hiddenthreads'];
-			default_name = response['default_name'];
-			default_email = response['default_email'];
-			default_subject = response['default_subject'];
-			default_comment = response['default_comment'];
-			default_password = response['default_password'];
-
-			init4chan4chrome();
-		});
-		chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
-			if (request["reqtype"] == 'expandall') {
-				expand_all_thumbs = true;
-				var items = doc.getElementsByTagName('a');
-				for (var i = 0; i < items.length; i++) {
-					if (items[i].getAttribute('expanded') != null) {
-						if (items[i].getAttribute('expanded') == 'false') {
-							var evt = doc.createEvent('MouseEvents');
-							evt.initMouseEvent('click', true, true, win, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-							items[i].dispatchEvent(evt);
-						}
-					}
+		if (document.body.innerHTML.search('<\!-- thread\:') > -1 && document.body.innerHTML.search('<\!-- thread\:') < 500) {
+			var m2 = document.body.innerHTML.match(/\.*<\!-- thread\:([0-9]+),no\:([0-9]+) --\>.*/i);
+			if (m2 != null) {
+				if (m2[1] == 0) {
+					m2[1] = m2[2];
 				}
-			} else if (request["reqtype"] == 'visiturl') {
-				win.location.href = request.url;
+				window.location = decodeURI(m[1]) + '/res/' + m2[1] + '#' + m2[2];
 			}
-		});
+		}
 	}
 }
 
-if (firefox) {
-	var win = null;
-	var doc = null;
-	
-	function Listen() {   
-		gBrowser.addEventListener("DOMContentLoaded", DocumentLoaded,true);  
-	}  
-	function DocumentLoaded(event) {
-		if (event.originalTarget instanceof HTMLDocument) {  
-			win = event.originalTarget.defaultView;  
-			doc = event.originalTarget;
-			var m = win.location.href.match(/.*\/\/([0-9a-zA-Z]+)\.4chan\.org\/([0-9a-zA-Z]+)\/.*/i);
-			if (m != null) {
-				onLoad();
-			}
-		}
+var disable4c4c = false;
+full_url = document.location.href;
+var m = full_url.match(/.*\/\/([0-9a-zA-Z]+)\.4chan\.org\/([0-9a-zA-Z]+)\/.*/i);
+if (m != null) {
+	if (m[1] == 'sys' || m[1] == 'dis' || m[2] == 'f') {
+		disable4c4c = true;
 	}
-	
-	window.addEventListener("load", Listen, false);
-} else {
-	var doc = document;
-	var win = window;
-	onLoad();
+	base_url = "http://" + m[1] + ".4chan.org/" + m[2] + "/";
+}
+if (!disable4c4c) {
+	chrome.extension.sendRequest({'reqtype': 'get-options'}, function(response) {
+		enable_quickreply = response['quickreply'];
+		enable_quickreplyiframe = response['quickreplyiframe'];
+		enable_expand = response['expand'];
+		enable_expandimages = response['expandimages'];
+		enable_preview = response['preview'];
+		enable_fetchreplies = response['fetchreplies'];
+		enable_autonoko = response['autonoko'];
+		enable_sage = response['sage'];
+		enable_report = response['report'];
+		enable_threadwatcher = response['threadwatcher'];
+		enable_hidethreads = response['hidethreads'];
+		enable_returntotop = response['returntotop'];
+		enable_quickbrowse = response['quickbrowse'];
+		watchedthreads = response['watchedthreads'];
+		hiddenthreads = response['hiddenthreads'];
+		default_name = response['default_name'];
+		default_email = response['default_email'];
+		default_subject = response['default_subject'];
+		default_comment = response['default_comment'];
+		default_password = response['default_password'];
+
+		init4chan4chrome();
+	});
+	chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
+		if (request["reqtype"] == 'expandall') {
+			expand_all_thumbs = true;
+			$('a[expanded="false"]').each(function() {
+				$(this).click();
+			});
+			/*var items = document.getElementsByTagName('a');
+			for (var i = 0; i < items.length; i++) {
+				if (items[i].getAttribute('expanded') != null) {
+					if (items[i].getAttribute('expanded') == 'false') {
+						var evt = document.createEvent('MouseEvents');
+						evt.initMouseEvent('click', true, true, win, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+						items[i].dispatchEvent(evt);
+					}
+				}
+			}*/
+		} else if (request["reqtype"] == 'visiturl') {
+			document.location.href = request.url;
+		}
+	});
 }

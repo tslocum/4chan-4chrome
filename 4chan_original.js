@@ -1,27 +1,5 @@
-function insertAfter(newElement,targetElement) {
-	//target is what you want it to go after. Look for this elements parent.
-	var parent = targetElement.parentNode;
-
-	//if the parents lastchild is the targetElement...
-	if (parent.lastchild == targetElement) {
-		//add the newElement after the target element.
-		parent.appendChild(newElement);
-	} else {
-		// else the target has siblings, insert the new element between the target and it's next sibling.
-		parent.insertBefore(newElement, targetElement.nextSibling);
-	}
-}
-
-function getElementsByAttribute(attrN, attrV) {
-    var nodes = [];
-    var elems = document.getElementsByTagName('*');
-
-    for (var i = 0; i < elems.length; i += 1) {
-        if (elems[i].hasAttribute(attrN) && elems[i].getAttribute(attrN) == attrV) {
-            nodes.push(elems[i]);
-        }
-    }
-    return nodes;
+function insertAfter(newElement, targetElement) {
+	targetElement.parentNode.insertBefore(newElement, targetElement.nextSibling);
 }
 
 function watchThread(threadarray) {
@@ -635,7 +613,6 @@ function fetchLatestPosts() {
 
 var postarea;
 var threads = [];
-var delform = null;
 var lastreply = false;
 var lastreplyid = 0;
 var full_url;
@@ -663,9 +640,10 @@ var default_email = null;
 var default_subject = null;
 var default_comment = null;
 var default_password = null;
-var firefox = false;
-if ((typeof gBrowser) != "undefined") {
-	firefox = true;
+if (document.forms['delform']) {
+	var delform = document.forms[1];
+} else {
+	var delform = document.body;
 }
 
 function init4chan4chrome(element) {
@@ -744,11 +722,6 @@ function init4chan4chrome(element) {
 			}
 		});
 
-		if (document.forms['delform']) {
-			delform = document.forms[1];
-		} else {
-			delform = document.body;
-		}
 		if (processPage && delform) {
 			if (enable_autonoko) {
 				var m = window.location.href.match(/(^.*)\/res\/[0-9]+.*/i);

@@ -19,5 +19,5 @@
       "popup": "popup.html"
    },
    "permissions": [ "tabs", "http://www.4chan.org/" ],
-   "version": "9001.51"
+   "version": "9001.52"
 }

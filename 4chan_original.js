@@ -423,10 +423,10 @@ function setPostAttributes(element, setExpand) {
 							preview.style.padding = '0';
 							preview.style.position = 'absolute';
 
-							if (full_url.search('4chan.org') == -1) {
-								var selectorsearch = 'table';
-							} else {
+							if (is_4chan) {
 								var selectorsearch = '.4c4c_reply';
+							} else {
+								var selectorsearch = 'table';
 							}
 							var refpost = $(selectorsearch + '[postID="' + $(this).attr('refID') + '"]').first();
 							if (refpost) {
@@ -611,12 +611,25 @@ function fetchLatestPosts() {
 	}
 }
 
+function float4c4cMenu(){
+	var scrollAmount=$(document).scrollTop();
+	var newPosition=menu_position+scrollAmount;
+	if($(window).height()<$4c4c_menu.height()){
+		$4c4c_menu.css("top", menu_position);
+	} else {
+		$4c4c_menu.stop().animate({top: newPosition}, 500);
+	}
+}
+
 var postarea;
 var threads = [];
 var lastreply = false;
 var lastreplyid = 0;
 var full_url;
 var base_url;
+var is_4chan = false;
+var $4c4c_menu;
+var menu_position;
 var last_modified = null;
 var created_op_preview = false;
 var expand_all_thumbs = false;
@@ -633,6 +646,7 @@ var enable_sage = null;
 var enable_report = null;
 var enable_threadwatcher = null;
 var enable_hidethreads = null;
+var enable_menu = null;
 var watchedthreads = null;
 var hiddenthreads = null;
 var default_name = null;
@@ -653,7 +667,7 @@ function init4chan4chrome(element) {
 			element = document;
 			processPage = true;
 
-			if (enable_threadwatcher && document.location.href.search('4chan.org') != -1) {
+			if (enable_threadwatcher && is_4chan) {
 				var watchBox = document.createElement('div');
 				watchBox.id = 'threadwatcher';
 				watchBox.style.borderTop = '0px none';
@@ -674,6 +688,48 @@ function init4chan4chrome(element) {
 				document.getElementById('refreshthreadwatcher').addEventListener('click', function() {
 					refreshThreadWatcherCache();
 				}, false);
+			}
+			
+			if (enable_menu) {
+				$4c4c_menu = $(document.createElement('div'));
+				$4c4c_menu.attr('id', '4c4cmenu')
+					.css('position', 'absolute')
+					.css('top', '150px')
+					.css('right', '0px')
+					.css('z-index', '9999')
+					.css('text-align', 'center')
+					.css('font-size', '1.25em')
+					.css('border-top-left-radius', '5px 5px')
+					.css('border-bottom-left-radius', '5px 5px')
+					.css('padding', '7px')
+					.addClass('postblock')
+					.html('<a href="#" title="' + chrome.i18n.getMessage("return_to_top") + '" id="menu_top" class="quotejs">Top</a><br><a href="#" title="' + chrome.i18n.getMessage("expand_all_thumbnails") + '" id="menu_expand" class="quotejs">Expand</a><br><a href="#" title="' + chrome.i18n.getMessage("browse_new_threads") + '" id="menu_return" class="quotejs">Browse</a>')
+					.appendTo('body');
+				menu_position = $4c4c_menu.position().top;
+				float4c4cMenu();
+				
+				$('#menu_top').css('text-decoration', 'none').click(function() {
+					$('html, body').animate({ scrollTop: 0 }, 0);
+					return false;
+				});
+				$('#menu_expand').css('text-decoration', 'none').click(function() {
+					expand_all_thumbs = true;
+					$('a[expandImage][expanded="false"]').each(function() {
+						$(this).click();
+					});
+					return false;
+				});
+				$('#menu_return').css('text-decoration', 'none').click(function() {
+					var m = window.location.href.match(/http\:\/\/(.*)\.4chan\.org\/([0-9a-zA-Z]+)\/.*/i);
+					if (m != null) {
+						window.location = "http://" + m[1] + ".4chan.org/" + m[2] + "/?browse";
+					}
+					return false;
+				});
+				
+				$(window).scroll(function () {
+					float4c4cMenu();
+				});
 			}
 		}
 		scrolltotopthread = false;
@@ -751,6 +807,7 @@ function init4chan4chrome(element) {
 
 			for (var i = 0; i < nodes.length; i++) {
 				node = nodes[i];
+				var $node = $(node);
 				if (node.nodeName.toLowerCase() != 'hr') {
 					if (!node.setAttribute) {
 						var newspan = document.createElement('span');
@@ -773,14 +830,13 @@ function init4chan4chrome(element) {
 					threadID = node.name;
 
 					if (enable_threadwatcher) {
-						watch.id = 'watch' + threadID;
-						watch.style.textDecoration = 'none';
-						watch.innerHTML = '<img border="0" src="' + chrome.extension.getURL('images/button_watch.png') + '" title="' + chrome.i18n.getMessage("watch_thread") + '"> ';
-						watch.href = '#';
-						watch.setAttribute('onClick', 'javascript:return false;');
-						watch.setAttribute('threadID', threadID);
+						$(watch).attr('id', 'watch' + threadID)
+							.attr('threadID', threadID)
+							.attr('href', '#')
+							.css('textDecoration', 'none')
+							.html('<img border="0" src="' + chrome.extension.getURL('images/button_watch.png') + '" title="' + chrome.i18n.getMessage("watch_thread") + '"> ');
 
-						watch.addEventListener('click', function() {
+						$(watch).click(function() {
 							var m = full_url.match(/.*\.4chan\.org\/([0-9a-zA-Z]+)\/.*/i);
 							if (m != null) {
 								var threadsubject = $(this).attr('postsubject');
@@ -794,19 +850,21 @@ function init4chan4chrome(element) {
 								var threadarray = [m[1], $(this).attr('threadID'), threadsubject, threadauthor, ''];
 								watchThread(threadarray);
 							}
-						}, false);
+							return false;
+						});
 
 						insertAfter(watch, node);
 					}
 					
 					if (enable_hidethreads) {
 						var threadhider = document.createElement('a');
-						threadhider.id = 'threadhider' + threadID;
-						threadhider.style.textDecoration = 'none';
-						threadhider.innerHTML = '<img border="0" src="' + chrome.extension.getURL('images/button_retract.png') + '" title="' + chrome.i18n.getMessage("hide_thread") + '"> ';
-						threadhider.href = '#';
-						$(threadhider).attr('threadID', threadID).attr('hidethreadID', hidethreadid);
-
+						$(threadhider).attr('id', 'threadhider' + threadID)
+							.attr('href', '#')
+							.attr('threadID', threadID)
+							.attr('hidethreadID', hidethreadid)
+							.css('textDecoration', 'none')
+							.html('<img border="0" src="' + chrome.extension.getURL('images/button_retract.png') + '" title="' + chrome.i18n.getMessage("hide_thread") + '"> ')
+						
 						$(threadhider).click(function() {
 							hideThread($(this).attr('threadID'));
 							$('[hidethread="' + $(this).attr('hidethreadID') + '"]').hide();
@@ -818,44 +876,40 @@ function init4chan4chrome(element) {
 					}
 				}
 
-				if (enable_threadwatcher && node.className) {
-					if (node.className.toLowerCase() == 'filetitle') {
-						watch.setAttribute('postsubject', node.textContent);
-					} else if (node.className.toLowerCase() == 'postername') {
-						watch.setAttribute('postname', node.textContent);
-					}
+				if (enable_threadwatcher && $node.hasClass('filetitle')) {
+					$(watch).attr('postsubject', $node.text());
+				} else if (enable_threadwatcher && $node.hasClass('postername')) {
+					$(watch).attr('postname', $node.text());
 				}
 
 				if (node.nodeName.toLowerCase() == 'table' && !node.getAttribute('align')) {
-					if (full_url.search('4chan.org') == -1) {
-						var items = node.getElementsByTagName('input');
-						for (var j = 0; j < items.length; j++) {
-							if (items[j].type == 'checkbox') {
-								node.setAttribute('postID', items[j].name);
-							}
-						}
+					if (!is_4chan) {
+						$('input[type=checkbox]', node).each(function() {
+							node.setAttribute('postID', this.name);
+						});
 					}
-					node.setAttribute('threadID', threadID);
+					lastreplyid = $node.attr('threadID', threadID).attr('postID');
 					replaceRefLinksWithQuickReply(node, threadID);
 					setPostAttributes(node);
 					lastreply = node;
-					lastreplyid = node.getAttribute('postID');
 				}
 
-				if (enable_expand && node.className && node.className.toLowerCase() == 'omittedposts') {
+				if (enable_expand && $node.hasClass('omittedposts')) {
 					var expand = document.createElement('a');
-					$(expand).attr('href', '#').attr('threadID', threadID).attr('expanded', 'false').css('textDecoration', 'none');
-					$(expand).html('<img border="0" src="' + chrome.extension.getURL('images/button_expand.png') + '" title="' + chrome.i18n.getMessage("expand_thread") + '">&nbsp;');
-					$(node).attr('threadID', threadID).html('<span id="spacer2' + threadID + '"></span><span id="omittedposts' + threadID + '">' + node.innerHTML + '</span>');
+					$(expand).attr('href', '#')
+						.attr('threadID', threadID)
+						.attr('expanded', 'false')
+						.css('textDecoration', 'none')
+						.html('<img border="0" src="' + chrome.extension.getURL('images/button_expand.png') + '" title="' + chrome.i18n.getMessage("expand_thread") + '">&nbsp;');
+					$node.attr('threadID', threadID).html('<span id="spacer2' + threadID + '"></span><span id="omittedposts' + threadID + '">' + node.innerHTML + '</span>');
 					
 					var spacer = document.getElementById('spacer2' + threadID);
 					spacer.parentNode.insertBefore(expand, spacer);
-					var omittedposts = document.getElementById('omittedposts' + threadID);
 					
 					$(expand).click(function() {
 						var omittedposts = $('#omittedposts' + $(this).attr('threadID'));
 						if ($(this).attr('expanded') == 'true') {
-							document.getElementById('replies' + $(this).attr('threadID')).parentNode.removeChild(document.getElementById('replies' + $(this).attr('threadID')));
+							$('#replies' + $(this).attr('threadID')).remove();
 							$(this).html($(this).attr('retracthtml'));
 							omittedposts.html(chrome.i18n.getMessage("thread_retracted", $(this).attr('threadID')) + '<br clear=\"left\">');
 							$(this).attr('expanded', 'false');
@@ -910,16 +964,14 @@ function init4chan4chrome(element) {
 					});
 				}
 				
-				if (enable_quickbrowse && node.className && node.className.toLowerCase() == 'pages') {
-					var items = node.getElementsByTagName('a');
-					for (var j = 0; j < items.length; j++) {
-						items[j].href += "?browse";
-					}
+				if (enable_quickbrowse && $node.hasClass('pages')) {
+					$('a', node).each(function() {
+						this.href += "?browse";
+					});
 					
-					var items = node.getElementsByTagName('form');
-					for (var j = 0; j < items.length; j++) {
-						items[j].action += "?browse";
-					}
+					$('form', node).each(function() {
+						this.action += "?browse";
+					});
 				}
 
 				if (node.nodeName.toLowerCase() == 'hr' && lastnode && lastnode.nodeName.toLowerCase() == 'br') {
@@ -948,23 +1000,23 @@ function init4chan4chrome(element) {
 				lastnode = node;
 			}
 
-			var items = delform.innerHTML.split('<br clear="left"><hr>');
-
 			if (!created_op_preview) {
+				var items = delform.innerHTML.split('<br clear="left"><hr>');
 				for (var i = 0; i < items.length; i++) {
 					var m = items[i].match(/.*\<input type\=\"checkbox\" name\=\"([0-9]+)\".*/i);
 					if (m != null) {
 						var table = document.createElement('table');
-						table.innerHTML = items[i].split('</blockquote>')[0] + '</blockquote>';
-						var hr_split = table.innerHTML.split('<hr>');
+						$(table).html(items[i].split('</blockquote>')[0] + '</blockquote>')
+							.attr('postID', m[1])
+							.attr('op', 'true')
+							.addClass('4c4c_reply')
+							.css('display', 'none')
+							.appendTo(delform);
+						
+						var hr_split = $(table).html().split('<hr>');
 						if (hr_split.length > 0) {
-							table.innerHTML = hr_split.pop();
+							$(table).html(hr_split.pop());
 						}
-						table.className = '4c4c_reply';
-						table.setAttribute('postID', m[1]);
-						table.setAttribute('op', 'true');
-						table.style.display = 'none';
-						delform.appendChild(table);
 					}
 				}
 				created_op_preview = true;
@@ -994,9 +1046,9 @@ function init4chan4chrome(element) {
 				}
 			}
 			
-			if (enable_returntotop) {
+			if (enable_returntotop && is_4chan) {
 				var m = full_url.match(/.*\/res\/[0-9]+.*/i);
-				if (full_url.search('4chan.org') != -1 && m) {
+				if (m) {
 					var returntotop = document.createElement('table');
 					returntotop.className = 'reply';
 					returntotop.style.clear = 'both';
@@ -1005,7 +1057,7 @@ function init4chan4chrome(element) {
 				}
 			}
 			
-			if (enable_quickbrowse) {
+			if (enable_quickbrowse && is_4chan) {
 				var m = window.location.href.match(/(^.*)\/res\/[0-9]+.*/i);
 				if (m == null) {
 					var quickbrowse = document.createElement('table');
@@ -1077,6 +1129,7 @@ var disable4c4c = false;
 full_url = document.location.href;
 var m = full_url.match(/.*\/\/([0-9a-zA-Z]+)\.4chan\.org\/([0-9a-zA-Z]+)\/.*/i);
 if (m != null) {
+	is_4chan = true;
 	if (m[1] == 'sys' || m[1] == 'dis' || m[2] == 'f') {
 		disable4c4c = true;
 	}
@@ -1095,6 +1148,7 @@ if (!disable4c4c) {
 		enable_report = response['report'];
 		enable_threadwatcher = response['threadwatcher'];
 		enable_hidethreads = response['hidethreads'];
+		enable_menu = response['menu'];
 		enable_returntotop = response['returntotop'];
 		enable_quickbrowse = response['quickbrowse'];
 		watchedthreads = response['watchedthreads'];
@@ -1110,19 +1164,9 @@ if (!disable4c4c) {
 	chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 		if (request["reqtype"] == 'expandall') {
 			expand_all_thumbs = true;
-			$('a[expanded="false"]').each(function() {
+			$('a[expandImage][expanded="false"]').each(function() {
 				$(this).click();
 			});
-			/*var items = document.getElementsByTagName('a');
-			for (var i = 0; i < items.length; i++) {
-				if (items[i].getAttribute('expanded') != null) {
-					if (items[i].getAttribute('expanded') == 'false') {
-						var evt = document.createEvent('MouseEvents');
-						evt.initMouseEvent('click', true, true, win, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-						items[i].dispatchEvent(evt);
-					}
-				}
-			}*/
 		} else if (request["reqtype"] == 'visiturl') {
 			document.location.href = request.url;
 		}

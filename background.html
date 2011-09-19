@@ -16,6 +16,7 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 		"report": localStorage.getItem("report") == "true",
 		"threadwatcher": !(localStorage.getItem("threadwatcher") == "true"),
 		"hidethreads": !(localStorage.getItem("hidethreads") == "true"),
+		"menu": !(localStorage.getItem("menu") == "true"),
 		"watchedthreads": (localStorage.getItem("watchedthreads") != null) ? JSON.parse(localStorage.getItem("watchedthreads")) : [],
 		"hiddenthreads": (localStorage.getItem("hiddenthreads") != null) ? JSON.parse(localStorage.getItem("hiddenthreads")) : [],
 		"returntotop": !(localStorage.getItem("returntotop") == "true"),

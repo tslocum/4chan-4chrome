@@ -206,6 +206,9 @@
 	"show_icon_info": {
 		"message": "Note: This option will not take effect immediately"
 	},
+	"show_menu": {
+		"message": "Show Menu"
+	},
 	"quick_browse": {
 		"message": "Quick Browse"
 	},

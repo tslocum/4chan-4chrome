@@ -212,6 +212,13 @@
 			<span class="replytext" id="showicondesc"></span>
 		</td></tr></table>
 	</label>
+	<label for="menu">
+		<table><tr><td nowrap class="doubledash">&gt;&gt;</td>
+		<td class="reply"><input type="checkbox" id="menu"></td>
+		<td class="reply entry">
+			<span class="replytitle" id="menutext"></span>
+		</td></tr></table>
+	</label>
   <script type="text/javascript">
 		Date.prototype.format = function(format) {
 			var returnStr = '';
@@ -307,6 +314,7 @@
     document.getElementById("quickbrowsedesc").textContent = chrome.i18n.getMessage("quick_browse_info");
     document.getElementById("showicontext").textContent = chrome.i18n.getMessage("show_icon");
     document.getElementById("showicondesc").textContent = chrome.i18n.getMessage("show_icon_info");
+	document.getElementById("menutext").textContent = chrome.i18n.getMessage("show_menu");
     
     document.getElementById("quickreply").checked = localStorage.getItem("quickreply") != "true";
     document.getElementById("quickreplyiframe").checked = localStorage.getItem("quickreplyiframe") == "true";
@@ -322,6 +330,7 @@
     document.getElementById("returntotop").checked = localStorage.getItem("returntotop") != "true";
     document.getElementById("quickbrowse").checked = localStorage.getItem("quickbrowse") != "true";
     document.getElementById("showicon").checked = localStorage.getItem("showicon") != "true";
+    document.getElementById("menu").checked = localStorage.getItem("menu") != "true";
     
     document.getElementById("name").value = (localStorage.getItem("defaultname") != null) ? localStorage.getItem("defaultname") : "";
     document.getElementById("email").value = (localStorage.getItem("defaultemail") != null) ? localStorage.getItem("defaultemail") : "";
@@ -370,6 +379,9 @@
     };
     document.getElementById("showicon").onchange = function(event) { 
       localStorage.setItem("showicon", !this.checked); 
+    };
+	document.getElementById("menu").onchange = function(event) { 
+      localStorage.setItem("menu", !this.checked); 
     };
     
     document.getElementById("name").onchange = function(event) { 

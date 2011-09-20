@@ -882,10 +882,10 @@ function init4chan4chrome(element) {
 					$(watch).attr('postname', $node.text());
 				}
 
-				if (node.nodeName.toLowerCase() == 'table' && !node.getAttribute('align')) {
-					if (!is_4chan) {
+				if (node.nodeName.toLowerCase() == 'table' && !$node.attr('align')) {
+					if (is_4chan) {
 						$('input[type=checkbox]', node).each(function() {
-							node.setAttribute('postID', this.name);
+							$node.attr('postID', this.name);
 						});
 					}
 					lastreplyid = $node.attr('threadID', threadID).attr('postID');
@@ -1024,11 +1024,9 @@ function init4chan4chrome(element) {
 
 			if (enable_fetchreplies) {
 				var m = full_url.match(/.*\/res\/[0-9]+.*/i);
-				if (m != null) {
-					if ($(delform).attr('has404d') == undefined) {
-						$(delform).attr('has404d', 'false');
-						setTimeout(fetchLatestPosts, 10000);
-					}
+				if (m != null && $(delform).attr('has404d') == undefined) {
+					$(delform).attr('has404d', 'false');
+					setTimeout(fetchLatestPosts, 10000);
 				}
 				enable_fetchreplies = false;
 			}

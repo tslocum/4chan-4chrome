@@ -3,7 +3,7 @@
    "content_scripts": [ {
       "all_frames": true,
       "js": [ "jquery.js", "4chan.js" ],
-      "matches": [ "http://*.4chan.org/*", "http://4chanarchive.org/brchive/*", "http://inb4.im/4ch/*" ],
+      "matches": [ "http://*.4chan.org/*", "http://4chanarchive.org/brchive/*", "http://inb4.im/4ch/*", "http://boards.420chan.org/*" ],
       "run_at": "document_end"
    } ],
    "default_locale": "en",
@@ -19,5 +19,5 @@
       "popup": "popup.html"
    },
    "permissions": [ "tabs", "http://www.4chan.org/" ],
-   "version": "9001.53"
+   "version": "9001.54"
 }

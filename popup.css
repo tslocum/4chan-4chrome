@@ -1,0 +1,26 @@
+body {
+  margin: 0px;
+  background-color: Menu;
+  overflow: hidden;
+}
+.menuitem {
+  height: 16px;
+  padding: 2px 14px;
+  white-space: nowrap;
+  color: MenuText;
+  font: menu;
+  cursor: pointer;
+}
+.menuitem:hover {
+  color: HighlightText;
+  background-color: Highlight;
+}
+.separator {
+  height: 1px;
+  margin: 4px 2px;
+  border-top: 1px solid grey;
+}
+#boards {
+	min-width: 55em;
+	margin: 0px;
+}
